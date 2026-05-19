@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雅思 IELTS 托福 TOEFL 必背单词闪卡</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500&family=DM+Mono&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0e17;
+    --card-bg: #211f35;
+    --card-front: #252340;
+    --accent: #e8c547;
+    --accent2: #7b6cf6;
+    --text: #fffffe;
+    --text-muted: #a7a9be;
+    --pos-n: #5bc8af;
+    --pos-v: #f06595;
+    --pos-adj: #74b9ff;
+    --pos-adv: #fd79a8;
+    --pos-phr: #a29bfe;
+    --pos-other: #81ecec;
+    --radius: 20px;
+    --shadow: 0 20px 60px rgba(0,0,0,0.5);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba(123,108,246,0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 70% 80%, rgba(232,197,71,0.06) 0%, transparent 50%);
+    pointer-events: none; z-index: 0;
+  }
+  .container { width:100%; max-width:680px; position:relative; z-index:1; }
+  header { text-align:center; padding:24px 0 20px; }
+  .app-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(22px,4vw,30px);
+    color: var(--accent); margin-bottom:4px;
+  }
+  .app-subtitle { font-size:13px; color:var(--text-muted); font-weight:300; }
+
+  .progress-wrap {
+    margin:16px 0 24px; display:flex; align-items:center; gap:12px;
+  }
+  .progress-bar {
+    flex:1; height:4px; background:rgba(255,255,255,0.08);
+    border-radius:2px; overflow:hidden;
+  }
+  .progress-fill {
+    height:100%;
+    background:linear-gradient(90deg,var(--accent2),var(--accent));
+    border-radius:2px; transition:width 0.4s ease;
+  }
+  .progress-label {
+    font-family:'DM Mono',monospace; font-size:12px;
+    color:var(--text-muted); white-space:nowrap; min-width:55px; text-align:right;
+  }
+
+  .scene {
+    width:100%; margin-bottom:28px;
+    -webkit-perspective:1200px;
+    perspective:1200px;
+  }
+  .card {
+    width:100%; position:relative;
+    -webkit-transform-style:preserve-3d;
+    transform-style:preserve-3d;
+    -webkit-transition:-webkit-transform 0.55s cubic-bezier(0.645,0.045,0.355,1.000);
+    transition:transform 0.55s cubic-bezier(0.645,0.045,0.355,1.000);
+    cursor:pointer; user-select:none;
+    display:grid;
+  }
+  .card.flipped {
+    -webkit-transform:rotateY(180deg);
+    transform:rotateY(180deg);
+  }
+  .card-face {
+    grid-area:1/1;
+    width:100%; min-height:320px;
+    -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+    border-radius:var(--radius);
+    padding:36px 40px;
+    display:flex; flex-direction:column;
+    -webkit-transform:translateZ(0.01px);
+    transform:translateZ(0.01px);
+  }
+  .card-back {
+    -webkit-transform:rotateY(180deg) translateZ(0.01px);
+    transform:rotateY(180deg) translateZ(0.01px);
+  }
+  .card-front {
+    background:var(--card-front);
+    border:1px solid rgba(255,255,255,0.06);
+    box-shadow:var(--shadow);
+    justify-content:center; align-items:center; text-align:center;
+    position:relative;
+  }
+  .card-front::before {
+    content:''; position:absolute; inset:0;
+    border-radius:var(--radius);
+    background:radial-gradient(ellipse at 50% 0%,rgba(123,108,246,0.12) 0%,transparent 60%);
+  }
+  .flip-hint {
+    position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
+    font-size:11px; color:rgba(167,169,190,0.45); letter-spacing:0.08em;
+  }
+  .pos-badge {
+    display:inline-block; padding:3px 10px; border-radius:20px;
+    font-size:11px; font-weight:500; letter-spacing:0.06em;
+    margin-bottom:18px; text-transform:uppercase;
+  }
+  .word-text {
+    font-family:'Playfair Display',serif;
+    font-size:clamp(36px,8vw,56px);
+    color:var(--text); line-height:1.1; margin-bottom:12px;
+    position:relative; z-index:1;
+  }
+  .phonetic-text {
+    font-family:'DM Mono',monospace; font-size:15px;
+    color:var(--accent); margin-bottom:20px;
+    position:relative; z-index:1;
+  }
+  .sound-btn {
+    background:rgba(232,197,71,0.12);
+    border:1px solid rgba(232,197,71,0.25);
+    color:var(--accent); width:42px; height:42px;
+    border-radius:50%; cursor:pointer; font-size:18px;
+    display:flex; align-items:center; justify-content:center;
+    transition:all 0.2s; position:relative; z-index:2;
+  }
+  .sound-btn:hover { background:rgba(232,197,71,0.22); transform:scale(1.08); }
+
+  .card-back {
+    background:var(--card-bg);
+    border:1px solid rgba(255,255,255,0.07);
+    box-shadow:var(--shadow);
+    justify-content:flex-start; gap:18px;
+  }
+  .back-top { display:flex; align-items:baseline; gap:10px; flex-wrap:wrap; }
+  .back-word { font-family:'Playfair Display',serif; font-size:26px; color:var(--text); }
+  .back-phonetic { font-family:'DM Mono',monospace; font-size:13px; color:var(--accent); }
+  .zh-translation { font-size:22px; font-weight:500; color:var(--text); line-height:1.3; }
+  .divider { height:1px; background:rgba(255,255,255,0.07); }
+  .section-label {
+    font-size:10px; font-weight:500; letter-spacing:0.1em;
+    color:var(--text-muted); text-transform:uppercase; margin-bottom:6px;
+  }
+  .tags { display:flex; flex-wrap:wrap; gap:7px; }
+  .tag {
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1);
+    padding:4px 10px; border-radius:20px; font-size:13px; color:var(--text-muted);
+  }
+  .antonym-tag { background:rgba(240,101,149,0.1); border-color:rgba(240,101,149,0.2); color:#f06595; }
+  .example-text {
+    font-size:14px; line-height:1.65; color:var(--text-muted);
+    font-style:italic; border-left:2px solid var(--accent2); padding-left:12px;
+  }
+
+  .controls { display:flex; gap:12px; justify-content:center; flex-wrap:wrap; margin-bottom:20px; }
+  .btn {
+    padding:11px 24px; border-radius:50px; border:none;
+    cursor:pointer; font-family:'DM Sans',sans-serif;
+    font-size:14px; font-weight:500; transition:all 0.2s;
+    display:flex; align-items:center; gap:7px;
+  }
+  .btn-prev {
+    background:rgba(255,255,255,0.07); color:var(--text-muted);
+    border:1px solid rgba(255,255,255,0.1);
+  }
+  .btn-prev:hover { background:rgba(255,255,255,0.12); color:var(--text); }
+  .btn-next {
+    background:linear-gradient(135deg,var(--accent2),#9b8df8);
+    color:white; box-shadow:0 4px 20px rgba(123,108,246,0.35);
+  }
+  .btn-next:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(123,108,246,0.45); }
+  .btn-shuffle {
+    background:rgba(232,197,71,0.1); color:var(--accent);
+    border:1px solid rgba(232,197,71,0.2);
+  }
+  .btn-shuffle:hover { background:rgba(232,197,71,0.18); }
+  .btn-flip {
+    background:rgba(255,255,255,0.05); color:var(--text-muted);
+    border:1px solid rgba(255,255,255,0.1);
+  }
+  .btn-flip:hover { background:rgba(255,255,255,0.1); color:var(--text); }
+
+  .stats { text-align:center; font-size:12px; color:rgba(167,169,190,0.5); padding-bottom:24px; }
+  .key-hints {
+    display:flex; gap:16px; justify-content:center; margin-bottom:20px; flex-wrap:wrap;
+  }
+  .key-hint { font-size:11px; color:rgba(167,169,190,0.4); display:flex; align-items:center; gap:5px; }
+  .key {
+    background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12);
+    padding:2px 7px; border-radius:5px;
+    font-family:'DM Mono',monospace; font-size:10px;
+  }
+
+  .pos-n   { background:rgba(91,200,175,0.15); color:var(--pos-n); }
+  .pos-v   { background:rgba(240,101,149,0.15); color:var(--pos-v); }
+  .pos-adj { background:rgba(116,185,255,0.15); color:var(--pos-adj); }
+  .pos-adv { background:rgba(253,121,168,0.15); color:var(--pos-adv); }
+  .pos-phr { background:rgba(162,155,254,0.15); color:var(--pos-phr); }
+  .pos-other{ background:rgba(129,236,236,0.15); color:var(--pos-other); }
+
+  .scene.changing { opacity:0; transform:translateY(8px); }
+  .scene { transition:opacity 0.2s,transform 0.2s; }
+
+  @media(max-width:480px){
+    body{padding:12px;}
+    .card-face{padding:28px 24px;}
+    .controls{gap:8px;}
+    .btn{padding:10px 18px;font-size:13px;}
+    .key-hints{display:none;}
+  }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <div class="app-title">雅思 IELTS 托福 TOEFL 必背单词闪卡</div>
+    <div class="app-subtitle">张全吉汇整</div>
+  </header>
+
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-label" id="progressLabel">1 / 250</div>
+  </div>
+
+  <div class="scene" id="scene">
+    <div class="card" id="card" onclick="flipCard()">
+      <div class="card-face card-front">
+        <div class="pos-badge" id="posBadge">n</div>
+        <div class="word-text" id="wordText">...</div>
+        <div class="phonetic-text" id="phoneticText"></div>
+        <button class="sound-btn" onclick="speakWord(event)" title="Speak">🔊</button>
+        <div class="flip-hint">↓ tap to reveal ↓</div>
+      </div>
+      <div class="card-face card-back">
+        <div class="back-top">
+          <span class="back-word" id="backWord"></span>
+          <span class="back-phonetic" id="backPhonetic"></span>
+        </div>
+        <div class="zh-translation" id="zhText"></div>
+        <div class="divider"></div>
+        <div id="synonymSection">
+          <div class="section-label">Synonyms</div>
+          <div class="tags" id="synonymTags"></div>
+        </div>
+        <div id="antonymSection">
+          <div class="section-label">Antonyms</div>
+          <div class="tags" id="antonymTags"></div>
+        </div>
+        <div id="exampleSection">
+          <div class="section-label">Example</div>
+          <div class="example-text" id="exampleText"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-prev" onclick="prevCard()">← Prev</button>
+    <button class="btn btn-flip" onclick="flipCard()">Flip</button>
+    <button class="btn btn-next" onclick="nextCard()">Next →</button>
+  </div>
+  <div class="controls">
+    <button class="btn btn-shuffle" id="shuffleBtn" onclick="shuffleCards()">🔀 Shuffle</button>
+  </div>
+  <div class="key-hints">
+    <div class="key-hint"><span class="key">←</span> Prev</div>
+    <div class="key-hint"><span class="key">→</span> Next</div>
+    <div class="key-hint"><span class="key">Space</span> Flip</div>
+    <div class="key-hint"><span class="key">S</span> Speak</div>
+  </div>
+  <div class="stats" id="statsText">Card 1 of 250</div>
+</div>
+
+<script>
+var VOCAB = [{"word":"20 or so","phonetic":"20 ər soʊ","pos":"adv","zh":"大約","synonyms":["20 roughly"],"antonyms":[],"example":""},{"word":"a matter of speculation","phonetic":"ə ˈmætər əv ˌspɛkjəˈleɪʃən","pos":"n","zh":"推斷","synonyms":["supposition"],"antonyms":["certainty","fact"],"example":"Whether life exists on Mars remains a matter of speculation."},{"word":"a solicitation of","phonetic":"ə səˌlɪsɪˈteɪʃən əv","pos":"n","zh":"懇求","synonyms":["an invitation of"],"antonyms":[],"example":""},{"word":"ally with","phonetic":"ˈælaɪ wɪθ","pos":"v","zh":"結盟","synonyms":["link to"],"antonyms":["oppose","conflict with"],"example":"The small nation chose to ally with its powerful neighbor."},{"word":"bustling","phonetic":"ˈbəsəlɪŋ","pos":"adj","zh":"忙亂的","synonyms":["busy","lively"],"antonyms":["quiet","calm","deserted"],"example":"The bustling marketplace was filled with merchants and buyers."},{"word":"abandon","phonetic":"əˈbændən","pos":"vt","zh":"放棄","synonyms":["give up","quit"],"antonyms":["keep","maintain","retain"],"example":"The crew had to abandon the sinking ship immediately."},{"word":"abandoned","phonetic":"əˈbændənd","pos":"adj","zh":"被遺棄的","synonyms":["left"],"antonyms":["occupied","inhabited"],"example":"The abandoned building became a shelter for stray animals."},{"word":"aberrant","phonetic":"æˈbɛrənt","pos":"adj","zh":"脫離常軌的","synonyms":["abnormal"],"antonyms":["normal","typical","standard"],"example":"The scientist noted aberrant behavior in the test subjects."},{"word":"abort","phonetic":"əˈbɔrt","pos":"v","zh":"中止","synonyms":["quit","stop"],"antonyms":["continue","proceed","complete"],"example":"The mission was aborted due to severe weather conditions."},{"word":"abrupt","phonetic":"əˈbrəpt","pos":"adj","zh":"突然的","synonyms":["sudden"],"antonyms":["gradual","smooth","expected"],"example":"The abrupt end of the meeting surprised everyone present."},{"word":"abruptly","phonetic":"əˈbrəptli","pos":"adv","zh":"突然地","synonyms":["suddenly"],"antonyms":["gradually","slowly"],"example":"She abruptly left the room without explaining why."},{"word":"absorb","phonetic":"əbˈsɔrb","pos":"v","zh":"吸收","synonyms":["take in","learn"],"antonyms":["release","emit","discharge"],"example":"The sponge can absorb large amounts of water quickly."},{"word":"abstract","phonetic":"ˈæbstrækt","pos":"adj","zh":"抽象的","synonyms":["theoretical"],"antonyms":["concrete","tangible","specific"],"example":"The abstract concept was difficult to explain concretely."},{"word":"absurd","phonetic":"əbˈsɜrd","pos":"adj","zh":"荒謬的","synonyms":["ridiculous","irrational"],"antonyms":["reasonable","sensible","logical"],"example":"It seemed absurd to walk ten miles when a car was available."},{"word":"abundance","phonetic":"əˈbəndəns","pos":"n","zh":"大量","synonyms":["plenty","wealth"],"antonyms":["scarcity","lack","shortage"],"example":"The region is known for its abundance of natural resources."},{"word":"abundant","phonetic":"əˈbəndənt","pos":"adj","zh":"大量的","synonyms":["ample","plentiful"],"antonyms":["scarce","rare","insufficient"],"example":"Rainfall is abundant in tropical rainforests throughout the year."},{"word":"abundantly","phonetic":"əˈbəndəntli","pos":"adv","zh":"豐富地","synonyms":["plentifully"],"antonyms":["scarcely","barely"],"example":"The garden grows abundantly during the summer months."},{"word":"accelerate","phonetic":"ækˈsɛlərˌeɪt","pos":"v","zh":"加速","synonyms":["speed up","quicken"],"antonyms":["decelerate","slow down","hinder"],"example":"The new policy will accelerate economic growth significantly."},{"word":"access","phonetic":"ˈæksɛs","pos":"v","zh":"接近","synonyms":["reach","obtain"],"antonyms":["block","deny","restrict"],"example":"Students can access the library database from home."},{"word":"accessible","phonetic":"ækˈsɛsəbəl","pos":"adj","zh":"易接近的","synonyms":["reachable","available"],"antonyms":["inaccessible","unreachable","remote"],"example":"The museum is accessible to visitors with disabilities."},{"word":"accidental","phonetic":"ˌæksɪˈdɛntəl","pos":"adj","zh":"意外的","synonyms":["unintentional","chance"],"antonyms":["deliberate","intentional","planned"],"example":"The discovery of penicillin was largely accidental."},{"word":"acclaimed","phonetic":"əˈkleɪmd","pos":"adj","zh":"值得讚揚的","synonyms":["celebrated","praised"],"antonyms":["criticized","condemned","obscure"],"example":"The acclaimed novel won numerous literary awards."},{"word":"accommodate","phonetic":"əˈkɒmədeɪt","pos":"v","zh":"提供","synonyms":["house","hold"],"antonyms":["exclude","reject","refuse"],"example":"The hotel can accommodate up to five hundred guests."},{"word":"accomplished","phonetic":"əˈkɒmplɪʃt","pos":"adj","zh":"完成的","synonyms":["skilled","talented"],"antonyms":["unskilled","amateur","inexperienced"],"example":"She is an accomplished musician who performs internationally."},{"word":"account for","phonetic":"əˈkaʊnt fɔr","pos":"v","zh":"說明","synonyms":["explain","justify"],"antonyms":[],"example":"Can you account for your whereabouts last night?"},{"word":"account","phonetic":"əˈkaʊnt","pos":"n","zh":"說明","synonyms":["explanation","report"],"antonyms":[],"example":"She gave a detailed account of what had happened."},{"word":"accumulate","phonetic":"əˈkjumjəleɪt","pos":"v","zh":"積累","synonyms":["gather","amass"],"antonyms":["disperse","scatter","distribute"],"example":"Snow began to accumulate on the mountain peaks."},{"word":"accurate","phonetic":"ˈækjərɪt","pos":"adj","zh":"正確的","synonyms":["precise","correct"],"antonyms":["inaccurate","wrong","imprecise"],"example":"Scientists need accurate measurements to conduct valid experiments."},{"word":"accurately","phonetic":"ˈækjərɪtli","pos":"adv","zh":"正確地","synonyms":["precisely","correctly"],"antonyms":["inaccurately","incorrectly"],"example":"The instrument measures temperature accurately to one decimal."},{"word":"acknowledge","phonetic":"əkˈnɒlɪdʒ","pos":"v","zh":"承認","synonyms":["admit","recognize"],"antonyms":["deny","reject","ignore"],"example":"The scientist acknowledged the limitations of his research."},{"word":"actually","phonetic":"ˈæktʃuəli","pos":"adv","zh":"事實上","synonyms":["in fact","really"],"antonyms":[],"example":"The project actually cost twice as much as planned."},{"word":"added","phonetic":"ˈædɪd","pos":"adj","zh":"附加的","synonyms":["extra","additional"],"antonyms":["removed","reduced"],"example":"The added pressure caused the material to crack."},{"word":"adept","phonetic":"əˈdɛpt","pos":"adj","zh":"熟練的","synonyms":["skilled","proficient"],"antonyms":["inept","unskilled","incompetent"],"example":"She is adept at solving complex mathematical problems."},{"word":"adequately","phonetic":"ˈædɪkwɪtli","pos":"adv","zh":"足夠地","synonyms":["sufficiently"],"antonyms":["inadequately","insufficiently"],"example":"The budget was not adequately planned for the project."},{"word":"adherent","phonetic":"ədˈhɪrənt","pos":"n","zh":"擁護者","synonyms":["supporter","follower"],"antonyms":["opponent","critic","detractor"],"example":"The theory gained many adherents in scientific circles."},{"word":"adjacency","phonetic":"əˈdʒeɪsənsi","pos":"n","zh":"鄰接","synonyms":["proximity","nearness"],"antonyms":["distance","separation"],"example":"The adjacency of the two buildings caused noise problems."},{"word":"adjacent","phonetic":"əˈdʒeɪsənt","pos":"adj","zh":"毗連的","synonyms":["nearby","neighboring"],"antonyms":["distant","far","remote"],"example":"The school is adjacent to the public library."},{"word":"adjust","phonetic":"əˈdʒʌst","pos":"v","zh":"調整","synonyms":["adapt","modify"],"antonyms":["maintain","keep","fix"],"example":"You must adjust the settings before starting the experiment."},{"word":"administer","phonetic":"ədˈmɪnɪstər","pos":"v","zh":"管理","synonyms":["manage","oversee"],"antonyms":[],"example":"The nurse will administer the medication every six hours."},{"word":"admire","phonetic":"ədˈmaɪr","pos":"v","zh":"敬重","synonyms":["respect","appreciate"],"antonyms":["despise","disrespect","scorn"],"example":"Many people admire her dedication to environmental causes."},{"word":"admit","phonetic":"ədˈmɪt","pos":"v","zh":"准許進入","synonyms":["allow","accept"],"antonyms":["deny","reject","exclude"],"example":"The university will admit only the most qualified students."},{"word":"adopt","phonetic":"əˈdɒpt","pos":"v","zh":"採用","synonyms":["embrace","accept"],"antonyms":["reject","abandon","refuse"],"example":"Many countries have adopted stricter environmental regulations."},{"word":"advance","phonetic":"ədˈvæns","pos":"n","zh":"發展","synonyms":["progress","development"],"antonyms":["retreat","decline","regression"],"example":"The advance in technology has transformed modern medicine."},{"word":"advent","phonetic":"ˈædvɛnt","pos":"n","zh":"出現","synonyms":["arrival","emergence"],"antonyms":["departure","disappearance","end"],"example":"The advent of the internet changed how people communicate."},{"word":"affair","phonetic":"əˈfɛr","pos":"n","zh":"事件","synonyms":["matter","event"],"antonyms":[],"example":"The political affair dominated the news for several weeks."},{"word":"afford","phonetic":"əˈfɔrd","pos":"v","zh":"提供","synonyms":["provide","offer"],"antonyms":[],"example":"The new position affords her many opportunities for growth."},{"word":"aggravate","phonetic":"ˈæɡrəveɪt","pos":"v","zh":"使惡化","synonyms":["worsen","intensify"],"antonyms":["improve","alleviate","soothe"],"example":"Stress can aggravate existing health conditions significantly."},{"word":"aggregate","phonetic":"ˈæɡrɪɡɪt","pos":"adj","zh":"聚集的","synonyms":["total","combined"],"antonyms":["individual","separate"],"example":"The aggregate score determined the winner of the competition."},{"word":"aggregation","phonetic":"ˌæɡrɪˈɡeɪʃən","pos":"n","zh":"聚合","synonyms":["collection","accumulation"],"antonyms":["dispersal","separation"],"example":"The aggregation of data from multiple sources took weeks."},{"word":"aggregations","phonetic":"ˌæɡrɪˈɡeɪʃənz","pos":"n","zh":"聚集體","synonyms":["collections"],"antonyms":[],"example":"Large aggregations of birds were observed near the lake."},{"word":"agile","phonetic":"ˈædʒəl","pos":"adj","zh":"靈活的；敏捷的","synonyms":["nimble","flexible"],"antonyms":["clumsy","slow","rigid"],"example":"An agile mind is essential for solving complex problems quickly."},{"word":"air","phonetic":"ɛr","pos":"n","zh":"氣氛","synonyms":["atmosphere","mood"],"antonyms":[],"example":"There was an air of excitement before the announcement."},{"word":"alarm","phonetic":"əˈlɑrm","pos":"v","zh":"警報","synonyms":["warn","frighten"],"antonyms":["calm","reassure","soothe"],"example":"The sudden drop in temperature alarmed the farmers."},{"word":"albeit","phonetic":"ɔlˈbiɪt","pos":"conj","zh":"儘管；雖然","synonyms":["although","even though"],"antonyms":[],"example":"The experiment succeeded, albeit with some unexpected results."},{"word":"alleged","phonetic":"əˈlɛdʒd","pos":"adj","zh":"宣稱的","synonyms":["supposed","claimed"],"antonyms":["confirmed","proven","verified"],"example":"The alleged fraud is currently under investigation."},{"word":"allocation","phonetic":"ˌæləˈkeɪʃən","pos":"n","zh":"分配","synonyms":["distribution","assignment"],"antonyms":["collection","withholding"],"example":"The allocation of resources must be carefully planned."},{"word":"allow","phonetic":"əˈlaʊ","pos":"v","zh":"允許","synonyms":["permit","enable"],"antonyms":["prohibit","forbid","deny"],"example":"The new law allows citizens to vote electronically."},{"word":"allude to","phonetic":"əˈlud tu","pos":"phrv","zh":"提到","synonyms":["refer to","hint at"],"antonyms":[],"example":"The author alludes to Greek mythology throughout the novel."},{"word":"allude","phonetic":"əˈlud","pos":"v","zh":"暗示","synonyms":["suggest","hint"],"antonyms":["state directly","declare"],"example":"She alluded to financial difficulties without stating them directly."},{"word":"alter","phonetic":"ˈɔltər","pos":"v","zh":"改變","synonyms":["change","modify"],"antonyms":["maintain","preserve","keep"],"example":"The architect altered the design to reduce construction costs."},{"word":"amazing","phonetic":"əˈmeɪzɪŋ","pos":"adj","zh":"令人驚訝的","synonyms":["astonishing","remarkable"],"antonyms":["ordinary","unremarkable","dull"],"example":"The team made amazing progress in just three months."},{"word":"ambiguous","phonetic":"æmˈbɪɡjuəs","pos":"adj","zh":"模棱兩可的","synonyms":["unclear","vague"],"antonyms":["clear","explicit","unambiguous"],"example":"The ambiguous wording of the contract led to a dispute."},{"word":"ambitious","phonetic":"æmˈbɪʃəs","pos":"adj","zh":"渴望的","synonyms":["driven","motivated"],"antonyms":["unambitious","lazy","content"],"example":"The ambitious student applied to ten different universities."},{"word":"ambivalent","phonetic":"æmˈbɪvələnt","pos":"adj","zh":"矛盾的","synonyms":["conflicted","uncertain"],"antonyms":["certain","decisive","resolved"],"example":"She felt ambivalent about accepting the overseas job offer."},{"word":"ample","phonetic":"ˈæmpəl","pos":"adj","zh":"寬敞的；充裕的","synonyms":["abundant","sufficient"],"antonyms":["insufficient","scarce","limited"],"example":"There is ample evidence to support the scientific theory."},{"word":"ampliation","phonetic":"ˌæmplɪˈeɪʃən","pos":"n","zh":"擴大；擴張","synonyms":["expansion","enlargement"],"antonyms":["reduction","contraction"],"example":"The ampliation of the program benefited thousands of students."},{"word":"analogue to","phonetic":"ˈænəlɒɡ tu","pos":"adj","zh":"相似的","synonyms":["similar to","comparable to"],"antonyms":["different from","contrasting"],"example":"This structure is analogue to the one found in mammals."},{"word":"ancestor","phonetic":"ˈænsɛstər","pos":"n","zh":"祖先","synonyms":["forefather","forebear"],"antonyms":["descendant","offspring","successor"],"example":"Researchers traced her ancestors back to ancient Egypt."},{"word":"anchor","phonetic":"ˈæŋkər","pos":"v","zh":"使固定","synonyms":["secure","fasten"],"antonyms":["release","untie","loosen"],"example":"The ship was anchored safely in the harbor overnight."},{"word":"ancient","phonetic":"ˈeɪnʃənt","pos":"adj","zh":"古老的","synonyms":["old","archaic"],"antonyms":["modern","recent","contemporary"],"example":"Ancient civilizations built remarkable structures without modern tools."},{"word":"annihilate","phonetic":"əˈnaɪəleɪt","pos":"v","zh":"消滅","synonyms":["destroy","obliterate"],"antonyms":["create","build","preserve"],"example":"The disease threatened to annihilate the entire population."},{"word":"annihilated","phonetic":"əˈnaɪəleɪtɪd","pos":"adj","zh":"被消滅的","synonyms":["destroyed","eliminated"],"antonyms":["preserved","surviving"],"example":"The annihilated colony left no trace of its existence."},{"word":"annually","phonetic":"ˈænjuəli","pos":"adv","zh":"每年","synonyms":["yearly","each year"],"antonyms":["rarely","occasionally"],"example":"The conference is held annually in different countries."},{"word":"anomaly","phonetic":"əˈnɒməli","pos":"n","zh":"異常","synonyms":["irregularity","exception"],"antonyms":["norm","standard","regularity"],"example":"Scientists detected an anomaly in the data that required explanation."},{"word":"anonymous","phonetic":"əˈnɒnɪməs","pos":"adj","zh":"不具名的","synonyms":["unnamed","unidentified"],"antonyms":["named","identified","known"],"example":"An anonymous donor funded the new university library."},{"word":"antagonist","phonetic":"ænˈtæɡənɪst","pos":"n","zh":"對手","synonyms":["opponent","adversary"],"antonyms":["ally","supporter","protagonist"],"example":"The antagonist in the story creates conflict for the hero."},{"word":"anticipate","phonetic":"ænˈtɪsɪpeɪt","pos":"v","zh":"預期","synonyms":["expect","foresee"],"antonyms":["be surprised","overlook"],"example":"Researchers anticipate a major breakthrough in cancer treatment."},{"word":"antiseptic","phonetic":"ˌæntɪˈsɛptɪk","pos":"adj","zh":"抗菌的","synonyms":["sterile","disinfecting"],"antonyms":["contaminated","infected"],"example":"Apply antiseptic cream to the wound to prevent infection."},{"word":"antithesis","phonetic":"ænˈtɪθɪsɪs","pos":"n","zh":"對立面","synonyms":["opposite","contrast"],"antonyms":["similarity","equivalent"],"example":"Kindness is the antithesis of cruelty in human behavior."},{"word":"antler","phonetic":"ˈæntlər","pos":"n","zh":"鹿角","synonyms":["horn"],"antonyms":[],"example":"The stag's antlers grew larger every year."},{"word":"anxiety","phonetic":"æŋˈzaɪɪti","pos":"n","zh":"憂慮；擔心","synonyms":["worry","concern"],"antonyms":["calmness","confidence","peace"],"example":"Test anxiety can significantly affect a student's performance."},{"word":"apart from","phonetic":"əˈpɑrt frɒm","pos":"phr","zh":"除了…之外","synonyms":["except for","besides"],"antonyms":[],"example":"Apart from a few errors, the report was well written."},{"word":"apparatus","phonetic":"ˌæpəˈreɪtəs","pos":"n","zh":"儀器；設備","synonyms":["equipment","device"],"antonyms":[],"example":"The laboratory apparatus must be cleaned after each experiment."},{"word":"apparent","phonetic":"əˈpærənt","pos":"adj","zh":"顯然的","synonyms":["obvious","evident"],"antonyms":["unclear","hidden","obscure"],"example":"It was apparent that the experiment had failed completely."},{"word":"apparently","phonetic":"əˈpærəntli","pos":"adv","zh":"顯然地","synonyms":["evidently","seemingly"],"antonyms":[],"example":"Apparently, the new policy has already taken effect."},{"word":"appeal","phonetic":"əˈpil","pos":"n","zh":"吸引力","synonyms":["attraction","charm"],"antonyms":["repulsion","unattractiveness"],"example":"The appeal of the coastal city draws millions of tourists."},{"word":"appealing","phonetic":"əˈpilɪŋ","pos":"adj","zh":"有吸引力的","synonyms":["attractive","charming"],"antonyms":["unappealing","repulsive","unattractive"],"example":"The job offer was very appealing to recent graduates."},{"word":"appear","phonetic":"əˈpɪr","pos":"v","zh":"似乎","synonyms":["seem","look"],"antonyms":["disappear","vanish"],"example":"The situation appears to be more complex than expected."},{"word":"appearance","phonetic":"əˈpɪrəns","pos":"n","zh":"出現；外觀","synonyms":["emergence","look"],"antonyms":["disappearance","absence"],"example":"The sudden appearance of clouds signaled an approaching storm."},{"word":"application","phonetic":"ˌæplɪˈkeɪʃən","pos":"n","zh":"應用","synonyms":["use","implementation"],"antonyms":[],"example":"The application of new technology improved factory efficiency."},{"word":"appreciable","phonetic":"əˈpriʃəbəl","pos":"adj","zh":"相當可觀的","synonyms":["significant","considerable"],"antonyms":["negligible","insignificant","trivial"],"example":"There was an appreciable difference in the two test results."},{"word":"approach","phonetic":"əˈproʊtʃ","pos":"n","zh":"方法","synonyms":["method","strategy"],"antonyms":[],"example":"A new approach to teaching mathematics improved student outcomes."},{"word":"approximately","phonetic":"əˈprɒksɪmɪtli","pos":"adv","zh":"大約地","synonyms":["roughly","about"],"antonyms":["exactly","precisely"],"example":"The project will take approximately six months to complete."},{"word":"architecture","phonetic":"ˈɑrkɪtɛktʃər","pos":"n","zh":"構造；建築學","synonyms":["structure","design"],"antonyms":[],"example":"The architecture of ancient Rome influenced modern building design."},{"word":"archive","phonetic":"ˈɑrkaɪv","pos":"v","zh":"存檔","synonyms":["store","preserve"],"antonyms":["delete","discard","destroy"],"example":"The museum archives historical documents for future research."},{"word":"arduous","phonetic":"ˈɑrdʒuəs","pos":"adj","zh":"艱巨的","synonyms":["difficult","strenuous"],"antonyms":["easy","effortless","simple"],"example":"The arduous climb to the summit took eight hours."},{"word":"arid","phonetic":"ˈærɪd","pos":"adj","zh":"乾旱的","synonyms":["dry","parched"],"antonyms":["fertile","moist","humid"],"example":"Few plants can survive in the arid desert environment."},{"word":"arise","phonetic":"əˈraɪz","pos":"v","zh":"到來；發生","synonyms":["occur","emerge"],"antonyms":["disappear","cease","end"],"example":"New challenges arise as technology continues to advance."},{"word":"arrangement","phonetic":"əˈreɪndʒmənt","pos":"n","zh":"安排；布置","synonyms":["plan","organization"],"antonyms":["disorder","chaos","disorganization"],"example":"The seating arrangement was carefully planned for the event."},{"word":"array","phonetic":"əˈreɪ","pos":"n","zh":"一系列","synonyms":["range","collection"],"antonyms":[],"example":"The museum displays an impressive array of ancient artifacts."},{"word":"article","phonetic":"ˈɑrtɪkəl","pos":"n","zh":"物品；文章","synonyms":["item","object"],"antonyms":[],"example":"The article published in Nature sparked worldwide scientific debate."},{"word":"as a rule","phonetic":"æz ə rul","pos":"phr","zh":"通常","synonyms":["generally","usually"],"antonyms":[],"example":"As a rule, students should submit assignments before the deadline."},{"word":"assert","phonetic":"əˈsɜrt","pos":"v","zh":"斷言；宣稱","synonyms":["claim","declare"],"antonyms":["deny","retract","dispute"],"example":"The researcher asserted that the new drug was highly effective."},{"word":"assertion","phonetic":"əˈsɜrʃən","pos":"n","zh":"斷言；主張","synonyms":["claim","statement"],"antonyms":["denial","retraction"],"example":"His assertion that climate change is accelerating is well supported."},{"word":"asset","phonetic":"ˈæsɛt","pos":"n","zh":"資產；有利條件","synonyms":["advantage","resource"],"antonyms":["liability","disadvantage","weakness"],"example":"Her language skills proved to be a valuable asset at work."},{"word":"assimilate","phonetic":"əˈsɪməleɪt","pos":"v","zh":"同化；吸收","synonyms":["absorb","integrate"],"antonyms":["reject","exclude","alienate"],"example":"Immigrants often struggle to assimilate into a new culture."},{"word":"assistance","phonetic":"əˈsɪstəns","pos":"n","zh":"幫助；協助","synonyms":["help","support"],"antonyms":["hindrance","obstruction"],"example":"The organization provides financial assistance to low-income families."},{"word":"assorted","phonetic":"əˈsɔrtɪd","pos":"adj","zh":"各式各樣的","synonyms":["varied","mixed"],"antonyms":["uniform","identical","homogeneous"],"example":"The gift basket contained an assorted selection of chocolates."},{"word":"assume","phonetic":"əˈsum","pos":"v","zh":"假定；設想","synonyms":["presume","suppose"],"antonyms":["know","prove","confirm"],"example":"Do not assume the results without conducting the experiment first."},{"word":"assumption","phonetic":"əˈsʌmpʃən","pos":"n","zh":"假設","synonyms":["presumption","supposition"],"antonyms":["fact","certainty","proof"],"example":"The theory rests on the assumption that all variables are equal."},{"word":"astonish","phonetic":"əˈstɒnɪʃ","pos":"v","zh":"使驚訝","synonyms":["amaze","surprise"],"antonyms":["bore","disappoint"],"example":"The magician's performance astonished the entire audience."},{"word":"astonishing","phonetic":"əˈstɒnɪʃɪŋ","pos":"adj","zh":"驚人的","synonyms":["remarkable","extraordinary"],"antonyms":["ordinary","expected","unremarkable"],"example":"The species showed an astonishing ability to adapt to heat."},{"word":"astoundingly","phonetic":"əˈstaʊndɪŋli","pos":"adv","zh":"令人震驚地","synonyms":["amazingly","remarkably"],"antonyms":["unsurprisingly","ordinarily"],"example":"The athlete performed astoundingly well despite her injury."},{"word":"astute","phonetic":"əˈstut","pos":"adj","zh":"敏銳的；精明的","synonyms":["shrewd","clever"],"antonyms":["naive","foolish","obtuse"],"example":"The astute investor recognized the opportunity before others did."},{"word":"at random","phonetic":"æt ˈrændəm","pos":"phr","zh":"隨意地","synonyms":["randomly","haphazardly"],"antonyms":["deliberately","systematically"],"example":"Participants were selected at random from the general population."},{"word":"attachment to","phonetic":"əˈtætʃmənt tu","pos":"n","zh":"依戀","synonyms":["bond","connection"],"antonyms":["detachment","indifference"],"example":"Her attachment to her hometown prevented her from relocating."},{"word":"attain","phonetic":"əˈteɪn","pos":"v","zh":"達到；獲得","synonyms":["achieve","reach"],"antonyms":["fail","miss","lose"],"example":"With dedication, anyone can attain a high level of proficiency."},{"word":"attainment","phonetic":"əˈteɪnmənt","pos":"n","zh":"達到；成就","synonyms":["achievement","accomplishment"],"antonyms":["failure","loss"],"example":"Academic attainment is influenced by both effort and environment."},{"word":"attendant","phonetic":"əˈtɛndənt","pos":"adj","zh":"伴隨的","synonyms":["accompanying","associated"],"antonyms":["unrelated","independent"],"example":"Economic growth brings attendant problems such as pollution."},{"word":"attest to","phonetic":"əˈtɛst tu","pos":"v","zh":"證實","synonyms":["confirm","verify"],"antonyms":["contradict","deny","disprove"],"example":"The fossil record attests to the diversity of prehistoric life."},{"word":"attribute","phonetic":"ˈætrɪbjut","pos":"n","zh":"特點；屬性","synonyms":["quality","characteristic"],"antonyms":[],"example":"Patience is an essential attribute of a successful teacher."},{"word":"attribute to","phonetic":"əˈtrɪbjut tu","pos":"v","zh":"歸於；歸因於","synonyms":["ascribe to","credit to"],"antonyms":[],"example":"Scientists attribute the warming trend to increased carbon emissions."},{"word":"attributes","phonetic":"ˈætrɪbjuts","pos":"n","zh":"屬性；特性","synonyms":["qualities","characteristics"],"antonyms":[],"example":"Leadership attributes include communication and decision-making skills."},{"word":"attribution","phonetic":"ˌætrɪˈbjuʃən","pos":"n","zh":"歸因","synonyms":["assignment","credit"],"antonyms":[],"example":"The attribution of the painting to a famous artist raised its value."},{"word":"augment","phonetic":"ɔɡˈmɛnt","pos":"v","zh":"增加；提高","synonyms":["increase","expand"],"antonyms":["reduce","decrease","diminish"],"example":"The company augmented its workforce to meet rising demand."},{"word":"available","phonetic":"əˈveɪləbəl","pos":"adj","zh":"可獲得的","synonyms":["accessible","obtainable"],"antonyms":["unavailable","inaccessible"],"example":"Limited funding is available for this year's research projects."},{"word":"avenue","phonetic":"ˈævənu","pos":"n","zh":"途徑；手段","synonyms":["means","route"],"antonyms":[],"example":"Education is one avenue for improving social mobility."},{"word":"avid","phonetic":"ˈævɪd","pos":"adj","zh":"熱中的；渴望的","synonyms":["eager","enthusiastic"],"antonyms":["indifferent","apathetic","uninterested"],"example":"She is an avid reader who finishes several books each month."},{"word":"back up","phonetic":"bæk ʌp","pos":"v","zh":"支持；援助","synonyms":["support","reinforce"],"antonyms":["contradict","undermine"],"example":"The data backs up the hypothesis proposed by the researchers."},{"word":"barely","phonetic":"ˈbɛrli","pos":"adv","zh":"僅僅；幾乎不","synonyms":["hardly","scarcely"],"antonyms":["easily","comfortably","abundantly"],"example":"The students barely had enough time to finish the examination."},{"word":"barge","phonetic":"bɑrdʒ","pos":"n","zh":"駁船","synonyms":["boat","vessel"],"antonyms":[],"example":"The barge carried heavy cargo along the river each day."},{"word":"barrier","phonetic":"ˈbæriər","pos":"n","zh":"障礙","synonyms":["obstacle","hindrance"],"antonyms":["aid","bridge","facilitator"],"example":"Language can be a significant barrier to effective communication."},{"word":"battle","phonetic":"ˈbætəl","pos":"n","zh":"搏鬥；奮鬥","synonyms":["struggle","fight"],"antonyms":["peace","truce","surrender"],"example":"Scientists continue their battle against antibiotic-resistant bacteria."},{"word":"be accustomed to","phonetic":"bi əˈkʌstəmd tu","pos":"phrv","zh":"習慣於","synonyms":["be used to","be familiar with"],"antonyms":["be unaccustomed to"],"example":"She is accustomed to working long hours in the laboratory."},{"word":"be aware of","phonetic":"bi əˈwɛr əv","pos":"phrv","zh":"了解；意識到","synonyms":["know about","recognize"],"antonyms":["be unaware of","ignore"],"example":"Students should be aware of the risks of academic dishonesty."},{"word":"be beforehand","phonetic":"bi bɪˈfɔrhænd","pos":"v","zh":"預先","synonyms":["prepare in advance"],"antonyms":[],"example":"It is wise to be beforehand when planning a long expedition."},{"word":"be closer resemblance to","phonetic":"bi ˈkloʊsər rɪˈzɛmbləns tu","pos":"phr","zh":"非常相似","synonyms":["closely resemble","look like"],"antonyms":[],"example":"This fossil bears closer resemblance to modern birds than reptiles."},{"word":"be consistent with","phonetic":"bi kənˈsɪstənt wɪθ","pos":"phr","zh":"與…一致","synonyms":["agree with","match"],"antonyms":["contradict","conflict with"],"example":"The findings are consistent with the original hypothesis."},{"word":"be entitled to","phonetic":"bi ɪnˈtaɪtəld tu","pos":"phrv","zh":"有…權利","synonyms":["have the right to","qualify for"],"antonyms":[],"example":"All citizens are entitled to free primary education."},{"word":"be inclined","phonetic":"bi ɪnˈklaɪnd","pos":"v","zh":"傾向於","synonyms":["tend to","be disposed to"],"antonyms":["be disinclined","be reluctant"],"example":"Researchers are inclined to favor data-driven conclusions."},{"word":"be susceptible to","phonetic":"bi səˈsɛptɪbəl tu","pos":"phr","zh":"易受…影響的","synonyms":["be vulnerable to","be prone to"],"antonyms":["be resistant to","be immune to"],"example":"Young children are susceptible to respiratory infections in winter."},{"word":"beckon","phonetic":"ˈbɛkən","pos":"v","zh":"招喚；引誘","synonyms":["signal","attract"],"antonyms":["repel","deter","discourage"],"example":"The bright lights of the city beckoned thousands of young people."},{"word":"become extinct","phonetic":"bɪˈkʌm ɪkˈstɪŋkt","pos":"phrv","zh":"滅絕","synonyms":["die out","disappear"],"antonyms":["survive","thrive","flourish"],"example":"Many species become extinct each year due to habitat loss."},{"word":"being","phonetic":"ˈbiɪŋ","pos":"n","zh":"生命；存在","synonyms":["creature","entity"],"antonyms":[],"example":"Every living being deserves protection from unnecessary suffering."},{"word":"beneficial","phonetic":"ˌbɛnɪˈfɪʃəl","pos":"adj","zh":"有益的","synonyms":["helpful","advantageous"],"antonyms":["harmful","detrimental","damaging"],"example":"Regular exercise is beneficial to both physical and mental health."},{"word":"blossom","phonetic":"ˈblɒsəm","pos":"v","zh":"興旺；開花","synonyms":["flourish","thrive"],"antonyms":["wither","decline","fade"],"example":"Her talent blossomed under the guidance of an experienced mentor."},{"word":"boast","phonetic":"boʊst","pos":"v","zh":"吹噓；擁有","synonyms":["brag","possess"],"antonyms":["understate","deny"],"example":"The city boasts one of the finest natural history museums."},{"word":"bombard","phonetic":"bɒmˈbɑrd","pos":"v","zh":"炮擊；轟炸","synonyms":["attack","overwhelm"],"antonyms":["protect","shield","defend"],"example":"Researchers were bombarded with data from the new satellite."},{"word":"boom","phonetic":"bum","pos":"n","zh":"激增；爆漲","synonyms":["surge","expansion"],"antonyms":["decline","recession","bust"],"example":"The technology boom created thousands of high-paying jobs."},{"word":"boon","phonetic":"bun","pos":"n","zh":"恩惠；利益","synonyms":["benefit","blessing"],"antonyms":["curse","burden","disadvantage"],"example":"The new highway was a boon to the isolated rural community."},{"word":"boost","phonetic":"bust","pos":"v","zh":"增加；提高","synonyms":["increase","enhance"],"antonyms":["reduce","decrease","lower"],"example":"The new policy boosted economic growth significantly."},{"word":"boundary","phonetic":"ˈbaʊndəri","pos":"n","zh":"邊界","synonyms":["border","limit"],"antonyms":["interior","center"],"example":"Scientists are pushing the boundaries of modern medicine."},{"word":"branch","phonetic":"bræntʃ","pos":"n","zh":"分支","synonyms":["division","department"],"antonyms":["trunk","whole"],"example":"Biology is a branch of natural science."},{"word":"breakthrough","phonetic":"ˈbreɪkθru","pos":"n","zh":"突破","synonyms":["advance","discovery"],"antonyms":["setback","failure","regression"],"example":"The team made a major breakthrough in cancer research."},{"word":"breed","phonetic":"brid","pos":"v","zh":"繁殖；飼養","synonyms":["reproduce","raise"],"antonyms":["destroy","eliminate"],"example":"Some species breed only once every several years."},{"word":"brew","phonetic":"bru","pos":"v","zh":"醞釀；開發","synonyms":["develop","form"],"antonyms":[],"example":"A storm was brewing on the horizon."},{"word":"brilliant","phonetic":"ˈbrɪljənt","pos":"adj","zh":"光輝的；傑出的","synonyms":["outstanding","exceptional"],"antonyms":["dull","dim","ordinary"],"example":"The brilliant scientist won the Nobel Prize at age forty."},{"word":"brittle","phonetic":"ˈbrɪtəl","pos":"adj","zh":"脆弱的","synonyms":["fragile","delicate"],"antonyms":["flexible","tough","durable"],"example":"Dry bones become brittle and break easily."},{"word":"broad appeal","phonetic":"brɔd əˈpil","pos":"n","zh":"廣泛的吸引力","synonyms":["wide appeal","mass attraction"],"antonyms":[],"example":"The documentary had broad appeal across different age groups."},{"word":"broadly","phonetic":"ˈbrɔdli","pos":"adv","zh":"大體上","synonyms":["generally","widely"],"antonyms":["narrowly","specifically"],"example":"The findings are broadly consistent with previous research."},{"word":"bulk","phonetic":"bʌlk","pos":"n","zh":"主體；絕大部分","synonyms":["majority","mass"],"antonyms":["minority","fraction"],"example":"The bulk of the research was completed in the first year."},{"word":"burgeon","phonetic":"ˈbɜrdʒən","pos":"v","zh":"急速成長","synonyms":["flourish","expand"],"antonyms":["decline","shrink","wither"],"example":"The tech industry began to burgeon in the early 1990s."},{"word":"by and large","phonetic":"baɪ ænd lɑrdʒ","pos":"phr","zh":"總的來說","synonyms":["generally","on the whole"],"antonyms":[],"example":"By and large, the experiment produced the expected results."},{"word":"camouflage","phonetic":"ˈkæməflɑʒ","pos":"v","zh":"偽裝","synonyms":["disguise","conceal"],"antonyms":["reveal","expose","display"],"example":"The insect camouflages itself to blend into the bark."},{"word":"cardinal","phonetic":"ˈkɑrdɪnəl","pos":"adj","zh":"基本的；重要的","synonyms":["fundamental","essential"],"antonyms":["minor","trivial","secondary"],"example":"Honesty is a cardinal virtue in scientific research."},{"word":"cargo","phonetic":"ˈkɑrɡoʊ","pos":"n","zh":"船貨；貨物","synonyms":["freight","load"],"antonyms":[],"example":"The ship carried a large cargo of grain across the ocean."},{"word":"catastrophic","phonetic":"ˌkætəˈstrɒfɪk","pos":"adj","zh":"災難性的","synonyms":["disastrous","devastating"],"antonyms":["beneficial","minor","trivial"],"example":"The earthquake had catastrophic consequences for the region."},{"word":"celebrated","phonetic":"ˈsɛlɪbreɪtɪd","pos":"adj","zh":"著名的","synonyms":["famous","renowned"],"antonyms":["unknown","obscure","anonymous"],"example":"The celebrated author received an honorary degree."},{"word":"central","phonetic":"ˈsɛntrəl","pos":"adj","zh":"主要的；核心的","synonyms":["main","primary"],"antonyms":["peripheral","minor","secondary"],"example":"Climate change is central to modern environmental policy."},{"word":"certain","phonetic":"ˈsɜrtən","pos":"adj","zh":"指定的；確定的","synonyms":["specific","definite"],"antonyms":["uncertain","vague","unclear"],"example":"Certain conditions must be met before the experiment begins."},{"word":"champion","phonetic":"ˈtʃæmpiən","pos":"v","zh":"提倡；支持","synonyms":["advocate","support"],"antonyms":["oppose","undermine","fight against"],"example":"She championed the rights of indigenous communities."},{"word":"chancy","phonetic":"ˈtʃænsi","pos":"adj","zh":"冒險的","synonyms":["risky","uncertain"],"antonyms":["safe","certain","guaranteed"],"example":"Investing in new markets can be a chancy undertaking."},{"word":"channel","phonetic":"ˈtʃænəl","pos":"v","zh":"引導","synonyms":["direct","guide"],"antonyms":["scatter","disperse"],"example":"The organization channels funding toward educational programs."},{"word":"chaotic","phonetic":"keɪˈɒtɪk","pos":"adj","zh":"混亂的","synonyms":["disorderly","turbulent"],"antonyms":["orderly","organized","calm"],"example":"The aftermath of the storm left the city in a chaotic state."},{"word":"cherish","phonetic":"ˈtʃɛrɪʃ","pos":"v","zh":"珍愛","synonyms":["treasure","value"],"antonyms":["disregard","neglect","abandon"],"example":"She cherishes the memories of her time abroad."},{"word":"chief","phonetic":"tʃif","pos":"adj","zh":"主要的","synonyms":["main","primary"],"antonyms":["minor","secondary","subordinate"],"example":"The chief cause of the disease remains under investigation."},{"word":"chisel","phonetic":"ˈtʃɪzəl","pos":"v","zh":"刻；鑿","synonyms":["carve","engrave"],"antonyms":[],"example":"The sculptor chiseled the figure from a single block of marble."},{"word":"choose","phonetic":"tʃuz","pos":"v","zh":"選擇","synonyms":["select","pick"],"antonyms":["reject","refuse","avoid"],"example":"Students must choose a research topic by the end of the week."},{"word":"chronic","phonetic":"ˈkrɒnɪk","pos":"adj","zh":"長期的；慢性的","synonyms":["persistent","long-term"],"antonyms":["acute","temporary","brief"],"example":"Chronic stress can lead to serious health problems over time."},{"word":"chronically","phonetic":"ˈkrɒnɪkli","pos":"adv","zh":"長期地","synonyms":["persistently","continuously"],"antonyms":["temporarily","briefly"],"example":"The region is chronically underfunded for healthcare services."},{"word":"circuitous","phonetic":"sɜrˈkjuɪtəs","pos":"adj","zh":"迂迴的","synonyms":["indirect","winding"],"antonyms":["direct","straight","straightforward"],"example":"The circuitous route added two hours to their journey."},{"word":"circumstance","phonetic":"ˈsɜrkəmstæns","pos":"n","zh":"環境；情況","synonyms":["situation","condition"],"antonyms":[],"example":"Under normal circumstances, the reaction takes one hour."},{"word":"cite","phonetic":"saɪt","pos":"v","zh":"引用","synonyms":["quote","reference"],"antonyms":[],"example":"The report cites several studies on climate change."},{"word":"classic","phonetic":"ˈklæsɪk","pos":"adj","zh":"典型的；經典的","synonyms":["typical","archetypal"],"antonyms":["atypical","unusual","modern"],"example":"The experiment is a classic example of controlled research."},{"word":"clear","phonetic":"klɪr","pos":"adj","zh":"容易看見的；清楚的","synonyms":["obvious","evident"],"antonyms":["unclear","ambiguous","obscure"],"example":"The data provides a clear picture of population trends."},{"word":"cling to","phonetic":"klɪŋ tu","pos":"v","zh":"附著；堅持","synonyms":["adhere to","hold on to"],"antonyms":["release","let go","abandon"],"example":"The ivy clings to the stone wall of the old building."},{"word":"close","phonetic":"kloʊs","pos":"adj","zh":"嚴密的；周密的","synonyms":["careful","thorough"],"antonyms":["careless","superficial"],"example":"A close examination of the data revealed several errors."},{"word":"clue","phonetic":"klu","pos":"n","zh":"線索","synonyms":["hint","indication"],"antonyms":[],"example":"The fossils provided an important clue about past climates."},{"word":"cluster","phonetic":"ˈklʌstər","pos":"n","zh":"組；群","synonyms":["group","collection"],"antonyms":["individual","single"],"example":"A cluster of stars formed a recognizable pattern in the sky."},{"word":"coating","phonetic":"ˈkoʊtɪŋ","pos":"n","zh":"覆蓋層","synonyms":["layer","covering"],"antonyms":[],"example":"A protective coating is applied to prevent corrosion."},{"word":"coincide with","phonetic":"ˌkoʊɪnˈsaɪd wɪθ","pos":"v","zh":"與…相符","synonyms":["correspond with","match"],"antonyms":["differ from","contradict"],"example":"The festival coincides with the harvest season each year."},{"word":"coincidence","phonetic":"koʊˈɪnsɪdəns","pos":"n","zh":"相同；巧合","synonyms":["chance","accident"],"antonyms":["design","intention","plan"],"example":"It was no coincidence that both studies reached similar conclusions."},{"word":"collaborate","phonetic":"kəˈlæbəreɪt","pos":"v","zh":"合作","synonyms":["cooperate","work together"],"antonyms":["compete","oppose","work alone"],"example":"The two universities collaborated on a major research project."},{"word":"collaboration","phonetic":"kəˌlæbəˈreɪʃən","pos":"n","zh":"合作成果","synonyms":["cooperation","partnership"],"antonyms":["competition","rivalry"],"example":"The book was written in collaboration with three other scientists."},{"word":"collect","phonetic":"kəˈlɛkt","pos":"v","zh":"收集","synonyms":["gather","accumulate"],"antonyms":["scatter","disperse","distribute"],"example":"Researchers collected samples from fifty different locations."},{"word":"collide with","phonetic":"kəˈlaɪd wɪθ","pos":"v","zh":"碰撞","synonyms":["crash into","hit"],"antonyms":["avoid","miss"],"example":"The asteroid collided with the planet millions of years ago."},{"word":"collide","phonetic":"kəˈlaɪd","pos":"v","zh":"碰撞","synonyms":["crash","impact"],"antonyms":["separate","diverge"],"example":"Two tectonic plates collide along this fault line."},{"word":"colossal","phonetic":"kəˈlɒsəl","pos":"adj","zh":"巨大的","synonyms":["enormous","massive"],"antonyms":["tiny","small","miniature"],"example":"The colossal structure took decades to build."},{"word":"commemorate","phonetic":"kəˈmɛməreɪt","pos":"v","zh":"慶祝；紀念","synonyms":["honor","celebrate"],"antonyms":["forget","ignore","dishonor"],"example":"The monument commemorates those who died in the war."},{"word":"commonly","phonetic":"ˈkɒmənli","pos":"adv","zh":"通常地","synonyms":["generally","usually"],"antonyms":["rarely","unusually","seldom"],"example":"This plant is commonly found in tropical rainforests."},{"word":"compact","phonetic":"ˈkɒmpækt","pos":"adj","zh":"緊密的；簡明的","synonyms":["dense","concise"],"antonyms":["loose","bulky","sprawling"],"example":"The compact design makes the device easy to carry."},{"word":"comparable","phonetic":"ˈkɒmpərəbəl","pos":"adj","zh":"可比較的","synonyms":["similar","equivalent"],"antonyms":["incomparable","different","dissimilar"],"example":"The two studies produced comparable results."},{"word":"comparative","phonetic":"kəmˈpærətɪv","pos":"adj","zh":"比較的；相當的","synonyms":["relative","proportional"],"antonyms":["absolute","definitive"],"example":"The study offers a comparative analysis of two ecosystems."},{"word":"compatible","phonetic":"kəmˈpætɪbəl","pos":"adj","zh":"協調的；一致的","synonyms":["consistent","harmonious"],"antonyms":["incompatible","conflicting"],"example":"The two systems are compatible and can share data."},{"word":"compel","phonetic":"kəmˈpɛl","pos":"v","zh":"強迫","synonyms":["force","oblige"],"antonyms":["allow","persuade","request"],"example":"The evidence compelled the committee to reconsider its decision."},{"word":"compelling","phonetic":"kəmˈpɛlɪŋ","pos":"adj","zh":"令人信服的","synonyms":["convincing","persuasive"],"antonyms":["unconvincing","weak","unpersuasive"],"example":"She made a compelling argument for renewable energy."},{"word":"compensate","phonetic":"ˈkɒmpənseɪt","pos":"v","zh":"補償","synonyms":["offset","make up for"],"antonyms":["worsen","aggravate"],"example":"Extra training can compensate for lack of natural talent."},{"word":"compensate for","phonetic":"ˈkɒmpənseɪt fɔr","pos":"v","zh":"賠償；補償","synonyms":["make up for","offset"],"antonyms":[],"example":"The bonus compensated for the long hours they worked."},{"word":"complaint","phonetic":"kəmˈpleɪnt","pos":"n","zh":"抗議；投訴","synonyms":["objection","grievance"],"antonyms":["praise","compliment","approval"],"example":"The residents filed a complaint about the noise pollution."},{"word":"complement","phonetic":"ˈkɒmplɪmənt","pos":"v","zh":"補充","synonyms":["supplement","enhance"],"antonyms":["contradict","clash","undermine"],"example":"The photographs complement the written descriptions perfectly."},{"word":"completely","phonetic":"kəmˈplitli","pos":"adv","zh":"完全地","synonyms":["entirely","totally"],"antonyms":["partially","incompletely"],"example":"The new approach completely changed how data was analyzed."},{"word":"complex","phonetic":"ˈkɒmplɛks","pos":"n","zh":"複合物；綜合體","synonyms":["compound","system"],"antonyms":["simple","element"],"example":"The industrial complex covers more than ten square kilometers."},{"word":"complicated","phonetic":"ˈkɒmplɪkeɪtɪd","pos":"adj","zh":"複雜的","synonyms":["complex","intricate"],"antonyms":["simple","straightforward","easy"],"example":"The complicated procedure requires years of specialized training."},{"word":"component","phonetic":"kəmˈpoʊnənt","pos":"n","zh":"組成部分","synonyms":["element","part"],"antonyms":["whole","entirety"],"example":"Water is a key component of all known living organisms."},{"word":"compose","phonetic":"kəmˈpoʊz","pos":"v","zh":"以…組成","synonyms":["make up","constitute"],"antonyms":["destroy","dismantle"],"example":"The committee is composed of experts from various fields."},{"word":"composition","phonetic":"ˌkɒmpəˈzɪʃən","pos":"n","zh":"合成物；構成","synonyms":["makeup","structure"],"antonyms":[],"example":"The chemical composition of the rock was analyzed carefully."},{"word":"comprehensive","phonetic":"ˌkɒmprɪˈhɛnsɪv","pos":"adj","zh":"全面的","synonyms":["thorough","complete"],"antonyms":["incomplete","partial","superficial"],"example":"The report provides a comprehensive overview of global trends."},{"word":"comprise","phonetic":"kəmˈpraɪz","pos":"v","zh":"組成；構成","synonyms":["consist of","include"],"antonyms":["exclude","omit"],"example":"The dataset comprises information from over one thousand participants."},{"word":"compulsory","phonetic":"kəmˈpʌlsəri","pos":"adj","zh":"必須的；強制的","synonyms":["mandatory","required"],"antonyms":["optional","voluntary","elective"],"example":"Physical education is compulsory for all students in the program."},{"word":"concede","phonetic":"kənˈsid","pos":"v","zh":"承認；讓步","synonyms":["admit","acknowledge"],"antonyms":["deny","refuse","resist"],"example":"The scientist conceded that the results were inconclusive."},{"word":"conceiving","phonetic":"kənˈsivɪŋ","pos":"v","zh":"構想；考慮","synonyms":["imagining","devising"],"antonyms":["ignoring","dismissing"],"example":"Conceiving a solution required creative and analytical thinking."},{"word":"consensus","phonetic":"kənˈsɛnsəs","pos":"n","zh":"一致；共識","synonyms":["agreement","accord"],"antonyms":["disagreement","conflict","dissent"],"example":"There is broad scientific consensus on the causes of climate change."},{"word":"concern","phonetic":"kənˈsɜrn","pos":"n","zh":"關注；擔憂","synonyms":["worry","interest"],"antonyms":["indifference","apathy"],"example":"Environmental concern is growing among younger generations."},{"word":"concise","phonetic":"kənˈsaɪs","pos":"adj","zh":"簡明的","synonyms":["brief","succinct"],"antonyms":["verbose","lengthy","wordy"],"example":"A concise summary helps readers understand the main findings."},{"word":"conclusive","phonetic":"kənˈklusɪv","pos":"adj","zh":"決定性的","synonyms":["definitive","decisive"],"antonyms":["inconclusive","uncertain","ambiguous"],"example":"The evidence was not conclusive enough to support the theory."},{"word":"conducive","phonetic":"kənˈdusɪv","pos":"adj","zh":"有助於…的","synonyms":["favorable","helpful"],"antonyms":["unfavorable","detrimental","harmful"],"example":"A quiet environment is conducive to productive studying."},{"word":"configuration","phonetic":"kənˌfɪɡjəˈreɪʃən","pos":"n","zh":"布局；結構","synonyms":["arrangement","structure"],"antonyms":[],"example":"The configuration of atoms determines the properties of a molecule."},{"word":"confine","phonetic":"kənˈfaɪn","pos":"v","zh":"限制","synonyms":["restrict","limit"],"antonyms":["expand","broaden","extend"],"example":"The study confines its analysis to data from urban areas."},{"word":"confined to","phonetic":"kənˈfaɪnd tu","pos":"adj","zh":"僅限於","synonyms":["restricted to","limited to"],"antonyms":["widespread","unrestricted"],"example":"The species is confined to a small area of tropical forest."},{"word":"confined","phonetic":"kənˈfaɪnd","pos":"adj","zh":"有限的","synonyms":["restricted","limited"],"antonyms":["open","expansive","unrestricted"],"example":"The confined space made the experiment difficult to conduct."},{"word":"confront","phonetic":"kənˈfrʌnt","pos":"v","zh":"面臨；面對","synonyms":["face","tackle"],"antonyms":["avoid","evade","ignore"],"example":"Society must confront the challenges of an aging population."},{"word":"congeal","phonetic":"kənˈdʒil","pos":"v","zh":"使凝結","synonyms":["solidify","harden"],"antonyms":["melt","dissolve","liquefy"],"example":"The fat congealed as the mixture cooled down."},{"word":"congregate","phonetic":"ˈkɒŋɡrɪɡeɪt","pos":"v","zh":"聚集","synonyms":["gather","assemble"],"antonyms":["disperse","scatter","separate"],"example":"Birds congregate near the lake during the winter months."},{"word":"consecutive","phonetic":"kənˈsɛkjətɪv","pos":"adj","zh":"連續的","synonyms":["successive","sequential"],"antonyms":["interrupted","alternating","non-consecutive"],"example":"The team won five consecutive championships."},{"word":"consequence","phonetic":"ˈkɒnsɪkwəns","pos":"n","zh":"結果；重要性","synonyms":["result","outcome"],"antonyms":["cause","origin"],"example":"Deforestation has serious consequences for global biodiversity."},{"word":"consequent","phonetic":"ˈkɒnsɪkwənt","pos":"adj","zh":"作為結果的","synonyms":["resulting","following"],"antonyms":["preceding","unrelated"],"example":"The drought and consequent food shortage affected millions."},{"word":"consequential","phonetic":"ˌkɒnsɪˈkwɛnʃəl","pos":"adj","zh":"重要的","synonyms":["significant","important"],"antonyms":["insignificant","trivial","minor"],"example":"The discovery was among the most consequential of the century."},{"word":"consequently","phonetic":"ˈkɒnsɪkwəntli","pos":"adv","zh":"因此","synonyms":["therefore","as a result"],"antonyms":[],"example":"The data was incomplete; consequently, the results were unreliable."},{"word":"conserve","phonetic":"kənˈsɜrv","pos":"v","zh":"保存；節約","synonyms":["preserve","protect"],"antonyms":["waste","destroy","deplete"],"example":"Governments must act to conserve endangered marine species."},{"word":"consider","phonetic":"kənˈsɪdər","pos":"v","zh":"考慮；認為","synonyms":["think about","regard"],"antonyms":["ignore","disregard","overlook"],"example":"Researchers must consider ethical issues in their studies."},{"word":"considerable","phonetic":"kənˈsɪdərəbəl","pos":"adj","zh":"大量的；可觀的","synonyms":["significant","substantial"],"antonyms":["negligible","minor","insignificant"],"example":"A considerable amount of time was spent analyzing the data."},{"word":"considerably","phonetic":"kənˈsɪdərəbli","pos":"adv","zh":"相當大地","synonyms":["significantly","substantially"],"antonyms":["slightly","marginally"],"example":"The temperature dropped considerably overnight."},{"word":"consist of","phonetic":"kənˈsɪst əv","pos":"v","zh":"由…組成","synonyms":["be made up of","comprise"],"antonyms":[],"example":"The committee consists of twelve elected members."},{"word":"consistent","phonetic":"kənˈsɪstənt","pos":"adj","zh":"一致的","synonyms":["uniform","steady"],"antonyms":["inconsistent","variable","erratic"],"example":"The results were consistent across all three experiments."},{"word":"consistently","phonetic":"kənˈsɪstəntli","pos":"adv","zh":"一致地","synonyms":["uniformly","steadily"],"antonyms":["inconsistently","erratically"],"example":"The instrument consistently produced accurate measurements."},{"word":"conspicuous","phonetic":"kənˈspɪkjuəs","pos":"adj","zh":"明顯的","synonyms":["obvious","noticeable"],"antonyms":["hidden","inconspicuous","subtle"],"example":"The bird's bright colors make it conspicuous in the forest."},{"word":"constant","phonetic":"ˈkɒnstənt","pos":"adj","zh":"固定的；不變的","synonyms":["steady","unchanging"],"antonyms":["variable","changing","fluctuating"],"example":"Maintaining a constant temperature is critical for the experiment."},{"word":"constantly","phonetic":"ˈkɒnstəntli","pos":"adv","zh":"經常；不斷地","synonyms":["continuously","always"],"antonyms":["occasionally","rarely","seldom"],"example":"Technology is constantly evolving at an unprecedented pace."},{"word":"constellation","phonetic":"ˌkɒnstəˈleɪʃən","pos":"n","zh":"一系列；一群","synonyms":["array","group"],"antonyms":[],"example":"A constellation of factors contributed to the economic crisis."},{"word":"constitute","phonetic":"ˈkɒnstɪtut","pos":"v","zh":"組成；構成","synonyms":["make up","form"],"antonyms":["exclude","omit"],"example":"Women constitute more than half of the university's student body."}];
+var order = Array.from({length: VOCAB.length}, function(_, i){ return i; });
+var currentIndex = 0;
+var isFlipped = false;
+
+function getPosClass(pos) {
+  if(!pos) return 'pos-other';
+  var p = pos.toLowerCase();
+  if(p==='n'||p==='noun') return 'pos-n';
+  if(p.startsWith('v')) return 'pos-v';
+  if(p==='adj'||p==='a') return 'pos-adj';
+  if(p==='adv'||p==='ad') return 'pos-adv';
+  if(p==='phr'||p==='phrv'||p==='part'||p==='prep'||p==='conj'||p==='pron') return 'pos-phr';
+  return 'pos-other';
+}
+function getPosLabel(pos) {
+  if(!pos) return 'phr';
+  var p = pos.toLowerCase();
+  if(p==='a') return 'adj';
+  if(p==='ad') return 'adv';
+  if(p==='vt') return 'v';
+  if(p==='phrv') return 'phr';
+  return p;
+}
+
+function loadCard() {
+  var v = VOCAB[order[currentIndex]];
+  isFlipped = false;
+  document.getElementById('card').classList.remove('flipped');
+
+  var badge = document.getElementById('posBadge');
+  badge.textContent = getPosLabel(v.pos);
+  badge.className = 'pos-badge ' + getPosClass(v.pos);
+  document.getElementById('wordText').textContent = v.word;
+  document.getElementById('phoneticText').textContent = v.phonetic ? '/'+v.phonetic+'/' : '';
+  document.getElementById('backWord').textContent = v.word;
+  document.getElementById('backPhonetic').textContent = v.phonetic ? '/'+v.phonetic+'/' : '';
+  document.getElementById('zhText').textContent = v.zh || '';
+
+  var synSec = document.getElementById('synonymSection');
+  var synTags = document.getElementById('synonymTags');
+  if(v.synonyms && v.synonyms.length > 0){
+    synTags.innerHTML = v.synonyms.map(function(s){ return '<span class="tag">'+s+'</span>'; }).join('');
+    synSec.style.display = '';
+  } else { synSec.style.display = 'none'; }
+
+  var antSec = document.getElementById('antonymSection');
+  var antTags = document.getElementById('antonymTags');
+  if(v.antonyms && v.antonyms.length > 0){
+    antTags.innerHTML = v.antonyms.map(function(a){ return '<span class="tag antonym-tag">'+a+'</span>'; }).join('');
+    antSec.style.display = '';
+  } else { antSec.style.display = 'none'; }
+
+  var exSec = document.getElementById('exampleSection');
+  if(v.example && v.example.trim()){
+    document.getElementById('exampleText').textContent = v.example;
+    exSec.style.display = '';
+  } else { exSec.style.display = 'none'; }
+
+  var pct = ((currentIndex+1)/VOCAB.length*100).toFixed(1);
+  document.getElementById('progressFill').style.width = pct+'%';
+  document.getElementById('progressLabel').textContent = (currentIndex+1)+' / '+VOCAB.length;
+  document.getElementById('statsText').textContent = 'Card '+(currentIndex+1)+' of '+VOCAB.length;
+}
+
+function flipCard() {
+  isFlipped = !isFlipped;
+  document.getElementById('card').classList.toggle('flipped');
+}
+function nextCard() {
+  var s = document.getElementById('scene');
+  s.classList.add('changing');
+  setTimeout(function(){
+    currentIndex = (currentIndex+1) % VOCAB.length;
+    loadCard();
+    s.classList.remove('changing');
+  }, 180);
+}
+function prevCard() {
+  var s = document.getElementById('scene');
+  s.classList.add('changing');
+  setTimeout(function(){
+    currentIndex = (currentIndex-1+VOCAB.length) % VOCAB.length;
+    loadCard();
+    s.classList.remove('changing');
+  }, 180);
+}
+function shuffleCards() {
+  for(var i=order.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var t=order[i]; order[i]=order[j]; order[j]=t;
+  }
+  currentIndex = 0;
+  loadCard();
+  var btn = document.getElementById('shuffleBtn');
+  btn.textContent = '✅ Shuffled!';
+  setTimeout(function(){ btn.textContent = '🔀 Shuffle'; }, 1500);
+}
+function speakWord(e) {
+  e.stopPropagation();
+  var v = VOCAB[order[currentIndex]];
+  if('speechSynthesis' in window){
+    window.speechSynthesis.cancel();
+    var u = new SpeechSynthesisUtterance(v.word);
+    u.lang = 'en-US'; u.rate = 0.85;
+    window.speechSynthesis.speak(u);
+  }
+}
+document.addEventListener('keydown', function(e){
+  if(e.target.tagName==='INPUT') return;
+  if(e.key==='ArrowRight') nextCard();
+  if(e.key==='ArrowLeft') prevCard();
+  if(e.key===' '){ e.preventDefault(); flipCard(); }
+  if(e.key==='s'||e.key==='S') speakWord({stopPropagation:function(){}});
+});
+var tx = 0;
+document.getElementById('scene').addEventListener('touchstart',function(e){ tx=e.touches[0].clientX; });
+document.getElementById('scene').addEventListener('touchend',function(e){
+  var dx=e.changedTouches[0].clientX-tx;
+  if(Math.abs(dx)>50){ if(dx<0) nextCard(); else prevCard(); }
+});
+
+loadCard();
+</script>
+</body>
+</html>
