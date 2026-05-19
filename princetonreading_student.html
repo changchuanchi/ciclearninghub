@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL Reading Practice — Princeton 1–4</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Noto Serif', Georgia, serif;
+  background: #fff;
+  color: #000;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* ── Top bar ── */
+.topbar {
+  background: #fff;
+  border-bottom: 2px solid #000;
+  padding: 0 32px;
+  display: flex;
+  align-items: stretch;
+  flex-shrink: 0;
+}
+.topbar-title {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 14px 24px 14px 0;
+  border-right: 1px solid #ddd;
+  margin-right: 24px;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+.tabs { display: flex; align-items: stretch; }
+.tab {
+  padding: 0 26px;
+  font-family: 'Noto Serif', Georgia, serif;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #888;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  transition: color 0.15s, border-color 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+}
+.tab:hover { color: #333; }
+.tab.active { color: #000; border-bottom-color: #000; font-weight: 600; }
+.tab-badge {
+  font-size: 10px;
+  background: #eee;
+  color: #666;
+  padding: 1px 6px;
+  border-radius: 10px;
+  letter-spacing: 0.04em;
+}
+.tab.active .tab-badge { background: #000; color: #fff; }
+.topbar-right {
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  font-size: 11px;
+  color: #aaa;
+  letter-spacing: 0.06em;
+}
+
+/* ── Content panels ── */
+.panels { flex: 1; overflow: hidden; position: relative; }
+.panel {
+  display: none;
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  overflow-y: auto;
+  padding: 36px 48px 60px;
+}
+.panel.active { display: block; }
+.panel::-webkit-scrollbar { width: 5px; }
+.panel::-webkit-scrollbar-thumb { background: #ddd; border-radius: 3px; }
+
+/* ── Document styles ── */
+.doc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  border-bottom: 2px solid #000;
+  padding-bottom: 6px;
+  margin-bottom: 28px;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.doc-title { font-size: 12px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; }
+.doc-sub { font-size: 11px; color: #555; letter-spacing: 0.08em; }
+
+.content { max-width: 760px; margin: 0 auto; }
+
+.passage-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 8px;
+}
+.passage-text { font-size: 13.5px; line-height: 1.65; text-align: justify; margin-bottom: 4px; }
+.passage-text p { margin-bottom: 0.7em; }
+
+.divider { border: none; border-top: 1px solid #999; margin: 18px 0; }
+
+.question { display: flex; gap: 10px; margin-bottom: 13px; }
+.q-num { font-size: 13px; font-weight: 600; flex-shrink: 0; width: 22px; padding-top: 1px; }
+.q-body { flex: 1; }
+.q-stem { font-size: 13.5px; line-height: 1.55; margin-bottom: 4px; }
+.q-options { list-style: none; padding: 0; }
+.q-options li { font-size: 13px; line-height: 1.5; padding: 1px 0; display: flex; gap: 6px; }
+.q-opt-letter { flex-shrink: 0; color: #333; }
+
+.section-sep {
+  margin: 26px 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-sep::before, .section-sep::after { content: ''; flex: 1; height: 1px; background: #ccc; }
+.section-sep span { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: #888; white-space: nowrap; }
+
+.doc-footer {
+  margin-top: 48px;
+  border-top: 1px solid #ccc;
+  padding-top: 8px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 11px;
+  color: #888;
+  letter-spacing: 0.06em;
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-title">TOEFL Reading Practice</div>
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab(this,'p1')">Princeton 1 <span class="tab-badge">50 Q</span></button>
+    <button class="tab" onclick="switchTab(this,'p2')">Princeton 2 <span class="tab-badge">50 Q</span></button>
+    <button class="tab" onclick="switchTab(this,'p3')">Princeton 3 <span class="tab-badge">50 Q</span></button>
+    <button class="tab" onclick="switchTab(this,'p4')">Princeton 4 <span class="tab-badge">50 Q</span></button>
+  </div>
+  <div class="topbar-right">Student Version</div>
+</div>
+
+<div class="panels">
+
+<!-- ════════════════════════════════════════════════════════
+     PRINCETON 1
+════════════════════════════════════════════════════════ -->
+<div id="p1" class="panel active">
+<div class="doc-header">
+  <div class="doc-title">Princeton 1</div>
+  <div class="doc-sub">5 Passages &nbsp;·&nbsp; 50 Questions</div>
+</div>
+<div class="content">
+
+<div class="passage-label">Passage 1 of 5</div>
+<div class="passage-text">
+<p>As many as one thousand years ago in the Southwest, the Hopi and Zuni Indians of North America were building with adobe—sun-baked brick plastered with mud. Their homes looked remarkably like modern apartment houses. Some were four stories high and contained quarters for perhaps a thousand people, along with storerooms for grain and other goods. These buildings were usually put up against cliffs, both to make construction easier and for defense against enemies. They were really villages in themselves, as later Spanish explorers must have realized since they called them "pueblos," which is Spanish for town.</p>
+<p>The people of the pueblos raised what are called "the three sisters" – corn, beans, and squash. They made excellent pottery and wove marvelous baskets, some so fine that they could hold water. The Southwest has always been a dry country, where water is scarce. The Hopi and Zuni brought water from streams to their fields and gardens through irrigation ditches. Water was so important that it played a major role in their religion. They developed elaborate ceremonies and religious rituals to bring rain.</p>
+<p>The way of life of less-settled groups was simpler and more strongly influenced by nature. Small tribes such as the Shoshone and Ute wandered the dry and mountainous lands between the Rocky Mountains and the Pacific Ocean. They gathered seeds and hunted small animals such as rabbits and snakes. In the Far North the ancestors of today's Inuit hunted seals, walruses, and the great whales. They lived right on the frozen seas in shelters called igloos built of blocks of packed snow. When summer came, they fished for salmon and hunted the lordly caribou.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">1.</div><div class="q-body"><div class="q-stem">What does the passage mainly discuss?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The architecture of early American Indian buildings.</li><li><span class="q-opt-letter">(B)</span> The movement of American Indians across North America.</li><li><span class="q-opt-letter">(C)</span> Ceremonies and rituals of American Indians.</li><li><span class="q-opt-letter">(D)</span> The way of life of American Indian tribes in early North America.</li></ul></div></div>
+
+<div class="question"><div class="q-num">2.</div><div class="q-body"><div class="q-stem">According to the passage, the Hopi and Zuni typically built their homes</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> in valleys.</li><li><span class="q-opt-letter">(B)</span> next to streams.</li><li><span class="q-opt-letter">(C)</span> on open plains.</li><li><span class="q-opt-letter">(D)</span> against cliffs.</li></ul></div></div>
+
+<div class="question"><div class="q-num">3.</div><div class="q-body"><div class="q-stem">The word "They" in line 6 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> goods.</li><li><span class="q-opt-letter">(B)</span> buildings.</li><li><span class="q-opt-letter">(C)</span> cliffs.</li><li><span class="q-opt-letter">(D)</span> enemies.</li></ul></div></div>
+
+<div class="question"><div class="q-num">4.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that the dwellings of the Hopi and Zuni were</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> very small.</li><li><span class="q-opt-letter">(B)</span> highly advanced.</li><li><span class="q-opt-letter">(C)</span> difficult to defend.</li><li><span class="q-opt-letter">(D)</span> quickly constructed.</li></ul></div></div>
+
+<div class="question"><div class="q-num">5.</div><div class="q-body"><div class="q-stem">The author uses the phrase "the three sisters" in line 8 to refer to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Hopi women.</li><li><span class="q-opt-letter">(B)</span> family members.</li><li><span class="q-opt-letter">(C)</span> important crops.</li><li><span class="q-opt-letter">(D)</span> rain ceremonies.</li></ul></div></div>
+
+<div class="question"><div class="q-num">6.</div><div class="q-body"><div class="q-stem">The word "scarce" in line 10 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> limited.</li><li><span class="q-opt-letter">(B)</span> hidden.</li><li><span class="q-opt-letter">(C)</span> pure.</li><li><span class="q-opt-letter">(D)</span> necessary.</li></ul></div></div>
+
+<div class="question"><div class="q-num">7.</div><div class="q-body"><div class="q-stem">Which of the following is true of the Shoshone and Ute?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> They were not as settled as the Hopi and Zuni.</li><li><span class="q-opt-letter">(B)</span> They hunted caribou.</li><li><span class="q-opt-letter">(C)</span> They built their homes with adobe.</li><li><span class="q-opt-letter">(D)</span> They did not have many religious ceremonies.</li></ul></div></div>
+
+<div class="question"><div class="q-num">8.</div><div class="q-body"><div class="q-stem">According to the passage, which of the following tribes lived in the grasslands?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The Shoshone and Ute.</li><li><span class="q-opt-letter">(B)</span> The Cheyenne and Sioux.</li><li><span class="q-opt-letter">(C)</span> The Hopi and Zuni.</li><li><span class="q-opt-letter">(D)</span> The Pawnee and Inuit.</li></ul></div></div>
+
+<div class="question"><div class="q-num">9.</div><div class="q-body"><div class="q-stem">Which of the following animals was most important to the Plains Indians?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The salmon.</li><li><span class="q-opt-letter">(B)</span> The caribou.</li><li><span class="q-opt-letter">(C)</span> The seal.</li><li><span class="q-opt-letter">(D)</span> The buffalo.</li></ul></div></div>
+
+<div class="question"><div class="q-num">10.</div><div class="q-body"><div class="q-stem">Which of the following is NOT mentioned by the author as a dwelling place of early North Americans?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Log cabins.</li><li><span class="q-opt-letter">(B)</span> Adobe houses.</li><li><span class="q-opt-letter">(C)</span> Tipis.</li><li><span class="q-opt-letter">(D)</span> Igloos.</li></ul></div></div>
+
+<div class="question"><div class="q-num">11.</div><div class="q-body"><div class="q-stem">The author gives an explanation for all of the following words EXCEPT</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> abode.</li><li><span class="q-opt-letter">(B)</span> pueblos.</li><li><span class="q-opt-letter">(C)</span> caribou.</li><li><span class="q-opt-letter">(D)</span> bison.</li></ul></div></div>
+
+<div class="question"><div class="q-num">12.</div><div class="q-body"><div class="q-stem">The author groups North American Indians according to their</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> tribes and geographical regions.</li><li><span class="q-opt-letter">(B)</span> arts and crafts.</li><li><span class="q-opt-letter">(C)</span> rituals and ceremonies.</li><li><span class="q-opt-letter">(D)</span> date of appearance on the continent.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 2 of 5</span></div>
+<div class="passage-text">
+<p>Marianne Moore (1887–1972) once said that her writing could be called poetry only because there was no other name for it. Indeed her poems appear to be extremely compressed essays that happen to be printed in jagged lines on the page. Her subjects were varied: animals, laborers, artists, and the craft of poetry. From her general reading came quotations that she found striking or insightful. She included these in her poems, scrupulously enclosed in quotation marks, and sometimes identified in footnotes. Of this practice, she wrote, "Why the many quotation marks? I am asked… When a thing has been said so well that it could not be said better, why paraphrase it? Hence my writing is, if not a cabinet of fossils, a kind of collection of flies in amber." Close observation and concentration on detail are the methods of her poetry.</p>
+<p>Marianne Moore grew up in Kirkwood, Missouri, near St. Louis. After graduation from Bryn Mawr College in 1909, she taught commercial subjects at the Indian School in Carlisle, Pennsylvania. Later she became a librarian in New York City. During the 1920's she was editor of The Dial, an important literary magazine of the period. She lived quietly all her life, mostly in Brooklyn, New York. She spent a lot of time at the Bronx Zoo, fascinated by animals.</p>
+<p>Her first book of poems was published in London in 1921 by a group of friends associated with the Imagist movement. From that time on her poetry has been read with interest by succeeding generations of poets and readers. In 1952 she was awarded the Pulitzer Prize for her Collected Poems. She wrote that she did not write poetry "for money or fame. To earn a living is needful, but it can be done in routine ways. One writes because one has a burning desire to objectify what it is indispensable to one's happiness to express…."</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">13.</div><div class="q-body"><div class="q-stem">What is the passage mainly about?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The influence of the Imagists on Marianne Moore.</li><li><span class="q-opt-letter">(B)</span> Essayists and poets of the 1920's.</li><li><span class="q-opt-letter">(C)</span> The use of quotations in poetry.</li><li><span class="q-opt-letter">(D)</span> Marianne Moore's life and work.</li></ul></div></div>
+
+<div class="question"><div class="q-num">14.</div><div class="q-body"><div class="q-stem">Which of the following can be inferred about Moore's poems?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> They are better known in Europe than the United States.</li><li><span class="q-opt-letter">(B)</span> They do not use traditional verse forms.</li><li><span class="q-opt-letter">(C)</span> They were all published in The Dial.</li><li><span class="q-opt-letter">(D)</span> They tend to be abstract.</li></ul></div></div>
+
+<div class="question"><div class="q-num">15.</div><div class="q-body"><div class="q-stem">According to the passage, Moore wrote about all of the following EXCEPT</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> artists.</li><li><span class="q-opt-letter">(B)</span> animals.</li><li><span class="q-opt-letter">(C)</span> fossils.</li><li><span class="q-opt-letter">(D)</span> workers.</li></ul></div></div>
+
+<div class="question"><div class="q-num">16.</div><div class="q-body"><div class="q-stem">What does Moore refer to as "flies in amber" (line 9)?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> A common image in her poetry.</li><li><span class="q-opt-letter">(B)</span> Poetry in the twentieth century.</li><li><span class="q-opt-letter">(C)</span> Concentration on detail.</li><li><span class="q-opt-letter">(D)</span> Quotations within her poetry.</li></ul></div></div>
+
+<div class="question"><div class="q-num">17.</div><div class="q-body"><div class="q-stem">The author mentions all of the following as jobs held by Moore EXCEPT</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> commercial artist.</li><li><span class="q-opt-letter">(B)</span> teacher.</li><li><span class="q-opt-letter">(C)</span> magazine editor.</li><li><span class="q-opt-letter">(D)</span> librarian.</li></ul></div></div>
+
+<div class="question"><div class="q-num">18.</div><div class="q-body"><div class="q-stem">The word "period" in line 13 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> movement.</li><li><span class="q-opt-letter">(B)</span> school.</li><li><span class="q-opt-letter">(C)</span> region.</li><li><span class="q-opt-letter">(D)</span> time.</li></ul></div></div>
+
+<div class="question"><div class="q-num">19.</div><div class="q-body"><div class="q-stem">Where did Moore spend most of her adult life?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> In Kirkwood.</li><li><span class="q-opt-letter">(B)</span> In Brooklyn.</li><li><span class="q-opt-letter">(C)</span> In Los Angeles.</li><li><span class="q-opt-letter">(D)</span> In Carlisle.</li></ul></div></div>
+
+<div class="question"><div class="q-num">20.</div><div class="q-body"><div class="q-stem">The word "succeeding" in line 9 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> inheriting.</li><li><span class="q-opt-letter">(B)</span> prospering.</li><li><span class="q-opt-letter">(C)</span> diverse.</li><li><span class="q-opt-letter">(D)</span> later.</li></ul></div></div>
+
+<div class="question"><div class="q-num">21.</div><div class="q-body"><div class="q-stem">The word "it" in line 21 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> writing poetry.</li><li><span class="q-opt-letter">(B)</span> becoming famous.</li><li><span class="q-opt-letter">(C)</span> earning a living.</li><li><span class="q-opt-letter">(D)</span> attracting readers.</li></ul></div></div>
+
+<div class="question"><div class="q-num">22.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that Moore wrote because she</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> wanted to win awards.</li><li><span class="q-opt-letter">(B)</span> was dissatisfied with what others wrote.</li><li><span class="q-opt-letter">(C)</span> felt a need to express herself.</li><li><span class="q-opt-letter">(D)</span> wanted to raise money for the Bronx Zoo.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 3 of 5</span></div>
+<div class="passage-text">
+<p>What makes it rain? Rain falls from clouds for the same reason anything falls to Earth. The Earth's gravity pulls it. But every cloud is made of water droplets or ice crystals. Why doesn't rain or snow fall constantly from all the clouds? The droplets or ice crystals in clouds are exceedingly small. The effect of gravity on them is minute. Air currents move and lift droplets that the net downward displacement is zero, even though the droplets are in constant motion.</p>
+<p>Droplets and ice crystals behave somewhat like dust in the air made visible in a shaft of sunlight. To the casual observer, dust seems to act in a totally random fashion, moving about chaotically without fixed direction. But in fact dust particles are much larger than water droplets and they finally fall. The average size of a cloud droplet is only 0.0004 inch in diameter. It is so small that it would take sixteen hours to fall half a mile in perfectly still air, and it does not fall out of moving air at all. Only when the droplet grows to a diameter of 0.008 inch or larger can it fall from the cloud. The average raindrop contains a million times as much water as a tiny cloud droplet. The growth of a cloud droplet to a size large enough to fall out is the cause of rain and other forms of precipitation. This important growth process is called "coalescence."</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">23.</div><div class="q-body"><div class="q-stem">What is the main topic of the passage?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The mechanics of rain.</li><li><span class="q-opt-letter">(B)</span> The weather patterns of North America.</li><li><span class="q-opt-letter">(C)</span> How Earth's gravity affects agriculture.</li><li><span class="q-opt-letter">(D)</span> Types of clouds.</li></ul></div></div>
+
+<div class="question"><div class="q-num">24.</div><div class="q-body"><div class="q-stem">The word "minute" in line 4 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> second.</li><li><span class="q-opt-letter">(B)</span> tiny.</li><li><span class="q-opt-letter">(C)</span> slow.</li><li><span class="q-opt-letter">(D)</span> steady.</li></ul></div></div>
+
+<div class="question"><div class="q-num">25.</div><div class="q-body"><div class="q-stem">The word "motion" in line 5 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> wind.</li><li><span class="q-opt-letter">(B)</span> change.</li><li><span class="q-opt-letter">(C)</span> movement.</li><li><span class="q-opt-letter">(D)</span> humidity.</li></ul></div></div>
+
+<div class="question"><div class="q-num">26.</div><div class="q-body"><div class="q-stem">Ice crystals do NOT immediately fall to Earth because</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> they are kept aloft by air currents.</li><li><span class="q-opt-letter">(B)</span> they combine with other chemicals in the atmosphere.</li><li><span class="q-opt-letter">(C)</span> most of them evaporate.</li><li><span class="q-opt-letter">(D)</span> their electrical charges draw them away from the earth.</li></ul></div></div>
+
+<div class="question"><div class="q-num">27.</div><div class="q-body"><div class="q-stem">The word "random" in line 7 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> unpredictable.</li><li><span class="q-opt-letter">(B)</span> perplexing.</li><li><span class="q-opt-letter">(C)</span> independent.</li><li><span class="q-opt-letter">(D)</span> abnormal.</li></ul></div></div>
+
+<div class="question"><div class="q-num">28.</div><div class="q-body"><div class="q-stem">What can be inferred about drops of water larger than 0.008 inch in diameter?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> They never occur.</li><li><span class="q-opt-letter">(B)</span> They are not affected by the force of gravity.</li><li><span class="q-opt-letter">(C)</span> In still air they would fall to earth.</li><li><span class="q-opt-letter">(D)</span> In moving air they fall at a speed of thirty-two miles per hour.</li></ul></div></div>
+
+<div class="question"><div class="q-num">29.</div><div class="q-body"><div class="q-stem">How much bigger is a raindrop than a cloud droplet?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> 200 times bigger.</li><li><span class="q-opt-letter">(B)</span> 1,000 times bigger.</li><li><span class="q-opt-letter">(C)</span> 100,000 times bigger.</li><li><span class="q-opt-letter">(D)</span> 1,000,000 times bigger.</li></ul></div></div>
+
+<div class="question"><div class="q-num">30.</div><div class="q-body"><div class="q-stem">In this passage, what does the term "coalescence" refer to?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The gathering of small clouds to form larger clouds.</li><li><span class="q-opt-letter">(B)</span> The growth of droplets.</li><li><span class="q-opt-letter">(C)</span> The effect of gravity on precipitation.</li><li><span class="q-opt-letter">(D)</span> The movement of dust particles in the sunlight.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 4 of 5</span></div>
+<div class="passage-text">
+<p>People appear to be born to compute. The numerical skills of children develop so early and so inexorably that it is easy to imagine an internal clock of mathematical maturity guiding their growth. Not long after learning to walk and talk, they can set the table with impressive accuracy – one plate, one knife, one spoon, one fork, for each of the five chairs. Soon they are capable of nothing that they have placed five knives, spoons, and forks on the table and, a bit later, that this amounts to fifteen pieces of silverware. Having thus mastered addition, they move on to subtraction. It seems almost reasonable to expect that if a child were secluded on a desert island at birth and retrieved seven years later, he or she could enter a second-grade mathematics class without any serious problems of intellectual adjustment.</p>
+<p>Of course, the truth is not so simple. This century, the work of cognitive psychologists had illuminated the subtle forms of daily learning on which intellectual progress depends. Children were observed as they slowly grasped – or, as the case might be, bumped into – concepts that adults take for granted, as they refused, for instance, to concede that quantity is unchanged as water pours from a short stout glass into a tall thin one. Psychologists have since demonstrated that young children, asked to count the pencils in a pile, readily report the number of blue or red pencils, but must be coaxed into finding the total. Such studies have suggested that the rudiments of mathematics are mastered gradually, and with effort. They have also suggested that the very concept of abstract numbers—the ideas of a oneness, a twoness, a threeness that applies to any class of objects and is a prerequisite for doing anything more mathematically demanding than setting a table – is itself far from innate.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">31.</div><div class="q-body"><div class="q-stem">What does the passage mainly discuss?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Trends in teaching mathematics to children.</li><li><span class="q-opt-letter">(B)</span> The use of mathematics in child psychology.</li><li><span class="q-opt-letter">(C)</span> The development of mathematical ability in children.</li><li><span class="q-opt-letter">(D)</span> The fundamental concepts of mathematics that children must learn.</li></ul></div></div>
+
+<div class="question"><div class="q-num">32.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that children normally learn simple counting</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> soon after they learn to talk.</li><li><span class="q-opt-letter">(B)</span> by looking at the clock.</li><li><span class="q-opt-letter">(C)</span> when they begin to be mathematically mature.</li><li><span class="q-opt-letter">(D)</span> after they reach second grade in school.</li></ul></div></div>
+
+<div class="question"><div class="q-num">33.</div><div class="q-body"><div class="q-stem">The word "illuminated" in line 11 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> illustrated.</li><li><span class="q-opt-letter">(B)</span> accepted.</li><li><span class="q-opt-letter">(C)</span> clarified.</li><li><span class="q-opt-letter">(D)</span> lighted.</li></ul></div></div>
+
+<div class="question"><div class="q-num">34.</div><div class="q-body"><div class="q-stem">The author implies that most small children believe that the quantity of water changes when it is transferred to a container of a different</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> color.</li><li><span class="q-opt-letter">(B)</span> quality.</li><li><span class="q-opt-letter">(C)</span> weight.</li><li><span class="q-opt-letter">(D)</span> shape.</li></ul></div></div>
+
+<div class="question"><div class="q-num">35.</div><div class="q-body"><div class="q-stem">According to the passage, when small children were asked to count a pile of red and blue pencils they</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> counted the number of pencils of each color.</li><li><span class="q-opt-letter">(B)</span> guessed at the total number of pencils.</li><li><span class="q-opt-letter">(C)</span> counted only the pencils of their favorite color.</li><li><span class="q-opt-letter">(D)</span> subtracted the number of red pencils from the number of blue pencils.</li></ul></div></div>
+
+<div class="question"><div class="q-num">36.</div><div class="q-body"><div class="q-stem">The word "they" in line 17 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> mathematicians.</li><li><span class="q-opt-letter">(B)</span> children.</li><li><span class="q-opt-letter">(C)</span> pencils.</li><li><span class="q-opt-letter">(D)</span> studies.</li></ul></div></div>
+
+<div class="question"><div class="q-num">37.</div><div class="q-body"><div class="q-stem">The word "prerequisite" in line 19 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> reason.</li><li><span class="q-opt-letter">(B)</span> theory.</li><li><span class="q-opt-letter">(C)</span> requirement.</li><li><span class="q-opt-letter">(D)</span> technique.</li></ul></div></div>
+
+<div class="question"><div class="q-num">38.</div><div class="q-body"><div class="q-stem">The word "itself" in line 20 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> the total.</li><li><span class="q-opt-letter">(B)</span> the concept of abstract numbers.</li><li><span class="q-opt-letter">(C)</span> any class of objects.</li><li><span class="q-opt-letter">(D)</span> setting a table.</li></ul></div></div>
+
+<div class="question"><div class="q-num">39.</div><div class="q-body"><div class="q-stem">With which of the following statements would the author be LEAST likely to agree?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Children naturally and easily learn mathematics.</li><li><span class="q-opt-letter">(B)</span> Children learn to add before they learn to subtract.</li><li><span class="q-opt-letter">(C)</span> Most people follow the same pattern of mathematical development.</li><li><span class="q-opt-letter">(D)</span> Mathematical development is subtle and gradual.</li></ul></div></div>
+
+<div class="question"><div class="q-num">40.</div><div class="q-body"><div class="q-stem">Where in the passage does the author give an example of a hypothetical experiment?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Lines 3–6.</li><li><span class="q-opt-letter">(B)</span> Lines 7–9.</li><li><span class="q-opt-letter">(C)</span> Lines 11–14.</li><li><span class="q-opt-letter">(D)</span> Lines 17–20.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 5 of 5</span></div>
+<div class="passage-text">
+<p>Botany, the study of plants, occupies a peculiar position in the history of human knowledge. For many thousands of years it was the one field of awareness about which humans had anything more than the vaguest of insights. It is impossible to know today just what our Stone Age ancestors knew about plants, but from what we can observe of preindustrial societies that still exist, a detailed learning of plants and their properties must be extremely ancient. This is logical. Plants are the basis of the food pyramid for all living things, even for other plants. They have always been enormously important to the welfare of people, not only for food, but also for clothing, weapons, tools, dyes, medicines, shelter, and a great many other purposes. Tribes living today in the jungles of the Amazon recognize literally hundreds of plants and know many properties of each. To them botany, as such, has no name and is probably not even recognized as a special branch of "knowledge" at all.</p>
+<p>Unfortunately, the more industrialized we become the farther away we move from direct contact with plants, and the less distinct our knowledge of botany grows. Yet everyone comes unconsciously on an amazing amount of botanical knowledge, and few people will fail to recognize a rose, an apple, or an orchid. When our Neolithic ancestors, living in the Middle East about 10,000 years ago, discovered that certain grasses could be harvested and their seeds planted for richer yields the next season, the first great step in a new association of plants and humans was taken. Grains were discovered and from them flowed the marvel of agriculture: cultivated crops. From then on, humans would increasingly take their living from the controlled production of a few plants, rather than getting a little here and a little there from many varieties that grew wild – and the accumulated knowledge of tens of thousands of years of experience and intimacy with plants in the wild would begin to fade away.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">41.</div><div class="q-body"><div class="q-stem">Which of the following assumptions about early humans is expressed in the passage?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> They probably had extensive knowledge of plants.</li><li><span class="q-opt-letter">(B)</span> They divided knowledge into well-defined fields.</li><li><span class="q-opt-letter">(C)</span> They did not enjoy the study of botany.</li><li><span class="q-opt-letter">(D)</span> They placed great importance on ownership of property.</li></ul></div></div>
+
+<div class="question"><div class="q-num">42.</div><div class="q-body"><div class="q-stem">The word "peculiar" in line 1 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> clear.</li><li><span class="q-opt-letter">(B)</span> large.</li><li><span class="q-opt-letter">(C)</span> unusual.</li><li><span class="q-opt-letter">(D)</span> important.</li></ul></div></div>
+
+<div class="question"><div class="q-num">43.</div><div class="q-body"><div class="q-stem">What does the comment "This is logical" in lines 5–6 mean?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> There is no clear way to determine the extent of our ancestors' knowledge of plants.</li><li><span class="q-opt-letter">(B)</span> It is not surprising that early humans had a detailed knowledge of plants.</li><li><span class="q-opt-letter">(C)</span> It is reasonable to assume that our ancestors behaved very much like people in preindustrial societies.</li><li><span class="q-opt-letter">(D)</span> Human knowledge of plants is well organized and very detailed.</li></ul></div></div>
+
+<div class="question"><div class="q-num">44.</div><div class="q-body"><div class="q-stem">The phrase "properties of each" in line 10 refers to each</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> tribe.</li><li><span class="q-opt-letter">(B)</span> hundred.</li><li><span class="q-opt-letter">(C)</span> plant.</li><li><span class="q-opt-letter">(D)</span> purpose.</li></ul></div></div>
+
+<div class="question"><div class="q-num">45.</div><div class="q-body"><div class="q-stem">According to the passage, why has general knowledge of botany declined?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> People no longer value plants as a useful resource.</li><li><span class="q-opt-letter">(B)</span> Botany is not recognized as a special branch of science.</li><li><span class="q-opt-letter">(C)</span> Research is unable to keep up with the increasing number of plants.</li><li><span class="q-opt-letter">(D)</span> Direct contact with a variety of plants has decreased.</li></ul></div></div>
+
+<div class="question"><div class="q-num">46.</div><div class="q-body"><div class="q-stem">In line 15, what is the author's purpose in mentioning "a rose, an apple, or an orchid"?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> To make the passage more poetic.</li><li><span class="q-opt-letter">(B)</span> To cite examples of plants that are attractive.</li><li><span class="q-opt-letter">(C)</span> To give botanical examples that most readers will recognize.</li><li><span class="q-opt-letter">(D)</span> To illustrate the diversity of botanical life.</li></ul></div></div>
+
+<div class="question"><div class="q-num">47.</div><div class="q-body"><div class="q-stem">According to the passage, what was the first great step toward the practice of agriculture?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The invention of agricultural implements and machinery.</li><li><span class="q-opt-letter">(B)</span> The development of a system of names for plants.</li><li><span class="q-opt-letter">(C)</span> The discovery of grasses that could be harvested and replanted.</li><li><span class="q-opt-letter">(D)</span> The changing diets of early humans.</li></ul></div></div>
+
+<div class="question"><div class="q-num">48.</div><div class="q-body"><div class="q-stem">The word "controlled" in line 19 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> abundant.</li><li><span class="q-opt-letter">(B)</span> managed.</li><li><span class="q-opt-letter">(C)</span> required.</li><li><span class="q-opt-letter">(D)</span> advanced.</li></ul></div></div>
+
+<div class="question"><div class="q-num">49.</div><div class="q-body"><div class="q-stem">The relationship between botany and agriculture is similar to the relationship between zoology (the study of animals) and</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> deer hunting.</li><li><span class="q-opt-letter">(B)</span> bird watching.</li><li><span class="q-opt-letter">(C)</span> sheep raising.</li><li><span class="q-opt-letter">(D)</span> horseback riding.</li></ul></div></div>
+
+<div class="question"><div class="q-num">50.</div><div class="q-body"><div class="q-stem">Where in the passage does the author describe the benefits people derive from plants?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Line 1.</li><li><span class="q-opt-letter">(B)</span> Lines 6–8.</li><li><span class="q-opt-letter">(C)</span> Lines 10–11.</li><li><span class="q-opt-letter">(D)</span> Lines 13–14.</li></ul></div></div>
+
+<div class="doc-footer"><span>Princeton 1 &nbsp;·&nbsp; Student Version</span><span>Questions 1–50</span></div>
+</div><!-- /content -->
+</div><!-- /panel p1 -->
+
+
+<!-- ════════════════════════════════════════════════════════
+     PRINCETON 2
+════════════════════════════════════════════════════════ -->
+<div id="p2" class="panel">
+<div class="doc-header">
+  <div class="doc-title">Princeton 2</div>
+  <div class="doc-sub">5 Passages &nbsp;·&nbsp; 50 Questions</div>
+</div>
+<div class="content">
+
+<div class="passage-label">Passage 1 of 5</div>
+<div class="passage-text">
+<p>The agricultural revolution in the nineteenth century involved two things: the invention of labor-saving machinery and the development of scientific agriculture. Labor-saving machinery naturally appeared first where labor was scarce. "In Europe," said Thomas Jefferson, "the object is to make the most of their land, labor being abundant: here it is to make the most of our labor, land being abundant." It was in the United States, therefore, that the great advances in nineteenth-century agricultural machinery first came.</p>
+<p>At the opening of the century, with the exception of a crude plow, farmers could have carried practically all of the existing agricultural implements on their backs: by 1860, most of the machinery in use today had been designed in an early form. The most important of the early inventions was the iron plow. As early as 1790 Charles Newbold of New Jersey had been working on the idea of a cast-iron plow and spent his entire fortune in introducing his invention. The farmers, however, were not interested in it, claiming that the iron poisoned the soil and made the weeds grow. Nevertheless, many people devoted their attention to the plow, until in 1869 James Oliver of South Bend, Indiana, turned out the first chilled-steel plow.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">1.</div><div class="q-body"><div class="q-stem">What is the main topic of the passage?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The need for agricultural advances to help feed a growing population.</li><li><span class="q-opt-letter">(B)</span> The development of safer machines demanded by the labor movement.</li><li><span class="q-opt-letter">(C)</span> Machinery that contributed to the agricultural revolution.</li><li><span class="q-opt-letter">(D)</span> New Jersey as a leader in the agricultural revolution.</li></ul></div></div>
+
+<div class="question"><div class="q-num">2.</div><div class="q-body"><div class="q-stem">The word "naturally" in line 3 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> unsurprisingly.</li><li><span class="q-opt-letter">(B)</span> gradually.</li><li><span class="q-opt-letter">(C)</span> apparently.</li><li><span class="q-opt-letter">(D)</span> safely.</li></ul></div></div>
+
+<div class="question"><div class="q-num">3.</div><div class="q-body"><div class="q-stem">The expression "make the most of" in line 4 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> get the best yield from.</li><li><span class="q-opt-letter">(B)</span> raise the price of.</li><li><span class="q-opt-letter">(C)</span> exaggerate the worth of.</li><li><span class="q-opt-letter">(D)</span> earn a living on.</li></ul></div></div>
+
+<div class="question"><div class="q-num">4.</div><div class="q-body"><div class="q-stem">Which of the following can be inferred from what Thomas Jefferson said (lines 3–5)?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Europe was changing more quickly than the United States.</li><li><span class="q-opt-letter">(B)</span> Europe had a greater need for farm machinery than the United States did.</li><li><span class="q-opt-letter">(C)</span> The United States was finally running out of good farmland.</li><li><span class="q-opt-letter">(D)</span> There was a shortage of workers on United States farms.</li></ul></div></div>
+
+<div class="question"><div class="q-num">5.</div><div class="q-body"><div class="q-stem">The word "here" in line 4 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Europe.</li><li><span class="q-opt-letter">(B)</span> United States.</li><li><span class="q-opt-letter">(C)</span> New Jersey.</li><li><span class="q-opt-letter">(D)</span> Indiana.</li></ul></div></div>
+
+<div class="question"><div class="q-num">6.</div><div class="q-body"><div class="q-stem">What point is the author making by stating that farmers could carry nearly all their tools on their backs?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Farmers had few tools before the agricultural revolution.</li><li><span class="q-opt-letter">(B)</span> People in the United States were traditionally self-reliant.</li><li><span class="q-opt-letter">(C)</span> Life on the farm was extremely difficult.</li><li><span class="q-opt-letter">(D)</span> New tools were designed to be portable.</li></ul></div></div>
+
+<div class="question"><div class="q-num">7.</div><div class="q-body"><div class="q-stem">When was the iron plow invented?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> In 1790.</li><li><span class="q-opt-letter">(B)</span> In the early 1800s.</li><li><span class="q-opt-letter">(C)</span> In 1869.</li><li><span class="q-opt-letter">(D)</span> In the early 1900s.</li></ul></div></div>
+
+<div class="question"><div class="q-num">8.</div><div class="q-body"><div class="q-stem">According to the passage, which of the following statements about Charles Newbold is true?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> He was James Oliver's assistant.</li><li><span class="q-opt-letter">(B)</span> He was born in Europe.</li><li><span class="q-opt-letter">(C)</span> He was opposed to scientific agriculture.</li><li><span class="q-opt-letter">(D)</span> He spent his own money to promote his invention.</li></ul></div></div>
+
+<div class="question"><div class="q-num">9.</div><div class="q-body"><div class="q-stem">The word "it" in line 12 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> scientific agriculture.</li><li><span class="q-opt-letter">(B)</span> James Oliver's invention.</li><li><span class="q-opt-letter">(C)</span> the cast-iron plow.</li><li><span class="q-opt-letter">(D)</span> Charles Newbold's fortune.</li></ul></div></div>
+
+<div class="question"><div class="q-num">10.</div><div class="q-body"><div class="q-stem">Why did farmers reject Newbold's plow?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Their horses were frightened by it.</li><li><span class="q-opt-letter">(B)</span> They preferred lighter tools.</li><li><span class="q-opt-letter">(C)</span> It was too expensive.</li><li><span class="q-opt-letter">(D)</span> They thought it would ruin the land.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 2 of 5</span></div>
+<div class="passage-text">
+<p>According to some scientists, migratory birds should be able to withstand the winter. A bird's feathery coat is good insulation against the cold. Because a bird is warm-blooded, its body temperature always remains constant, even if the temperature of its surroundings changes.</p>
+<p>The factors that trigger migratory behavior in birds are difficult to explain. This behavior seems to be instinctive, not learned. For example, many northern species leave their summer homes while the weather is still warm and the food supply plentiful. Young arctic terns born at the arctic breeding grounds will take off with the flock for distant lands they have never seen.</p>
+<p>Bird migrations are probably regulated by the glandular system. Scientists suspect that the changing length of the day is the factor that triggers migratory behavior. In an experiment, migratory birds were kept in artificially lighted rooms. It was found that if periods of darkness were lengthened proportionately, the glands of the birds became active. These glands secrete hormones, which are chemicals that control numerous body functions. Shorter periods of daylight seem to change the hormone balance of birds, so that they retain more fat. This stored fat is the fuel that provides the energy for a long flight. The same experiment revealed that the birds became more excited as the artificial night was lengthened. It is probably no coincidence that most flocks begin their migratory flights during the night.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">11.</div><div class="q-body"><div class="q-stem">What does the passage mainly discuss?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Common migratory paths for birds.</li><li><span class="q-opt-letter">(B)</span> Why birds migrate.</li><li><span class="q-opt-letter">(C)</span> Species of birds that do not migrate.</li><li><span class="q-opt-letter">(D)</span> Migration in cold climates.</li></ul></div></div>
+
+<div class="question"><div class="q-num">12.</div><div class="q-body"><div class="q-stem">The word "withstand" in line 1 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> prefer.</li><li><span class="q-opt-letter">(B)</span> tolerate.</li><li><span class="q-opt-letter">(C)</span> regulate.</li><li><span class="q-opt-letter">(D)</span> understand.</li></ul></div></div>
+
+<div class="question"><div class="q-num">13.</div><div class="q-body"><div class="q-stem">According to the passage, which of the following protects birds against cold weather?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Glands.</li><li><span class="q-opt-letter">(B)</span> Hormones.</li><li><span class="q-opt-letter">(C)</span> Feathers.</li><li><span class="q-opt-letter">(D)</span> Artificial light.</li></ul></div></div>
+
+<div class="question"><div class="q-num">14.</div><div class="q-body"><div class="q-stem">The word "constant" in line 3 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> invariable.</li><li><span class="q-opt-letter">(B)</span> persistent.</li><li><span class="q-opt-letter">(C)</span> predictable.</li><li><span class="q-opt-letter">(D)</span> responsive.</li></ul></div></div>
+
+<div class="question"><div class="q-num">15.</div><div class="q-body"><div class="q-stem">The word "its" in line 3 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> temperature.</li><li><span class="q-opt-letter">(B)</span> cold.</li><li><span class="q-opt-letter">(C)</span> coat.</li><li><span class="q-opt-letter">(D)</span> bird.</li></ul></div></div>
+
+<div class="question"><div class="q-num">16.</div><div class="q-body"><div class="q-stem">In lines 7–9 the author mentions young arctic terns as an example of birds that</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> do not migrate.</li><li><span class="q-opt-letter">(B)</span> breed during migration.</li><li><span class="q-opt-letter">(C)</span> migrate instinctively.</li><li><span class="q-opt-letter">(D)</span> adapt to the cold.</li></ul></div></div>
+
+<div class="question"><div class="q-num">17.</div><div class="q-body"><div class="q-stem">The word "they" in line 16 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> glands.</li><li><span class="q-opt-letter">(B)</span> birds.</li><li><span class="q-opt-letter">(C)</span> body functions.</li><li><span class="q-opt-letter">(D)</span> hormones.</li></ul></div></div>
+
+<div class="question"><div class="q-num">18.</div><div class="q-body"><div class="q-stem">According to the passage, birds exposed to longer periods of darkness experience all of the following changes EXCEPT</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> activated glands.</li><li><span class="q-opt-letter">(B)</span> excited behavior.</li><li><span class="q-opt-letter">(C)</span> retention of more fat.</li><li><span class="q-opt-letter">(D)</span> increased appetite.</li></ul></div></div>
+
+<div class="question"><div class="q-num">19.</div><div class="q-body"><div class="q-stem">In the experiment mentioned in the passage, the scientists adjusted the birds'</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> food supply.</li><li><span class="q-opt-letter">(B)</span> body temperatures.</li><li><span class="q-opt-letter">(C)</span> exposure to light.</li><li><span class="q-opt-letter">(D)</span> brain chemistry.</li></ul></div></div>
+
+<div class="question"><div class="q-num">20.</div><div class="q-body"><div class="q-stem">Where in the passage does the author mention the substance that enables birds to fly long distances?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Lines 2–4.</li><li><span class="q-opt-letter">(B)</span> Lines 5–7.</li><li><span class="q-opt-letter">(C)</span> Lines 10–11.</li><li><span class="q-opt-letter">(D)</span> Lines 16–17.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 3 of 5</span></div>
+<div class="passage-text">
+<p>There were two widely divergent influences on the early development of statistical methods. Statistics had a mother who was dedicated to keeping orderly records of governmental units (state and statistics come from the same Latin root, status) and a gentlemanly gambling father who relied on mathematics to increase his skill at playing the odds in games of chance. The influence of the mother on the offspring, statistics is represented by counting, measuring, describing, tabulating, ordering, and the taking of censuses—all of which led to modern descriptive statistics. From the influence of the father came modern inferential statistics, which is based squarely on theories of probability.</p>
+<p>Descriptive statistics involves tabulating, depicting, and describing collections of data. These data may be quantitative, such as measures of height, intelligence, or grade level—variables that are characterized by an underlying continuum—or the data may represent qualitative variables, such as sex, college major, or personality type. Large masses of data must generally undergo a process of summarization or reduction before they are comprehensible. Descriptive statistics is a tool for describing or summarizing or reducing to comprehensible form the properties of an otherwise unwieldy mass of data.</p>
+<p>Inferential statistics is a formalized body of methods for solving another class of problems that present great difficulties for the unaided human mind. This general class of problems characteristically involves attempts to make predictions using a sample of observations. For example, a school superintendent wishes to determine the proportion of children in a large school system who come to school without breakfast, have been vaccinated for flu, or whatever. Having a little knowledge of statistics, the superintendent would know that it is unnecessary and inefficient to question each child; the proportion for the entire district could be estimated fairly accurately from a sample of as few as 100 children. Thus, the purpose of inferential statistics is to predict or estimate characteristics of a population from a knowledge of the characteristics of only a sample of the population.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">21.</div><div class="q-body"><div class="q-stem">With what is the passage mainly concerned?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The drawbacks of descriptive and inferential statistics.</li><li><span class="q-opt-letter">(B)</span> Applications of inferential statistics.</li><li><span class="q-opt-letter">(C)</span> The development and use of statistics.</li><li><span class="q-opt-letter">(D)</span> How to use descriptive statistics.</li></ul></div></div>
+
+<div class="question"><div class="q-num">22.</div><div class="q-body"><div class="q-stem">The word "divergent" in line 1 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> different.</li><li><span class="q-opt-letter">(B)</span> distributed.</li><li><span class="q-opt-letter">(C)</span> recorded.</li><li><span class="q-opt-letter">(D)</span> prominent.</li></ul></div></div>
+
+<div class="question"><div class="q-num">23.</div><div class="q-body"><div class="q-stem">According to the first paragraph, counting and census-taking are associated with</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> inferential statistics.</li><li><span class="q-opt-letter">(B)</span> descriptive statistics.</li><li><span class="q-opt-letter">(C)</span> unknown variables.</li><li><span class="q-opt-letter">(D)</span> qualitative changes.</li></ul></div></div>
+
+<div class="question"><div class="q-num">24.</div><div class="q-body"><div class="q-stem">Why does the author mention the "mother" and "father" in the first paragraph?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> To point out that parents can teach their children statistics.</li><li><span class="q-opt-letter">(B)</span> To introduce inferential statistics.</li><li><span class="q-opt-letter">(C)</span> To explain that there are different kinds of variables.</li><li><span class="q-opt-letter">(D)</span> To present the background of statistics in a humorous and understandable way.</li></ul></div></div>
+
+<div class="question"><div class="q-num">25.</div><div class="q-body"><div class="q-stem">The word "squarely" in line 8 could best be replaced by</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> solidly.</li><li><span class="q-opt-letter">(B)</span> geometrically.</li><li><span class="q-opt-letter">(C)</span> rectangularly.</li><li><span class="q-opt-letter">(D)</span> haphazardly.</li></ul></div></div>
+
+<div class="question"><div class="q-num">26.</div><div class="q-body"><div class="q-stem">Which of the following is NOT given as an example of a qualitative variable?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Gender.</li><li><span class="q-opt-letter">(B)</span> Height.</li><li><span class="q-opt-letter">(C)</span> College major.</li><li><span class="q-opt-letter">(D)</span> Type of personality.</li></ul></div></div>
+
+<div class="question"><div class="q-num">27.</div><div class="q-body"><div class="q-stem">The word "they" in line 13 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> variables.</li><li><span class="q-opt-letter">(B)</span> masses.</li><li><span class="q-opt-letter">(C)</span> descriptive statistics.</li><li><span class="q-opt-letter">(D)</span> properties.</li></ul></div></div>
+
+<div class="question"><div class="q-num">28.</div><div class="q-body"><div class="q-stem">Which of the following statements about descriptive statistics is best supported by the passage?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> It reduces large amounts of data to a more comprehensible form.</li><li><span class="q-opt-letter">(B)</span> It is based on probability.</li><li><span class="q-opt-letter">(C)</span> It can be used by people with little knowledge of mathematics.</li><li><span class="q-opt-letter">(D)</span> It measures only qualitative differences.</li></ul></div></div>
+
+<div class="question"><div class="q-num">29.</div><div class="q-body"><div class="q-stem">The word "unwieldy" in line 15 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> unmanageable.</li><li><span class="q-opt-letter">(B)</span> unpredictable.</li><li><span class="q-opt-letter">(C)</span> understandable.</li><li><span class="q-opt-letter">(D)</span> unreliable.</li></ul></div></div>
+
+<div class="question"><div class="q-num">30.</div><div class="q-body"><div class="q-stem">According to the passage, what is the purpose of examining a sample of a population?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> To compare different groups.</li><li><span class="q-opt-letter">(B)</span> To predict characteristics of the entire population.</li><li><span class="q-opt-letter">(C)</span> To detect differences not observable in the whole population.</li><li><span class="q-opt-letter">(D)</span> To compile more accurate data.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 4 of 5</span></div>
+<div class="passage-text">
+<p>Glacier National Park in Montana shares boundaries with Canada, an American Indian reservation, and a national forest. Along the North Fork of the Flathead River, the park also borders about 17,000 acres of private lands that are currently used for ranching, timber, and agriculture. This land is an important part of the habitat and migratory routes for several endangered species that frequent the park. These private lands are essentially the only ones available for development in the region.</p>
+<p>With encouragement from the park, local landowners initiated a land-use planning effort to guide the future of the North Fork. The park is a partner in an interlocal agreement that calls for resource-managing agencies to work together with the more than 400 private owners in the area. A draft plan has been prepared, with the objective of maintaining traditional economic uses but limiting new development that would damage park resources. Voluntary action by landowners, in cooperation of the park and the county, is helping to restrict small-lot subdivisions, maintain wildlife corridors, and minimize any harmful impact on the environment.</p>
+<p>The willingness of local landowners to participate in this protection effort may have been stimulated by concerns that Congress would impose a legislative solution. Nevertheless, many local residents want to retain the existing character of the area. Meetings between park officials and landowners have led to a dramatically improved understanding of all concerns.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">31.</div><div class="q-body"><div class="q-stem">The passage mainly discusses</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> the endangered species in Glacier National Park.</li><li><span class="q-opt-letter">(B)</span> the protection of lands surrounding Glacier National Park.</li><li><span class="q-opt-letter">(C)</span> conservation laws imposed by the state of Montana.</li><li><span class="q-opt-letter">(D)</span> conservation laws imposed by Congress.</li></ul></div></div>
+
+<div class="question"><div class="q-num">32.</div><div class="q-body"><div class="q-stem">Why are the private lands surrounding Glacier National Park so important?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> They function as a hunting preserve.</li><li><span class="q-opt-letter">(B)</span> They are restricted to government use.</li><li><span class="q-opt-letter">(C)</span> They are heavily populated.</li><li><span class="q-opt-letter">(D)</span> They contain natural habitats of threatened species.</li></ul></div></div>
+
+<div class="question"><div class="q-num">33.</div><div class="q-body"><div class="q-stem">The word "ones" in line 6 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> private lands.</li><li><span class="q-opt-letter">(B)</span> endangered species.</li><li><span class="q-opt-letter">(C)</span> migratory routes.</li><li><span class="q-opt-letter">(D)</span> ranching, timber, agriculture.</li></ul></div></div>
+
+<div class="question"><div class="q-num">34.</div><div class="q-body"><div class="q-stem">The word "initiated" in line 7 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> started.</li><li><span class="q-opt-letter">(B)</span> requested.</li><li><span class="q-opt-letter">(C)</span> purchased.</li><li><span class="q-opt-letter">(D)</span> considered.</li></ul></div></div>
+
+<div class="question"><div class="q-num">35.</div><div class="q-body"><div class="q-stem">The relationship between park officials and neighboring landowners may best be described as</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> indifferent.</li><li><span class="q-opt-letter">(B)</span> intimate.</li><li><span class="q-opt-letter">(C)</span> cooperative.</li><li><span class="q-opt-letter">(D)</span> disappointing.</li></ul></div></div>
+
+<div class="question"><div class="q-num">36.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that a major interest of the officials of Glacier National Park is to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> limit land development around the park.</li><li><span class="q-opt-letter">(B)</span> establish a new park in Montana.</li><li><span class="q-opt-letter">(C)</span> influence national legislation.</li><li><span class="q-opt-letter">(D)</span> settle border disputes with Canada.</li></ul></div></div>
+
+<div class="question"><div class="q-num">37.</div><div class="q-body"><div class="q-stem">In lines 15–16 the author implies that landowners might be responding to environmental concerns for which of the following reasons?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> They wish to stimulate economic growth.</li><li><span class="q-opt-letter">(B)</span> They wish to improve their public image.</li><li><span class="q-opt-letter">(C)</span> They have a tradition of cooperating with the government.</li><li><span class="q-opt-letter">(D)</span> They fear federal legislation.</li></ul></div></div>
+
+<div class="question"><div class="q-num">38.</div><div class="q-body"><div class="q-stem">The word "stimulated" in line 6 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> motivated.</li><li><span class="q-opt-letter">(B)</span> anticipated.</li><li><span class="q-opt-letter">(C)</span> substituted.</li><li><span class="q-opt-letter">(D)</span> undermined.</li></ul></div></div>
+
+<div class="question"><div class="q-num">39.</div><div class="q-body"><div class="q-stem">The word "retain" in line 17 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> preserve.</li><li><span class="q-opt-letter">(B)</span> possess.</li><li><span class="q-opt-letter">(C)</span> enjoy.</li><li><span class="q-opt-letter">(D)</span> improve.</li></ul></div></div>
+
+<div class="question"><div class="q-num">40.</div><div class="q-body"><div class="q-stem">Where in the passage does the author mention the purpose of the plan developed by local landowners and park officials?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Lines 1–2.</li><li><span class="q-opt-letter">(B)</span> Lines 4–6.</li><li><span class="q-opt-letter">(C)</span> Lines 10–14.</li><li><span class="q-opt-letter">(D)</span> Lines 15–17.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 5 of 5</span></div>
+<div class="passage-text">
+<p>If the salinity of ocean water is analyzed, it is found to vary only slightly from place to place. Nevertheless, some of these small changes are important. There are three basic processes that cause a change in oceanic salinity. One of these is the subtraction of water from the ocean by means of evaporation—conversion of liquid water to water vapor. In this manner, the salinity is increased, since the salts stay behind. If this is carried to the extreme, of course, white crystals of salt would be left behind.</p>
+<p>The opposite of evaporation is precipitation, such as rain, by which water is added to the ocean. Here the ocean is being diluted so that the salinity is decreased. This may occur in areas of high rainfall or in coastal regions where rivers flow into the ocean. Thus salinity may be increased by the subtraction of water by evaporation, or decreased by the addition of fresh water by precipitation or runoff.</p>
+<p>Normally, in tropical regions where the sun is very strong, the ocean salinity is somewhat higher than it is in other parts of the world where there is not as much evaporation. Similarly, in coastal regions where rivers dilute the sea, salinity is somewhat lower than in other oceanic areas.</p>
+<p>A third process by which salinity may be altered is associated with the formation and melting of sea ice. When seawater is frozen, the dissolved materials are left behind. In this manner, seawater directly beneath freshly formed sea ice has a higher salinity than it did before the ice appeared. Of course, when this ice melts, it will tend to decrease the salinity of the surrounding water.</p>
+<p>In the Weddell Sea, off Antarctica, the densest water in the oceans is formed as a result of this freezing process, which increases the salinity of cold water. This heavy water sinks and is found in the deeper portions of the oceans of the world.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">41.</div><div class="q-body"><div class="q-stem">What does the passage mainly discuss?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The elements of salt.</li><li><span class="q-opt-letter">(B)</span> The bodies of water of the world.</li><li><span class="q-opt-letter">(C)</span> The many forms of ocean life.</li><li><span class="q-opt-letter">(D)</span> The salinity of ocean water.</li></ul></div></div>
+
+<div class="question"><div class="q-num">42.</div><div class="q-body"><div class="q-stem">The word "this" in line 5 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> ocean.</li><li><span class="q-opt-letter">(B)</span> evaporation.</li><li><span class="q-opt-letter">(C)</span> salinity.</li><li><span class="q-opt-letter">(D)</span> crystals.</li></ul></div></div>
+
+<div class="question"><div class="q-num">43.</div><div class="q-body"><div class="q-stem">According to the passage, the ocean generally has more salt in</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> coastal areas.</li><li><span class="q-opt-letter">(B)</span> tropical areas.</li><li><span class="q-opt-letter">(C)</span> rainy areas.</li><li><span class="q-opt-letter">(D)</span> turbulent areas.</li></ul></div></div>
+
+<div class="question"><div class="q-num">44.</div><div class="q-body"><div class="q-stem">All of the following are processes that decrease salinity EXCEPT</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> evaporation.</li><li><span class="q-opt-letter">(B)</span> precipitation.</li><li><span class="q-opt-letter">(C)</span> runoff.</li><li><span class="q-opt-letter">(D)</span> melting.</li></ul></div></div>
+
+<div class="question"><div class="q-num">45.</div><div class="q-body"><div class="q-stem">Which of the following statements about the salinity of a body of water can best be inferred from the passage?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The temperature of the water is the most important factor.</li><li><span class="q-opt-letter">(B)</span> The speed with which water moves is directly related to the amount of salt.</li><li><span class="q-opt-letter">(C)</span> Ocean salinity has little effect on sea life.</li><li><span class="q-opt-letter">(D)</span> Various factors combine to cause variations in the salt content of water.</li></ul></div></div>
+
+<div class="question"><div class="q-num">46.</div><div class="q-body"><div class="q-stem">The word "altered" in line 16 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> determined.</li><li><span class="q-opt-letter">(B)</span> changed.</li><li><span class="q-opt-letter">(C)</span> accumulated.</li><li><span class="q-opt-letter">(D)</span> needed.</li></ul></div></div>
+
+<div class="question"><div class="q-num">47.</div><div class="q-body"><div class="q-stem">The word "it" in line 18 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> sea ice.</li><li><span class="q-opt-letter">(B)</span> salinity.</li><li><span class="q-opt-letter">(C)</span> seawater.</li><li><span class="q-opt-letter">(D)</span> manner.</li></ul></div></div>
+
+<div class="question"><div class="q-num">48.</div><div class="q-body"><div class="q-stem">Why does the author mention the Weddell Sea?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> To show that this body of water has salinity variations.</li><li><span class="q-opt-letter">(B)</span> To compare Antarctic waters with Arctic waters.</li><li><span class="q-opt-letter">(C)</span> To give an example of increased salinity due to freezing.</li><li><span class="q-opt-letter">(D)</span> To point out the location of deep waters.</li></ul></div></div>
+
+<div class="question"><div class="q-num">49.</div><div class="q-body"><div class="q-stem">Which of the following is NOT a result of the formation of ocean ice?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The salt remains in the water.</li><li><span class="q-opt-letter">(B)</span> The surrounding water sinks.</li><li><span class="q-opt-letter">(C)</span> Water salinity decreases.</li><li><span class="q-opt-letter">(D)</span> The water becomes denser.</li></ul></div></div>
+
+<div class="question"><div class="q-num">50.</div><div class="q-body"><div class="q-stem">What can be inferred about the water near the bottom of oceans?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> It is relatively warm.</li><li><span class="q-opt-letter">(B)</span> Its salinity is relatively high.</li><li><span class="q-opt-letter">(C)</span> It does not move.</li><li><span class="q-opt-letter">(D)</span> It evaporates quickly.</li></ul></div></div>
+
+<div class="doc-footer"><span>Princeton 2 &nbsp;·&nbsp; Student Version</span><span>Questions 1–50</span></div>
+</div></div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     PRINCETON 3
+════════════════════════════════════════════════════════ -->
+<div id="p3" class="panel">
+<div class="doc-header">
+  <div class="doc-title">Princeton 3</div>
+  <div class="doc-sub">5 Passages &nbsp;·&nbsp; 50 Questions</div>
+</div>
+<div class="content">
+
+<div class="passage-label">Passage 1 of 5</div>
+<div class="passage-text">
+<p>Alice Walker makes her living by writing, and her poems, short stories, and novels have won many awards and fellowships for her. She was born in Eatonton, Georgia. She went to public schools there, and then to Spelman College in Atlanta before coming to New York to attend Sarah Lawrence College, from which she graduated in 1966. For a time she lived in Jackson, Mississippi with her lawyer husband and small daughter. About <em>Langston Hughes, American Poet</em>, her first book for children, she says, "After my first meeting with Langston Hughes I vowed I would write a book about him for children someday. Why? Because I, at twenty-two, knew next to nothing of his work, and he didn't scold me; he just gave me a stack of his books. And he was kind to me; I will always be grateful that in his absolute warmth and generosity he fulfilled my deepest dream (and need) of what a poet should be."</p>
+<p>To me he is not dead at all. Hardly a day goes by that I don't think of him or speak of him. Once, just before he died, when he was sick with the flu, I took him a sack full of oranges. The joy I felt in giving that simple gift is undiminished by time. He said he liked oranges, too.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">1.</div><div class="q-body"><div class="q-stem">What is the main topic of the passage?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Alice Walker's reflections on Langston Hughes.</li><li><span class="q-opt-letter">(B)</span> The influence of Alice Walker on the writing of Langston Hughes.</li><li><span class="q-opt-letter">(C)</span> Langston Hughes' book about Alice Walker.</li><li><span class="q-opt-letter">(D)</span> A comparison of the childhoods of Alice Walker and Langston Hughes.</li></ul></div></div>
+
+<div class="question"><div class="q-num">2.</div><div class="q-body"><div class="q-stem">In the passage, Alice Walker is described as</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> a research fellow at Spelman College.</li><li><span class="q-opt-letter">(B)</span> a professor at Sarah Lawrence College.</li><li><span class="q-opt-letter">(C)</span> a prize-winning writer of prose and poetry.</li><li><span class="q-opt-letter">(D)</span> an author of plays for children.</li></ul></div></div>
+
+<div class="question"><div class="q-num">3.</div><div class="q-body"><div class="q-stem">Before attending college, Alice Walker went to school in</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Atlanta, Georgia.</li><li><span class="q-opt-letter">(B)</span> Eatonton, Georgia.</li><li><span class="q-opt-letter">(C)</span> Jackson, Mississippi.</li><li><span class="q-opt-letter">(D)</span> Lawrence, Massachusetts.</li></ul></div></div>
+
+<div class="question"><div class="q-num">4.</div><div class="q-body"><div class="q-stem">The word "vowed" in line 7 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Confided.</li><li><span class="q-opt-letter">(B)</span> Believed.</li><li><span class="q-opt-letter">(C)</span> Denied.</li><li><span class="q-opt-letter">(D)</span> Promised.</li></ul></div></div>
+
+<div class="question"><div class="q-num">5.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that Alice Walker was twenty-two years old when</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> she moved to Jackson, Mississippi.</li><li><span class="q-opt-letter">(B)</span> she moved to New York.</li><li><span class="q-opt-letter">(C)</span> she first met Langston Hughes.</li><li><span class="q-opt-letter">(D)</span> Langston Hughes died.</li></ul></div></div>
+
+<div class="question"><div class="q-num">6.</div><div class="q-body"><div class="q-stem">It can be inferred from lines 9–11 that Alice Walker first formed her impressions of Langston Hughes by</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> talking with his friends.</li><li><span class="q-opt-letter">(B)</span> reading his autobiography.</li><li><span class="q-opt-letter">(C)</span> studying his poetry.</li><li><span class="q-opt-letter">(D)</span> meeting him.</li></ul></div></div>
+
+<div class="question"><div class="q-num">7.</div><div class="q-body"><div class="q-stem">The word "dream" in line 11 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> nightmare.</li><li><span class="q-opt-letter">(B)</span> expectation.</li><li><span class="q-opt-letter">(C)</span> sleep.</li><li><span class="q-opt-letter">(D)</span> misconception.</li></ul></div></div>
+
+<div class="question"><div class="q-num">8.</div><div class="q-body"><div class="q-stem">What does Alice Walker imply when she says Langston Hughes "is not dead at all" (line 12)?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Langston Hughes believed in eternal life.</li><li><span class="q-opt-letter">(B)</span> She had not been informed of Langston Hughes' death.</li><li><span class="q-opt-letter">(C)</span> For her, Langston Hughes had never really existed.</li><li><span class="q-opt-letter">(D)</span> Langston Hughes is still present in her thoughts.</li></ul></div></div>
+
+<div class="question"><div class="q-num">9.</div><div class="q-body"><div class="q-stem">The word "undiminished" in line 14 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Not exaggerated.</li><li><span class="q-opt-letter">(B)</span> Not lessened.</li><li><span class="q-opt-letter">(C)</span> Disappointed.</li><li><span class="q-opt-letter">(D)</span> Unequaled.</li></ul></div></div>
+
+<div class="question"><div class="q-num">10.</div><div class="q-body"><div class="q-stem">According to the passage, what did Alice Walker give Langston Hughes before he died?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> A job.</li><li><span class="q-opt-letter">(B)</span> An award.</li><li><span class="q-opt-letter">(C)</span> Some oranges.</li><li><span class="q-opt-letter">(D)</span> A stack of books.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 2 of 5</span></div>
+<div class="passage-text">
+<p>Human vision, like that of other primates, has evolved in an arboreal environment. In the dense, complex world of a tropical forest, it is more important to see well than to develop an acute sense of smell. In the course of evolution, members of the primate line have acquired large eyes while the snout has shrunk to give the eye an unimpeded view. Of mammals, only humans and some primates enjoy color vision. The red flag is black to the bull. Horses live in a monochrome world. Light visible to human eyes, however, occupies only a very narrow band in the whole electromagnetic spectrum. Ultraviolet rays are invisible to humans, though ants and honeybees are sensitive to them. Humans have no direct perception of infrared rays, unlike the rattlesnake, which has receptors tuned into wavelengths longer than 0.7 micron. The world would look eerily different if human eyes were sensitive to infrared radiation. Then, instead of the darkness of night, we would be able to move easily in a strange, shadowy world where objects glowed with varying degrees of intensity. But human eyes excel in other ways. They are, in fact, remarkably discerning in color gradation. The color sensitivity of normal human vision is rarely surpassed even by sophisticated technical devices.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">11.</div><div class="q-body"><div class="q-stem">What does the passage mainly discuss?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Ultraviolet rays.</li><li><span class="q-opt-letter">(B)</span> Human vision.</li><li><span class="q-opt-letter">(C)</span> Sight and smell.</li><li><span class="q-opt-letter">(D)</span> The environment of primates.</li></ul></div></div>
+
+<div class="question"><div class="q-num">12.</div><div class="q-body"><div class="q-stem">Why does the author mention the "tropical forest" in line 2?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> To explain why primates have developed keen vision.</li><li><span class="q-opt-letter">(B)</span> To suggest that primates need to see only the color green.</li><li><span class="q-opt-letter">(C)</span> To give an example of environmental change.</li><li><span class="q-opt-letter">(D)</span> To indicate where large-eyed primates can be found.</li></ul></div></div>
+
+<div class="question"><div class="q-num">13.</div><div class="q-body"><div class="q-stem">What does the author mean by stating that "the red flag is black to the bull" (lines 5–6)?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Bulls are attracted to red objects.</li><li><span class="q-opt-letter">(B)</span> Bulls do not notice flags.</li><li><span class="q-opt-letter">(C)</span> Bulls attack all flags.</li><li><span class="q-opt-letter">(D)</span> Bulls do not see the color red.</li></ul></div></div>
+
+<div class="question"><div class="q-num">14.</div><div class="q-body"><div class="q-stem">The word "monochrome" in line 6 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Monotonous.</li><li><span class="q-opt-letter">(B)</span> Ultraviolet.</li><li><span class="q-opt-letter">(C)</span> One-dimensional.</li><li><span class="q-opt-letter">(D)</span> One-color.</li></ul></div></div>
+
+<div class="question"><div class="q-num">15.</div><div class="q-body"><div class="q-stem">In line 8, "them" refers to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Human eyes.</li><li><span class="q-opt-letter">(B)</span> Ultraviolet rays.</li><li><span class="q-opt-letter">(C)</span> Humans.</li><li><span class="q-opt-letter">(D)</span> Wavelengths.</li></ul></div></div>
+
+<div class="question"><div class="q-num">16.</div><div class="q-body"><div class="q-stem">According to the passage, which of the following can detect wavelengths of light longer than 0.7 micron?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Bulls.</li><li><span class="q-opt-letter">(B)</span> Ants.</li><li><span class="q-opt-letter">(C)</span> Horses.</li><li><span class="q-opt-letter">(D)</span> Rattlesnakes.</li></ul></div></div>
+
+<div class="question"><div class="q-num">17.</div><div class="q-body"><div class="q-stem">The word "eerily" in line 10 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Strangely.</li><li><span class="q-opt-letter">(B)</span> Increasingly.</li><li><span class="q-opt-letter">(C)</span> Slightly.</li><li><span class="q-opt-letter">(D)</span> Superficially.</li></ul></div></div>
+
+<div class="question"><div class="q-num">18.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that humans could move more easily at night if they</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> had a narrower field of vision.</li><li><span class="q-opt-letter">(B)</span> were color-blind.</li><li><span class="q-opt-letter">(C)</span> had infrared vision.</li><li><span class="q-opt-letter">(D)</span> lived in an arboreal environment.</li></ul></div></div>
+
+<div class="question"><div class="q-num">19.</div><div class="q-body"><div class="q-stem">The word "surpassed" in line 15 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Recorded.</li><li><span class="q-opt-letter">(B)</span> Exceeded.</li><li><span class="q-opt-letter">(C)</span> Found.</li><li><span class="q-opt-letter">(D)</span> Provided.</li></ul></div></div>
+
+<div class="question"><div class="q-num">20.</div><div class="q-body"><div class="q-stem">According to the passage, the ability of humans to distinguish color differences is</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> average.</li><li><span class="q-opt-letter">(B)</span> weak.</li><li><span class="q-opt-letter">(C)</span> excellent.</li><li><span class="q-opt-letter">(D)</span> variable.</li></ul></div></div>
+
+<div class="question"><div class="q-num">21.</div><div class="q-body"><div class="q-stem">Where in the passage does the author mention the development over time of certain physical changes?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Lines 3–4.</li><li><span class="q-opt-letter">(B)</span> Lines 5–6.</li><li><span class="q-opt-letter">(C)</span> Lines 7–10.</li><li><span class="q-opt-letter">(D)</span> Lines 13–15.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 3 of 5</span></div>
+<div class="passage-text">
+<p>Ancient people made clay pottery because they needed it for their survival. They used the pots they made for cooking, storing food, and carrying things from place to place. Pottery was so important to early cultures that scientists now study it to learn more about ancient civilizations. The more advanced the pottery in terms of decoration, materials, glazes, and manufacture, the more advanced the culture itself.</p>
+<p>The artisan who makes pottery in North America today utilizes his or her skill and imagination to create items that are beautiful as well as functional, transforming something ordinary into something special and unique.</p>
+<p>The potter uses one of the Earth's most basic materials, clay. Clay can be found almost anywhere. Good pottery clay must be free from all small stones and other hard materials that would make the potting process difficult. Most North American artisan-potters now purchase commercially processed clay, but some find the clay they need right in the earth, close to where they work.</p>
+<p>The most important tools potters use are their own hands; however, they also use wire loop tools, wooden modeling tools, plain wire, and sponges. Plain wire is used to cut away the finished pot from its base on the potter's wheel.</p>
+<p>After a finished pot is dried of all its moisture in the open air, it is placed in a kiln and fired. The first firing hardens the pottery, and it is then ready to be glazed and fired again.</p>
+<p>For areas where they do not want any glaze, such as the bottom of the pot, artisans paint on melted wax that will later burn off in the kiln. They then pour on the liquid glaze and let it run over the clay surface, making any kind of decorative pattern that they want.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">22.</div><div class="q-body"><div class="q-stem">What does the passage mainly discuss?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Different kinds of clay.</li><li><span class="q-opt-letter">(B)</span> The training of an artisan.</li><li><span class="q-opt-letter">(C)</span> The making of pottery.</li><li><span class="q-opt-letter">(D)</span> Crafts of ancient civilizations.</li></ul></div></div>
+
+<div class="question"><div class="q-num">23.</div><div class="q-body"><div class="q-stem">Which of the following is NOT mentioned in the passage as a way that ancient people used pottery?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> To hold food.</li><li><span class="q-opt-letter">(B)</span> To wash clothes.</li><li><span class="q-opt-letter">(C)</span> To cook.</li><li><span class="q-opt-letter">(D)</span> To transport objects.</li></ul></div></div>
+
+<div class="question"><div class="q-num">24.</div><div class="q-body"><div class="q-stem">The word "it" in line 3 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> clay.</li><li><span class="q-opt-letter">(B)</span> culture.</li><li><span class="q-opt-letter">(C)</span> survival.</li><li><span class="q-opt-letter">(D)</span> pottery.</li></ul></div></div>
+
+<div class="question"><div class="q-num">25.</div><div class="q-body"><div class="q-stem">According to the passage, which of the following can be learned about an ancient civilization by studying its pottery?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Its food preferences.</li><li><span class="q-opt-letter">(B)</span> Its developmental stage.</li><li><span class="q-opt-letter">(C)</span> Its geographic location.</li><li><span class="q-opt-letter">(D)</span> Its population.</li></ul></div></div>
+
+<div class="question"><div class="q-num">26.</div><div class="q-body"><div class="q-stem">The word "functional" in line 7 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Useful.</li><li><span class="q-opt-letter">(B)</span> Strong.</li><li><span class="q-opt-letter">(C)</span> Inexpensive.</li><li><span class="q-opt-letter">(D)</span> Original.</li></ul></div></div>
+
+<div class="question"><div class="q-num">27.</div><div class="q-body"><div class="q-stem">The word "basic" in line 9 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Familiar.</li><li><span class="q-opt-letter">(B)</span> Fundamental.</li><li><span class="q-opt-letter">(C)</span> Versatile.</li><li><span class="q-opt-letter">(D)</span> Dirty.</li></ul></div></div>
+
+<div class="question"><div class="q-num">28.</div><div class="q-body"><div class="q-stem">According to the passage, how do most North American potters today get the clay they need?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> They buy it.</li><li><span class="q-opt-letter">(B)</span> They make it.</li><li><span class="q-opt-letter">(C)</span> They dig it from the earth.</li><li><span class="q-opt-letter">(D)</span> They barter for it.</li></ul></div></div>
+
+<div class="question"><div class="q-num">29.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that clay is processed commercially in order to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> make it dry more evenly.</li><li><span class="q-opt-letter">(B)</span> remove hard substances.</li><li><span class="q-opt-letter">(C)</span> prevent glaze from sticking.</li><li><span class="q-opt-letter">(D)</span> make it easier to color.</li></ul></div></div>
+
+<div class="question"><div class="q-num">30.</div><div class="q-body"><div class="q-stem">According to the author, what do potters use to remove the pot from the wheel?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Melted wax.</li><li><span class="q-opt-letter">(B)</span> A wire loop.</li><li><span class="q-opt-letter">(C)</span> A sponge.</li><li><span class="q-opt-letter">(D)</span> Plain wire.</li></ul></div></div>
+
+<div class="question"><div class="q-num">31.</div><div class="q-body"><div class="q-stem">The word "pattern" in line 22 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Model.</li><li><span class="q-opt-letter">(B)</span> Color.</li><li><span class="q-opt-letter">(C)</span> Puzzle.</li><li><span class="q-opt-letter">(D)</span> Design.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 4 of 5</span></div>
+<div class="passage-text">
+<p>The status of women in colonial North America has been well studied and described and can be briefly summarized. Throughout the colonial period there was a marked shortage of women, which varied with the regions and was always greatest in the frontier areas. This favorable ratio enhanced women's status and position and allowed them to pursue different careers. The Puritans, the religious sect that dominated the early British colonies in North America, regarded idleness as a sin, and believed that life in an underdeveloped country made it absolutely necessary that each member of the community perform an economic function. Thus work for women, married or single, was not only approved, it was regarded as a civic duty. Puritan town councils expected widows and unattached women to be self-supporting and for a long time provided needy spinsters with parcels of land. There was no social sanction against married women working; on the contrary, wives were expected to help their husbands in their trade and won social approval for doing extra work in or out of the home. Needy children, girls as well as boys, were indentured or apprenticed and were expected to work for their keep.</p>
+<p>The vast majority of women worked within their homes, where their labor produced most articles needed for the family. The entire colonial production of cloth and clothing and partially that of shoes was in the hands of women. In addition to these occupations, women were found in many different kinds of employment. They were butchers, silversmiths, gunsmiths, upholsterers. They ran mills, plantations, tanyards, shipyards, and every kind of shop, tavern, and boardinghouse. They were gatekeepers, jail keepers, sextons, journalists, printers, apothecaries, midwives, nurses, and teachers.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">32.</div><div class="q-body"><div class="q-stem">What does the passage mainly discuss?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Colonial marriages.</li><li><span class="q-opt-letter">(B)</span> The Puritan religion.</li><li><span class="q-opt-letter">(C)</span> Colonial women's employment.</li><li><span class="q-opt-letter">(D)</span> Education in the colonies.</li></ul></div></div>
+
+<div class="question"><div class="q-num">33.</div><div class="q-body"><div class="q-stem">The word "marked" in line 2 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> underlined.</li><li><span class="q-opt-letter">(B)</span> graded.</li><li><span class="q-opt-letter">(C)</span> prolonged.</li><li><span class="q-opt-letter">(D)</span> distinct.</li></ul></div></div>
+
+<div class="question"><div class="q-num">34.</div><div class="q-body"><div class="q-stem">According to the passage, where in colonial North America were there the fewest women?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Puritan communities.</li><li><span class="q-opt-letter">(B)</span> Seaports.</li><li><span class="q-opt-letter">(C)</span> Frontier settlements.</li><li><span class="q-opt-letter">(D)</span> Capital cities.</li></ul></div></div>
+
+<div class="question"><div class="q-num">35.</div><div class="q-body"><div class="q-stem">The word "enhanced" in line 4 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Supplemented.</li><li><span class="q-opt-letter">(B)</span> Confirmed.</li><li><span class="q-opt-letter">(C)</span> Improved.</li><li><span class="q-opt-letter">(D)</span> Determined.</li></ul></div></div>
+
+<div class="question"><div class="q-num">36.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that the Puritans were</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> uneducated.</li><li><span class="q-opt-letter">(B)</span> hardworking.</li><li><span class="q-opt-letter">(C)</span> generous.</li><li><span class="q-opt-letter">(D)</span> wealthy.</li></ul></div></div>
+
+<div class="question"><div class="q-num">37.</div><div class="q-body"><div class="q-stem">According to the passage, Puritans believed that an unmarried adult woman should be</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> financially responsible for herself.</li><li><span class="q-opt-letter">(B)</span> returned to England.</li><li><span class="q-opt-letter">(C)</span> supported by her family.</li><li><span class="q-opt-letter">(D)</span> trained to be a nurse.</li></ul></div></div>
+
+<div class="question"><div class="q-num">38.</div><div class="q-body"><div class="q-stem">The phrase "unattached women" in line 10 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Women without high social status.</li><li><span class="q-opt-letter">(B)</span> Women without property.</li><li><span class="q-opt-letter">(C)</span> Unmarried women.</li><li><span class="q-opt-letter">(D)</span> Unemployed women.</li></ul></div></div>
+
+<div class="question"><div class="q-num">39.</div><div class="q-body"><div class="q-stem">According to the passage, what did the Puritans expect from married women?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> They should adopt needy children.</li><li><span class="q-opt-letter">(B)</span> They should assist in their husbands' trade or business.</li><li><span class="q-opt-letter">(C)</span> They should work only within their own homes.</li><li><span class="q-opt-letter">(D)</span> They should be apprenticed.</li></ul></div></div>
+
+<div class="question"><div class="q-num">40.</div><div class="q-body"><div class="q-stem">According to the passage, which products were made entirely by women?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Gunpowder and bullets.</li><li><span class="q-opt-letter">(B)</span> Cups and plates.</li><li><span class="q-opt-letter">(C)</span> Paper and books.</li><li><span class="q-opt-letter">(D)</span> Cloth and clothing.</li></ul></div></div>
+
+<div class="question"><div class="q-num">41.</div><div class="q-body"><div class="q-stem">The lists in lines 19–22 are intended to show which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The influence of the Puritans in the colonies.</li><li><span class="q-opt-letter">(B)</span> The limits of job opportunities in the colonies.</li><li><span class="q-opt-letter">(C)</span> The main industries of the colonial economy.</li><li><span class="q-opt-letter">(D)</span> The variety of work done by colonial women.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 5 of 5</span></div>
+<div class="passage-text">
+<p>Beneath the deep oceans that cover two-thirds of the Earth are concealed some of the most tantalizing secrets of our planet. There the crust of the Earth is thinner and the unknown mantle—the layer beneath the crust—lies closest, tempting scientists to drill into it. The first such attempt, the ambitious Project Mohole, got underway during the 1960's and proved the value of deep-sea drilling by making several test holes in the mantle beneath the crust before spiraling costs led to its cancellation.</p>
+<p>Soon afterward, however, work began on the more modest Deep Sea Drilling Project, which is not aimed at reaching the mantle but at exploring the crust itself. This venture uses a special ship, the Glomar Challenger, which can be held precisely in position in the sea—without any anchor—by sound-wave guiding systems and computer-controlled propellers. From this stable platform, scientists lowered drilling pipes into waters four miles deep to scoop up cores of ocean sediment and bedrock. Analysis of the fossil contents has indicated that the ocean floors spread, moving continents around the Earth.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">42.</div><div class="q-body"><div class="q-stem">The passage mainly discusses</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> analysis of fossils in the ocean.</li><li><span class="q-opt-letter">(B)</span> exploration beneath the ocean bottom.</li><li><span class="q-opt-letter">(C)</span> the composition of the Earth's crust.</li><li><span class="q-opt-letter">(D)</span> the construction of the Glomar Challenger.</li></ul></div></div>
+
+<div class="question"><div class="q-num">43.</div><div class="q-body"><div class="q-stem">According to the passage, one of the objectives of Project Mohole was to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> increase public support for underwater experimentation.</li><li><span class="q-opt-letter">(B)</span> test the ocean bottom for unusual ocean sediment.</li><li><span class="q-opt-letter">(C)</span> estimate the age of the Earth's crust.</li><li><span class="q-opt-letter">(D)</span> study the Earth's mantle.</li></ul></div></div>
+
+<div class="question"><div class="q-num">44.</div><div class="q-body"><div class="q-stem">The word "spiraling" in line 6 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Rising.</li><li><span class="q-opt-letter">(B)</span> Necessary.</li><li><span class="q-opt-letter">(C)</span> Unpredictable.</li><li><span class="q-opt-letter">(D)</span> Circular.</li></ul></div></div>
+
+<div class="question"><div class="q-num">45.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that Project Mohole originally was intended to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> involve deeper drilling than the Deep Sea Drilling Project.</li><li><span class="q-opt-letter">(B)</span> cost less than the Deep Sea Drilling Project.</li><li><span class="q-opt-letter">(C)</span> employ fewer scientists than the Deep Sea Drilling Project.</li><li><span class="q-opt-letter">(D)</span> yield more fossil discoveries than the Deep Sea Drilling Project.</li></ul></div></div>
+
+<div class="question"><div class="q-num">46.</div><div class="q-body"><div class="q-stem">The expression "more modest" in line 7 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> more sophisticated.</li><li><span class="q-opt-letter">(B)</span> more timid.</li><li><span class="q-opt-letter">(C)</span> less ambitious.</li><li><span class="q-opt-letter">(D)</span> less controversial.</li></ul></div></div>
+
+<div class="question"><div class="q-num">47.</div><div class="q-body"><div class="q-stem">The word "precisely" in line 9 is closest in meaning to which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Exactly.</li><li><span class="q-opt-letter">(B)</span> Clearly.</li><li><span class="q-opt-letter">(C)</span> Economically.</li><li><span class="q-opt-letter">(D)</span> Practically.</li></ul></div></div>
+
+<div class="question"><div class="q-num">48.</div><div class="q-body"><div class="q-stem">According to the passage, computers are used on the Glomar Challenger in order to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> measure the spread of the ocean floors.</li><li><span class="q-opt-letter">(B)</span> lower its drilling pipes into the water.</li><li><span class="q-opt-letter">(C)</span> keep it in one place.</li><li><span class="q-opt-letter">(D)</span> detect the location of the Earth's mantle.</li></ul></div></div>
+
+<div class="question"><div class="q-num">49.</div><div class="q-body"><div class="q-stem">The phrase "stable platform" in line 11 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> the Glomar Challenger.</li><li><span class="q-opt-letter">(B)</span> a ship's anchor.</li><li><span class="q-opt-letter">(C)</span> sound-wave guiding systems.</li><li><span class="q-opt-letter">(D)</span> computer-controlled propellers.</li></ul></div></div>
+
+<div class="question"><div class="q-num">50.</div><div class="q-body"><div class="q-stem">For which of the following terms does the author supply a definition?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> "mantle" (line 3).</li><li><span class="q-opt-letter">(B)</span> "anchor" (line 10).</li><li><span class="q-opt-letter">(C)</span> "sound-wave guiding systems" (line 10).</li><li><span class="q-opt-letter">(D)</span> "bedrock" (line 12).</li></ul></div></div>
+
+<div class="doc-footer"><span>Princeton 3 &nbsp;·&nbsp; Student Version</span><span>Questions 1–50</span></div>
+</div></div>
+
+
+<!-- ════════════════════════════════════════════════════════
+     PRINCETON 4
+════════════════════════════════════════════════════════ -->
+<div id="p4" class="panel">
+<div class="doc-header">
+  <div class="doc-title">Princeton 4</div>
+  <div class="doc-sub">5 Passages &nbsp;·&nbsp; 50 Questions</div>
+</div>
+<div class="content">
+
+<div class="passage-label">Passage 1 of 5</div>
+<div class="passage-text">
+<p>With its radiant color and plantlike shape, the sea anemone looks more like a flower than an animal. More specifically, the sea anemone is formed quite like the flower for which it is named, with a body like a stem and tentacles like petals in brilliant shades of blue, green, pink, and red. Its diameter varies from about six millimeters in some species to more than ninety centimeters in the giant varieties of Australia. Like corals, hydras, and jellyfish, sea anemones are coelenterates. They can move slowly, but more often they attach the lower part of their cylindrical bodies to rocks, shells, or wharf pilings. The upper end of the sea anemone has a mouth surrounded by tentacles that the animal uses to capture its food. Stinging cells in the tentacles throw out tiny poison threads that paralyze other small sea animals. The tentacles then drag this prey into the sea anemone's mouth. The food is digested in the large inner body cavity. When disturbed, a sea anemone retracts its tentacles and shortens its body so that it resembles a lump on a rock. Anemones may reproduce by forming eggs, dividing in half, or developing buds that grow and break off as independent animals.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">1.</div><div class="q-body"><div class="q-stem">Which of the following is the main topic of the passage?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The varieties of ocean life.</li><li><span class="q-opt-letter">(B)</span> The characteristics of the sea anemone.</li><li><span class="q-opt-letter">(C)</span> A comparison of land and sea anemones.</li><li><span class="q-opt-letter">(D)</span> The defenses of coelenterates.</li></ul></div></div>
+
+<div class="question"><div class="q-num">2.</div><div class="q-body"><div class="q-stem">The word "shape" in line 1 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> length.</li><li><span class="q-opt-letter">(B)</span> grace.</li><li><span class="q-opt-letter">(C)</span> form.</li><li><span class="q-opt-letter">(D)</span> nature.</li></ul></div></div>
+
+<div class="question"><div class="q-num">3.</div><div class="q-body"><div class="q-stem">The author compares a sea anemone's tentacles to a flower's</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> stem.</li><li><span class="q-opt-letter">(B)</span> petals.</li><li><span class="q-opt-letter">(C)</span> leaves.</li><li><span class="q-opt-letter">(D)</span> roots.</li></ul></div></div>
+
+<div class="question"><div class="q-num">4.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that hydras</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> were named after a flower.</li><li><span class="q-opt-letter">(B)</span> are usually found in Australia.</li><li><span class="q-opt-letter">(C)</span> prey on sea anemones.</li><li><span class="q-opt-letter">(D)</span> are related to sea anemones.</li></ul></div></div>
+
+<div class="question"><div class="q-num">5.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that sea anemones are usually found</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> attached to stationary surfaces.</li><li><span class="q-opt-letter">(B)</span> hidden inside cylindrical objects.</li><li><span class="q-opt-letter">(C)</span> floating among underwater flowers.</li><li><span class="q-opt-letter">(D)</span> searching for food.</li></ul></div></div>
+
+<div class="question"><div class="q-num">6.</div><div class="q-body"><div class="q-stem">The word "capture" in line 8 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> catch.</li><li><span class="q-opt-letter">(B)</span> control.</li><li><span class="q-opt-letter">(C)</span> cover.</li><li><span class="q-opt-letter">(D)</span> clean.</li></ul></div></div>
+
+<div class="question"><div class="q-num">7.</div><div class="q-body"><div class="q-stem">The word "retracts" in line 11 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> pulls back.</li><li><span class="q-opt-letter">(B)</span> relaxes.</li><li><span class="q-opt-letter">(C)</span> reproduces.</li><li><span class="q-opt-letter">(D)</span> lifts up.</li></ul></div></div>
+
+<div class="question"><div class="q-num">8.</div><div class="q-body"><div class="q-stem">According to the passage, when a sea anemone is bothered it</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> hides under a rock.</li><li><span class="q-opt-letter">(B)</span> alters its shape.</li><li><span class="q-opt-letter">(C)</span> changes colors.</li><li><span class="q-opt-letter">(D)</span> ejects a poisonous substance.</li></ul></div></div>
+
+<div class="question"><div class="q-num">9.</div><div class="q-body"><div class="q-stem">The sea anemone reproduces by</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> budding only.</li><li><span class="q-opt-letter">(B)</span> forming eggs only.</li><li><span class="q-opt-letter">(C)</span> budding or dividing only.</li><li><span class="q-opt-letter">(D)</span> budding, forming eggs, or dividing.</li></ul></div></div>
+
+<div class="question"><div class="q-num">10.</div><div class="q-body"><div class="q-stem">Based on the information in the passage, all of the following statements about sea anemones are true EXCEPT they</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> are usually tiny.</li><li><span class="q-opt-letter">(B)</span> have flexible bodies.</li><li><span class="q-opt-letter">(C)</span> are related to jellyfish.</li><li><span class="q-opt-letter">(D)</span> are usually brightly colored.</li></ul></div></div>
+
+<div class="question"><div class="q-num">11.</div><div class="q-body"><div class="q-stem">Where does the author mention the sea anemone's food-gathering technique?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Lines 1–2.</li><li><span class="q-opt-letter">(B)</span> Lines 4–6.</li><li><span class="q-opt-letter">(C)</span> Lines 7–10.</li><li><span class="q-opt-letter">(D)</span> Lines 11–14.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 2 of 5</span></div>
+<div class="passage-text">
+<p>Barbara Kasten is an artist who makes photographs of constructions that she creates for the purpose of photographing them. In her studio she arranges objects such as mirrors, solid forms, and flat surfaces into what could be called large still life arrangements, big enough to walk into. She lights the construction, then rearranges and rephotographs it until she arrives at a final image. She also photographs away from her studio at various architectural sites, bringing cameras, lights, mirrors, and a crew of assistants to transform the site into her own abstract image.</p>
+<p>Kasten starts a studio construction with a simple problem, such as using several circular and rectangular mirrors. She puts the first objects in place, sets up a camera, then goes back and forth arranging objects and seeing how they appear in the camera. Eventually she makes instant color prints to see what the image looks like. At first she works only with objects, concentrating on their composition; then she lights them and adds color from lights covered with colored filters.</p>
+<p>Away from the studio, at architectural sites, the cost of the crew and the equipment rental means she has to know in advance what she wants to do. She visits each location several times to make sketches and test shots. Until she brings in the lights, however, she cannot predict exactly what they will do to the image, so there is some improvising on the spot.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">12.</div><div class="q-body"><div class="q-stem">What does the passage mainly discuss?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The techniques of a photographer.</li><li><span class="q-opt-letter">(B)</span> The advantages of studio photography.</li><li><span class="q-opt-letter">(C)</span> Industrial construction sites.</li><li><span class="q-opt-letter">(D)</span> An architect who appreciates fine art.</li></ul></div></div>
+
+<div class="question"><div class="q-num">13.</div><div class="q-body"><div class="q-stem">Which of the following would be an example of one of the "constructions" referred to in line 1?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> A still life arrangement.</li><li><span class="q-opt-letter">(B)</span> Natural landscapes.</li><li><span class="q-opt-letter">(C)</span> An instant color print.</li><li><span class="q-opt-letter">(D)</span> A colored filter.</li></ul></div></div>
+
+<div class="question"><div class="q-num">14.</div><div class="q-body"><div class="q-stem">In line 2, why does the author mention mirrors?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> They are part of the camera.</li><li><span class="q-opt-letter">(B)</span> Kasten uses them as subjects.</li><li><span class="q-opt-letter">(C)</span> The crew needs them.</li><li><span class="q-opt-letter">(D)</span> Photography mirrors life.</li></ul></div></div>
+
+<div class="question"><div class="q-num">15.</div><div class="q-body"><div class="q-stem">The word "transform" in line 6 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> move.</li><li><span class="q-opt-letter">(B)</span> extend.</li><li><span class="q-opt-letter">(C)</span> change.</li><li><span class="q-opt-letter">(D)</span> interpret.</li></ul></div></div>
+
+<div class="question"><div class="q-num">16.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that Kasten makes instant prints to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> give away.</li><li><span class="q-opt-letter">(B)</span> sell as souvenirs.</li><li><span class="q-opt-letter">(C)</span> include as part of the construction.</li><li><span class="q-opt-letter">(D)</span> see what the construction looks like at that stage.</li></ul></div></div>
+
+<div class="question"><div class="q-num">17.</div><div class="q-body"><div class="q-stem">The word "composition" in line 12 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> arrangement.</li><li><span class="q-opt-letter">(B)</span> brightness.</li><li><span class="q-opt-letter">(C)</span> quality.</li><li><span class="q-opt-letter">(D)</span> size.</li></ul></div></div>
+
+<div class="question"><div class="q-num">18.</div><div class="q-body"><div class="q-stem">The word "them" in line 12 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> prints.</li><li><span class="q-opt-letter">(B)</span> lights.</li><li><span class="q-opt-letter">(C)</span> objects.</li><li><span class="q-opt-letter">(D)</span> filters.</li></ul></div></div>
+
+<div class="question"><div class="q-num">19.</div><div class="q-body"><div class="q-stem">The word "shots" in line 16 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> injections.</li><li><span class="q-opt-letter">(B)</span> photographs.</li><li><span class="q-opt-letter">(C)</span> loud noises.</li><li><span class="q-opt-letter">(D)</span> effective remarks.</li></ul></div></div>
+
+<div class="question"><div class="q-num">20.</div><div class="q-body"><div class="q-stem">The word "they" in line 17 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> architectural styles.</li><li><span class="q-opt-letter">(B)</span> sketches.</li><li><span class="q-opt-letter">(C)</span> colored filters.</li><li><span class="q-opt-letter">(D)</span> lights.</li></ul></div></div>
+
+<div class="question"><div class="q-num">21.</div><div class="q-body"><div class="q-stem">Why does Kasten visit the location of outdoor work before the day of the actual shooting?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> To plan the photograph.</li><li><span class="q-opt-letter">(B)</span> To purchase film and equipment.</li><li><span class="q-opt-letter">(C)</span> To hire a crew.</li><li><span class="q-opt-letter">(D)</span> To test the lights.</li></ul></div></div>
+
+<div class="question"><div class="q-num">22.</div><div class="q-body"><div class="q-stem">How is Kasten's studio work different from her work at architectural sites?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> She does not use lights outdoors.</li><li><span class="q-opt-letter">(B)</span> Her work outdoors is more unpredictable.</li><li><span class="q-opt-letter">(C)</span> She works alone outdoors.</li><li><span class="q-opt-letter">(D)</span> She makes more money from her work outdoors.</li></ul></div></div>
+
+<div class="question"><div class="q-num">23.</div><div class="q-body"><div class="q-stem">Where in the passage does the author suggest that the constructions that Kasten photographs are large?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Lines 2–4.</li><li><span class="q-opt-letter">(B)</span> Lines 5–7.</li><li><span class="q-opt-letter">(C)</span> Lines 12–14.</li><li><span class="q-opt-letter">(D)</span> Lines 16–17.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 3 of 5</span></div>
+<div class="passage-text">
+<p>The temperature of the Sun is over 5,000 degrees Fahrenheit at the surface, but it rises to perhaps more than 16 million degrees at the center. The Sun is so much hotter than the Earth that matter can exist only as a gas, except at the core. In the core of the Sun, the pressures are so great against the gasses that, despite the high temperature, there may be a small solid core. However, no one really knows, since the center of the Sun can never be directly observed.</p>
+<p>Solar astronomers do know that the Sun is divided into five layers or zones. Starting at the outside and going down into the Sun, the zones are the corona, chromosphere, photosphere, convection zone, and finally the core. The first three zones are regarded as the Sun's atmosphere. But since the Sun has no solid surface, it is hard to tell where the atmosphere ends and the main body of the Sun begins.</p>
+<p>The Sun's outermost layer begins about 10,000 miles above the visible surface and goes outward for millions of miles. This is the only part of the Sun that can be seen during an eclipse such as the one in February 1979. At any other time, the corona can be seen only when special instruments are used on cameras and telescopes to shut out the glare of the Sun's rays.</p>
+<p>The corona is a brilliant, pearly white, filmy light, about as bright as the full Moon. Its beautiful rays are a sensational sight during an eclipse. The corona's rays flash out in a brilliant fan that has wispy spikelike rays near the Sun's north and south poles. The corona is thickest at the Sun's equator.</p>
+<p>The corona rays are made up of gasses streaming outward at tremendous speeds and reaching a temperature of more than 2 million degrees Fahrenheit. The rays of gas thin out as they reach the space around the planets. By the time the Sun's corona rays reach the Earth, they are weak and invisible.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">24.</div><div class="q-body"><div class="q-stem">The word "great" in line 4 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> dangerous.</li><li><span class="q-opt-letter">(B)</span> unknown.</li><li><span class="q-opt-letter">(C)</span> variable.</li><li><span class="q-opt-letter">(D)</span> strong.</li></ul></div></div>
+
+<div class="question"><div class="q-num">25.</div><div class="q-body"><div class="q-stem">With what topic is the second paragraph mainly concerned?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> How the Sun evolved.</li><li><span class="q-opt-letter">(B)</span> The structure of the Sun.</li><li><span class="q-opt-letter">(C)</span> Why scientists study the Sun.</li><li><span class="q-opt-letter">(D)</span> The distance of the Sun from the planets.</li></ul></div></div>
+
+<div class="question"><div class="q-num">26.</div><div class="q-body"><div class="q-stem">All of the following are parts of the Sun's atmosphere EXCEPT the</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> corona.</li><li><span class="q-opt-letter">(B)</span> chromosphere.</li><li><span class="q-opt-letter">(C)</span> photosphere.</li><li><span class="q-opt-letter">(D)</span> core.</li></ul></div></div>
+
+<div class="question"><div class="q-num">27.</div><div class="q-body"><div class="q-stem">The word "one" in line 13 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> the Sun.</li><li><span class="q-opt-letter">(B)</span> the corona.</li><li><span class="q-opt-letter">(C)</span> an eclipse.</li><li><span class="q-opt-letter">(D)</span> the surface.</li></ul></div></div>
+
+<div class="question"><div class="q-num">28.</div><div class="q-body"><div class="q-stem">The purpose of the special instruments mentioned in line 14 is to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> magnify the image of the Sun.</li><li><span class="q-opt-letter">(B)</span> block out the Sun's intense light.</li><li><span class="q-opt-letter">(C)</span> measure the amount of energy emitted by the Sun.</li><li><span class="q-opt-letter">(D)</span> photograph the Sun.</li></ul></div></div>
+
+<div class="question"><div class="q-num">29.</div><div class="q-body"><div class="q-stem">It can be inferred from the passage that a clear view of the Sun's outer layer is usually prevented by</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> the Sun's rays.</li><li><span class="q-opt-letter">(B)</span> an eclipse.</li><li><span class="q-opt-letter">(C)</span> lack of light.</li><li><span class="q-opt-letter">(D)</span> the great distance.</li></ul></div></div>
+
+<div class="question"><div class="q-num">30.</div><div class="q-body"><div class="q-stem">The word "sensational" in line 17 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> spectacular.</li><li><span class="q-opt-letter">(B)</span> predictable.</li><li><span class="q-opt-letter">(C)</span> bizarre.</li><li><span class="q-opt-letter">(D)</span> constant.</li></ul></div></div>
+
+<div class="question"><div class="q-num">31.</div><div class="q-body"><div class="q-stem">According to the passage, as the corona rays reach the planets, they become</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> hotter.</li><li><span class="q-opt-letter">(B)</span> clearer.</li><li><span class="q-opt-letter">(C)</span> thinner.</li><li><span class="q-opt-letter">(D)</span> stronger.</li></ul></div></div>
+
+<div class="question"><div class="q-num">32.</div><div class="q-body"><div class="q-stem">The paragraphs following the passage most likely discuss which of the following?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> The remaining layers of the Sun.</li><li><span class="q-opt-letter">(B)</span> The evolution of the Sun to its present form.</li><li><span class="q-opt-letter">(C)</span> The eclipse of February 1979.</li><li><span class="q-opt-letter">(D)</span> The scientists who study astronomy.</li></ul></div></div>
+
+<div class="question"><div class="q-num">33.</div><div class="q-body"><div class="q-stem">Where in the passage does the author compare the light of the Sun's outermost layer to that of another celestial body?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Lines 2–3.</li><li><span class="q-opt-letter">(B)</span> Lines 9–10.</li><li><span class="q-opt-letter">(C)</span> Line 16.</li><li><span class="q-opt-letter">(D)</span> Lines 22–23.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 4 of 5</span></div>
+<div class="passage-text">
+<p>Many of the computing patterns used today in elementary arithmetic, such as those for performing long multiplications and divisions, were developed as late as the fifteenth century. Two reasons are usually advanced to account for this tardy development, namely, the mental difficulties and the physical difficulties encountered in such work.</p>
+<p>The first of these, the mental difficulties, must be somewhat discounted. The impression that the ancient numeral systems are not amenable to even the simplest calculations is largely based on lack of familiarity with these systems. It is clear that addition and subtraction in a simple grouping system require only the ability to count the number symbols of each kind and then to convert to higher units. No memorization of number combinations is needed. In a ciphered numeral system, if sufficient addition and multiplication tables have been memorized, the work can proceed much as we do it today.</p>
+<p>The physical difficulties encountered, however, were quite real. Without a plentiful and convenient supply of some suitable writing medium, any very extended development of the arithmetic process was bound to be hampered. It must be remembered that our common machine-made pulp paper is little more than a hundred years old. The older rag paper was made by hand and was consequently expensive and scarce.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">34.</div><div class="q-body"><div class="q-stem">What is the main purpose of the passage?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> To emphasize the importance of the mental process in performing calculations.</li><li><span class="q-opt-letter">(B)</span> To explain why some elementary computing systems were not developed until the fifteenth century.</li><li><span class="q-opt-letter">(C)</span> To describe how ancient counting systems differ from those of the twentieth century.</li><li><span class="q-opt-letter">(D)</span> To compare the mental and physical processes used in arithmetic.</li></ul></div></div>
+
+<div class="question"><div class="q-num">35.</div><div class="q-body"><div class="q-stem">The word "tardy" in line 3 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> historical.</li><li><span class="q-opt-letter">(B)</span> basic.</li><li><span class="q-opt-letter">(C)</span> unusual.</li><li><span class="q-opt-letter">(D)</span> late.</li></ul></div></div>
+
+<div class="question"><div class="q-num">36.</div><div class="q-body"><div class="q-stem">The word "these" in line 5 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> patterns.</li><li><span class="q-opt-letter">(B)</span> reasons.</li><li><span class="q-opt-letter">(C)</span> systems.</li><li><span class="q-opt-letter">(D)</span> calculations.</li></ul></div></div>
+
+<div class="question"><div class="q-num">37.</div><div class="q-body"><div class="q-stem">The word "discounted" in line 5 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> reduced.</li><li><span class="q-opt-letter">(B)</span> contradicted.</li><li><span class="q-opt-letter">(C)</span> disregarded.</li><li><span class="q-opt-letter">(D)</span> interpreted.</li></ul></div></div>
+
+<div class="question"><div class="q-num">38.</div><div class="q-body"><div class="q-stem">The author states that doing calculations in a simple grouping system requires</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> memorizing numerical combinations.</li><li><span class="q-opt-letter">(B)</span> using an adding machine.</li><li><span class="q-opt-letter">(C)</span> producing large quantities of a writing medium.</li><li><span class="q-opt-letter">(D)</span> converting number symbols to higher units.</li></ul></div></div>
+
+<div class="question"><div class="q-num">39.</div><div class="q-body"><div class="q-stem">The word "encountered" in line 12 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> faced.</li><li><span class="q-opt-letter">(B)</span> caused.</li><li><span class="q-opt-letter">(C)</span> increased.</li><li><span class="q-opt-letter">(D)</span> discussed.</li></ul></div></div>
+
+<div class="question"><div class="q-num">40.</div><div class="q-body"><div class="q-stem">The word "hampered" in line 14 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> impeded.</li><li><span class="q-opt-letter">(B)</span> concluded.</li><li><span class="q-opt-letter">(C)</span> unnoticed.</li><li><span class="q-opt-letter">(D)</span> rejected.</li></ul></div></div>
+
+<div class="question"><div class="q-num">41.</div><div class="q-body"><div class="q-stem">The author describes old rag paper as all of the following EXCEPT</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> handmade.</li><li><span class="q-opt-letter">(B)</span> costly.</li><li><span class="q-opt-letter">(C)</span> scarce.</li><li><span class="q-opt-letter">(D)</span> delicate.</li></ul></div></div>
+
+<div class="question"><div class="q-num">42.</div><div class="q-body"><div class="q-stem">The passage supports which of the following conclusions?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Physical difficulties hindered the development of computing patterns.</li><li><span class="q-opt-letter">(B)</span> Memorizing addition and multiplication tables is necessary for most elementary arithmetic processes.</li><li><span class="q-opt-letter">(C)</span> Most people experience mental difficulties in learning long divisions and multiplications.</li><li><span class="q-opt-letter">(D)</span> Numeral systems invented before the fifteenth century could not have been used to perform elementary calculations.</li></ul></div></div>
+
+<div class="section-sep"><span>Passage 5 of 5</span></div>
+<div class="passage-text">
+<p>The ecosystems of the Earth provide an array of free public services that are essential for the support of civilizations. They maintain the quality of the atmosphere, provide food from the sea, manufacture and replenish soils, recycle wastes and nutrients, control the overwhelming majority of crop pests and disease vectors, and so on. People have no idea how to take over these activities satisfactorily. They do know, however, that the theory once advanced in the nineteenth century—that the productivity of the land can be infinitely increased by the application of capital, labor, and science—is wrong. History has shown that once the natural life-support systems of a civilization have been sufficiently damaged, they cannot usually be repaired. The ancient deforestation and overgrazing of the Mediterranean region is a famous example. And today, a global civilization is ruining the global environment.</p>
+</div>
+<hr class="divider">
+
+<div class="question"><div class="q-num">43.</div><div class="q-body"><div class="q-stem">What is the main topic of this passage?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Free public services.</li><li><span class="q-opt-letter">(B)</span> Support needed for civilizations.</li><li><span class="q-opt-letter">(C)</span> The value of ecosystems.</li><li><span class="q-opt-letter">(D)</span> The vastness of the Earth.</li></ul></div></div>
+
+<div class="question"><div class="q-num">44.</div><div class="q-body"><div class="q-stem">The word "array" in line 1 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> large number.</li><li><span class="q-opt-letter">(B)</span> excess.</li><li><span class="q-opt-letter">(C)</span> requirement.</li><li><span class="q-opt-letter">(D)</span> model.</li></ul></div></div>
+
+<div class="question"><div class="q-num">45.</div><div class="q-body"><div class="q-stem">The word "They" in line 2 refers to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> ecosystems.</li><li><span class="q-opt-letter">(B)</span> civilizations.</li><li><span class="q-opt-letter">(C)</span> sea.</li><li><span class="q-opt-letter">(D)</span> people.</li></ul></div></div>
+
+<div class="question"><div class="q-num">46.</div><div class="q-body"><div class="q-stem">Which of the following could NOT be included under the "free public services" listed in lines 2–4?</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> Preventing overgrazing by domestic animals.</li><li><span class="q-opt-letter">(B)</span> Providing natural enemies for harmful insects.</li><li><span class="q-opt-letter">(C)</span> Creating and enriching material for plant growth.</li><li><span class="q-opt-letter">(D)</span> Supplying air for breathing.</li></ul></div></div>
+
+<div class="question"><div class="q-num">47.</div><div class="q-body"><div class="q-stem">The word "advanced" in line 6 is closest in meaning to</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> debated.</li><li><span class="q-opt-letter">(B)</span> ignored.</li><li><span class="q-opt-letter">(C)</span> proved.</li><li><span class="q-opt-letter">(D)</span> proposed.</li></ul></div></div>
+
+<div class="question"><div class="q-num">48.</div><div class="q-body"><div class="q-stem">The author mentions the Mediterranean region as an example of</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> the ability of nature to remedy human destruction.</li><li><span class="q-opt-letter">(B)</span> the ability of people to make use of natural resources.</li><li><span class="q-opt-letter">(C)</span> the manner in which people replenish the environment.</li><li><span class="q-opt-letter">(D)</span> the effects of human abuse of natural resources.</li></ul></div></div>
+
+<div class="question"><div class="q-num">49.</div><div class="q-body"><div class="q-stem">The author suggests that civilizations can survive only if they</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> greatly expand scientific research.</li><li><span class="q-opt-letter">(B)</span> do not destroy the balance of natural processes.</li><li><span class="q-opt-letter">(C)</span> replant the forests in the Mediterranean region.</li><li><span class="q-opt-letter">(D)</span> invent new procedures to replace obsolete ecosystems.</li></ul></div></div>
+
+<div class="question"><div class="q-num">50.</div><div class="q-body"><div class="q-stem">The author suggests that the difference between the ancient and the modern situation is that today the problem is</div><ul class="q-options"><li><span class="q-opt-letter">(A)</span> worldwide.</li><li><span class="q-opt-letter">(B)</span> better understood.</li><li><span class="q-opt-letter">(C)</span> more manageable.</li><li><span class="q-opt-letter">(D)</span> economic.</li></ul></div></div>
+
+<div class="doc-footer"><span>Princeton 4 &nbsp;·&nbsp; Student Version</span><span>Questions 1–50</span></div>
+</div></div>
+
+</div><!-- /panels -->
+
+<script>
+function switchTab(btn, id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).classList.add('active');
+  document.getElementById(id).scrollTop = 0;
+}
+</script>
+
+</body>
+</html>
