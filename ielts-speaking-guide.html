@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>雅思口语测试得分技巧 · IELTS Speaking Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=DM+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & base ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --ink:      #0f0f0f;
+  --ink2:     #3a3a3a;
+  --ink3:     #888;
+  --rule:     #e0e0e0;
+  --bg:       #fafafa;
+  --bg2:      #f3f3f1;
+  --accent:   #0f0f0f;
+  --green:    #1a6640;
+  --blue:     #1a3d80;
+  --red:      #8b1a1a;
+  --gold:     #7a5c00;
+  --tag-bg:   #f0f0ee;
+
+  --font-sans: 'DM Sans', 'Noto Sans SC', sans-serif;
+  --font-mono: 'DM Mono', monospace;
+
+  --max:      820px;
+  --gap:      2.5rem;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-sans);
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Layout ── */
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 2rem; }
+
+/* ── Nav ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(250,250,250,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--rule);
+}
+.nav-inner {
+  max-width: var(--max); margin: 0 auto;
+  padding: 0 2rem;
+  display: flex; align-items: center; justify-content: space-between;
+  height: 52px;
+}
+.nav-brand {
+  font-size: .75rem; font-weight: 500; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--ink3);
+  text-decoration: none;
+}
+.nav-links { display: flex; gap: 1.5rem; }
+.nav-links a {
+  font-size: .8rem; color: var(--ink3); text-decoration: none;
+  letter-spacing: .04em; transition: color .15s;
+}
+.nav-links a:hover { color: var(--ink); }
+
+/* ── Hero ── */
+.hero {
+  padding: 6rem 2rem 4rem;
+  max-width: var(--max); margin: 0 auto;
+  border-bottom: 1px solid var(--rule);
+}
+.hero-label {
+  font-family: var(--font-mono);
+  font-size: .72rem; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink3);
+  margin-bottom: 1.2rem;
+}
+.hero h1 {
+  font-size: clamp(2rem, 5vw, 3rem);
+  font-weight: 700; line-height: 1.15;
+  letter-spacing: -.02em;
+  margin-bottom: .6rem;
+}
+.hero h1 em {
+  font-style: normal; color: var(--ink3); font-weight: 300;
+}
+.hero-sub {
+  font-size: 1rem; color: var(--ink2); font-weight: 300;
+  margin-bottom: 2rem;
+}
+.hero-tags { display: flex; flex-wrap: wrap; gap: .5rem; }
+.tag {
+  display: inline-block;
+  font-family: var(--font-mono); font-size: .7rem;
+  background: var(--tag-bg); color: var(--ink2);
+  padding: .25rem .65rem; border-radius: 2px;
+  letter-spacing: .04em;
+}
+
+/* ── TOC ── */
+.toc {
+  margin: 3rem auto; max-width: var(--max); padding: 0 2rem;
+}
+.toc-inner {
+  background: var(--bg2);
+  border-left: 3px solid var(--ink);
+  padding: 1.5rem 2rem;
+}
+.toc-title {
+  font-size: .7rem; font-weight: 700; letter-spacing: .12em;
+  text-transform: uppercase; color: var(--ink3);
+  margin-bottom: 1rem;
+}
+.toc ol { list-style: none; counter-reset: toc; }
+.toc ol li {
+  counter-increment: toc;
+  display: flex; align-items: baseline; gap: .75rem;
+  padding: .3rem 0;
+  border-bottom: 1px solid #e8e8e6;
+}
+.toc ol li:last-child { border-bottom: none; }
+.toc ol li::before {
+  content: counter(toc, cjk-decimal);
+  font-family: var(--font-mono); font-size: .72rem;
+  color: var(--ink3); min-width: 1.2rem;
+}
+.toc a {
+  font-size: .88rem; color: var(--ink2); text-decoration: none;
+  transition: color .15s;
+}
+.toc a:hover { color: var(--ink); }
+
+/* ── Sections ── */
+.section {
+  max-width: var(--max); margin: 0 auto;
+  padding: 4rem 2rem;
+  border-bottom: 1px solid var(--rule);
+}
+.section:last-child { border-bottom: none; }
+
+.section-num {
+  font-family: var(--font-mono); font-size: .7rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: .8rem;
+}
+.section > h2 {
+  font-size: 1.6rem; font-weight: 700;
+  letter-spacing: -.025em; margin-bottom: .4rem;
+}
+.section > .section-en {
+  font-size: .9rem; color: var(--ink3);
+  font-weight: 300; margin-bottom: 2rem;
+}
+.section-rule {
+  height: 1px; background: var(--rule);
+  margin-bottom: 2rem;
+}
+
+/* ── Sub-headings ── */
+h3 {
+  font-size: 1rem; font-weight: 700;
+  margin-top: 2rem; margin-bottom: .75rem;
+  letter-spacing: -.01em;
+}
+h4 {
+  font-size: .82rem; font-weight: 700;
+  letter-spacing: .06em; text-transform: uppercase;
+  color: var(--ink3); margin-top: 1.5rem; margin-bottom: .5rem;
+}
+
+p { font-size: .9rem; color: var(--ink2); margin-bottom: .9rem; }
+strong { color: var(--ink); font-weight: 600; }
+
+/* ── Tables ── */
+.table-wrap { overflow-x: auto; margin: 1.2rem 0; }
+table {
+  width: 100%; border-collapse: collapse;
+  font-size: .84rem;
+}
+thead tr { border-bottom: 2px solid var(--ink); }
+thead th {
+  text-align: left; font-weight: 700;
+  padding: .6rem .8rem; font-size: .75rem;
+  letter-spacing: .04em; text-transform: uppercase;
+  color: var(--ink2);
+}
+tbody tr { border-bottom: 1px solid var(--rule); }
+tbody tr:last-child { border-bottom: none; }
+tbody td { padding: .65rem .8rem; color: var(--ink2); vertical-align: top; }
+tbody td:first-child { font-weight: 600; color: var(--ink); white-space: nowrap; }
+
+/* Score table special */
+.score-table thead tr { background: var(--ink); }
+.score-table thead th { color: white; }
+.score-table tbody td:first-child {
+  font-family: var(--font-mono); font-size: 1rem;
+  font-weight: 700; text-align: center;
+}
+.score-9 td:first-child { color: #1a6640; }
+.score-8 td:first-child { color: #1a3d80; }
+.score-7 td:first-child { color: #005f6a; }
+.score-6 td:first-child { color: #8b4d00; }
+.score-5 td:first-child { color: #8b1a1a; }
+
+/* ── Criteria cards ── */
+.criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1px; background: var(--rule);
+  border: 1px solid var(--rule);
+  margin: 1.5rem 0;
+}
+.criteria-card {
+  background: var(--bg);
+  padding: 1.25rem 1.2rem;
+}
+.criteria-pct {
+  font-family: var(--font-mono); font-size: 1.6rem;
+  font-weight: 500; color: var(--ink); line-height: 1;
+  margin-bottom: .3rem;
+}
+.criteria-en { font-size: .78rem; color: var(--ink3); margin-bottom: .2rem; }
+.criteria-cn { font-size: .9rem; font-weight: 700; }
+
+/* ── Part badges ── */
+.part-badge {
+  display: inline-flex; align-items: center; gap: .75rem;
+  margin-bottom: 1.5rem;
+}
+.part-num {
+  font-family: var(--font-mono);
+  font-size: .72rem; font-weight: 500; letter-spacing: .1em;
+  text-transform: uppercase;
+  background: var(--ink); color: white;
+  padding: .3rem .7rem; border-radius: 2px;
+}
+.part-num.p1 { background: var(--green); }
+.part-num.p2 { background: var(--blue); }
+.part-num.p3 { background: var(--red); }
+.part-time { font-size: .8rem; color: var(--ink3); font-family: var(--font-mono); }
+
+/* ── Steps flow ── */
+.steps { display: flex; gap: 0; margin: 1.5rem 0; flex-wrap: wrap; }
+.step {
+  flex: 1; min-width: 140px;
+  padding: 1.2rem 1rem;
+  background: var(--bg2);
+  border-top: 3px solid var(--rule);
+  position: relative;
+}
+.step.p1 { border-color: var(--green); }
+.step.p2 { border-color: var(--blue); }
+.step.p3 { border-color: var(--red); }
+.step + .step::before {
+  content: '→';
+  position: absolute; left: -0.7rem; top: 50%;
+  transform: translateY(-50%);
+  color: var(--ink3); font-size: .8rem;
+  z-index: 1;
+}
+.step-n {
+  font-family: var(--font-mono); font-size: .65rem;
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--ink3); margin-bottom: .3rem;
+}
+.step-en { font-size: .88rem; font-weight: 700; }
+.step-cn { font-size: .82rem; color: var(--ink3); margin-top: .1rem; }
+.step-desc { font-size: .78rem; color: var(--ink2); margin-top: .5rem; line-height: 1.5; }
+
+/* ── Questions list ── */
+.q-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 0;
+  border: 1px solid var(--rule);
+  margin: 1rem 0;
+}
+.q-list li {
+  padding: .55rem 1rem;
+  font-size: .82rem; color: var(--ink2);
+  border-bottom: 1px solid var(--rule);
+  display: flex; align-items: baseline; gap: .6rem;
+  transition: background .1s;
+}
+.q-list li:hover { background: var(--bg2); }
+.q-list li::before {
+  content: attr(data-n);
+  font-family: var(--font-mono); font-size: .65rem;
+  color: var(--ink3); min-width: 1.5rem; flex-shrink: 0;
+}
+
+/* ── Answer examples ── */
+.example { margin: 1.5rem 0; }
+.example-q {
+  font-size: .82rem; font-weight: 700; letter-spacing: .02em;
+  margin-bottom: .75rem; color: var(--ink);
+  display: flex; align-items: center; gap: .5rem;
+}
+.example-q::before {
+  content: 'Q';
+  font-family: var(--font-mono); font-size: .65rem;
+  background: var(--ink); color: white;
+  padding: .15rem .4rem; border-radius: 2px;
+  flex-shrink: 0;
+}
+.answer-block { margin: .6rem 0; }
+.answer-label {
+  font-family: var(--font-mono); font-size: .65rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  margin-bottom: .3rem;
+}
+.answer-label.avg { color: var(--ink3); }
+.answer-label.high { color: var(--green); }
+.answer-text {
+  font-size: .84rem; line-height: 1.7;
+  padding: .85rem 1rem;
+  border-left: 3px solid var(--rule);
+  color: var(--ink2);
+  font-style: italic;
+}
+.answer-text.high {
+  border-color: var(--green);
+  background: #f4faf6;
+}
+.answer-text.avg {
+  border-color: var(--rule);
+  background: var(--bg2);
+}
+.score-note {
+  margin-top: .75rem;
+  padding: .7rem 1rem;
+  background: var(--bg2);
+  font-size: .78rem; color: var(--ink2);
+  border-left: 3px solid var(--ink);
+}
+.score-note strong { color: var(--ink); }
+
+/* ── Tip callout ── */
+.tip {
+  margin: 1rem 0;
+  padding: .85rem 1rem;
+  background: var(--bg2);
+  border-left: 3px solid var(--ink3);
+  font-size: .82rem; color: var(--ink2);
+}
+.tip::before { content: '💡  '; }
+
+/* ── Bullet lists ── */
+ul.list {
+  list-style: none; margin: .75rem 0;
+}
+ul.list li {
+  font-size: .86rem; color: var(--ink2);
+  padding: .3rem 0 .3rem 1.2rem;
+  position: relative; border-bottom: 1px solid var(--rule);
+}
+ul.list li:last-child { border-bottom: none; }
+ul.list li::before {
+  content: '—';
+  position: absolute; left: 0;
+  color: var(--ink3); font-family: var(--font-mono);
+}
+
+/* ── Phrase table ── */
+.phrase-table td:first-child { font-size: .75rem; white-space: normal; }
+
+/* ── Formula bar ── */
+.formula {
+  display: flex; align-items: center;
+  flex-wrap: wrap; gap: .4rem;
+  margin: 1.2rem 0;
+  padding: 1rem 1.2rem;
+  background: var(--bg2);
+  border: 1px solid var(--rule);
+}
+.formula-part { text-align: center; }
+.formula-en { font-size: .82rem; font-weight: 700; }
+.formula-cn { font-size: .72rem; color: var(--ink3); }
+.formula-arrow {
+  font-family: var(--font-mono); color: var(--ink3);
+  font-size: .8rem; padding: 0 .2rem;
+}
+
+/* ── Footer ── */
+footer {
+  max-width: var(--max); margin: 0 auto;
+  padding: 3rem 2rem;
+  text-align: center;
+  font-size: .75rem; color: var(--ink3);
+  font-family: var(--font-mono); letter-spacing: .06em;
+}
+
+/* ── Print button ── */
+.print-btn {
+  position: fixed; bottom: 2rem; right: 2rem;
+  background: var(--ink); color: white;
+  border: none; cursor: pointer;
+  font-family: var(--font-mono); font-size: .72rem;
+  letter-spacing: .08em; text-transform: uppercase;
+  padding: .7rem 1.2rem;
+  border-radius: 2px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  transition: transform .15s, box-shadow .15s;
+}
+.print-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 24px rgba(0,0,0,0.2);
+}
+
+/* ── Responsive ── */
+@media (max-width: 600px) {
+  .steps { flex-direction: column; }
+  .step + .step::before { content: '↓'; left: 50%; top: -.6rem; transform: translateX(-50%); }
+  .q-list { grid-template-columns: 1fr; }
+  .criteria-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── Print styles ── */
+@media print {
+  nav, .print-btn { display: none !important; }
+  .section { page-break-inside: avoid; }
+  body { font-size: 13px; background: white; }
+  .answer-text.high { background: #f8fcf9; }
+  a { text-decoration: none; color: inherit; }
+}
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-inner">
+    <a class="nav-brand" href="#">IELTS Speaking · 得分练习手册</a>
+    <div class="nav-links">
+      <a href="#s1">概览</a>
+      <a href="#s2">评分</a>
+      <a href="#s3">Part 1</a>
+      <a href="#s4">Part 2</a>
+      <a href="#s5">Part 3</a>
+      <a href="#s6">策略</a>
+      <a href="#s7">考场</a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<header class="wrap hero">
+  <div class="hero-label">IELTS Speaking · 雅思口语测试得分技巧 · 张全吉</div>
+  <h1>雅思口语<br><em>完整得分练习手册</em></h1>
+  <p class="hero-sub">考试结构 · 评分标准 · 题型解析 · 题库 · 高分范例</p>
+  <div class="hero-tags">
+    <span class="tag">11–14 min</span>
+    <span class="tag">0–9 分制</span>
+    <span class="tag">4 项标准</span>
+    <span class="tag">3 个部分</span>
+    <span class="tag">25题库 × 3</span>
+  </div>
+</header>
+
+<!-- TOC -->
+<div class="toc">
+  <div class="toc-inner">
+    <div class="toc-title">目录 Contents</div>
+    <ol>
+      <li><a href="#s1">考试概览</a></li>
+      <li><a href="#s2">评分标准（Assessment Criteria）</a></li>
+      <li><a href="#s3">Part 1 · 日常问答</a></li>
+      <li><a href="#s4">Part 2 · 个人陈述</a></li>
+      <li><a href="#s5">Part 3 · 深度讨论</a></li>
+      <li><a href="#s6">高分策略与教学建议</a></li>
+      <li><a href="#s7">考场策略与应对语句</a></li>
+    </ol>
+  </div>
+</div>
+
+<!-- ══ SECTION 1 ══ -->
+<section class="section" id="s1">
+  <div class="section-num">01</div>
+  <h2>考试概览</h2>
+  <div class="section-en">Exam Overview</div>
+  <div class="section-rule"></div>
+
+  <p>雅思口语测试为考官与考生一对一的面试，全程录音，时长约 <strong>11–14 分钟</strong>，分为三个部分，以 <strong>0–9 分制</strong>按四项标准各 25% 计算。口语成绩对院校录取和移民申请均有独立要求。</p>
+
+  <h3>考试三部分结构</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>部分</th><th>时长</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>Part 1</td><td>4–5 min</td><td>日常问答：考官询问个人信息、生活习惯和兴趣爱好等熟悉话题，约 10–12 个问题，以简短回答为主。</td></tr>
+        <tr><td>Part 2</td><td>3–4 min</td><td>个人陈述（Long Turn）：考生拿到题卡后有 1 分钟准备，须连续发言 1–2 分钟。结束后考官可追问 1–2 个问题。</td></tr>
+        <tr><td>Part 3</td><td>4–5 min</td><td>深度讨论：考官就 Part 2 话题延伸，提出更抽象或具社会性的问题，考查分析、论证和推理能力。</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══ SECTION 2 ══ -->
+<section class="section" id="s2">
+  <div class="section-num">02</div>
+  <h2>评分标准</h2>
+  <div class="section-en">Assessment Criteria</div>
+  <div class="section-rule"></div>
+
+  <p>口语成绩由以下 <strong>四项同等权重标准</strong> 各占 25% 计算：</p>
+
+  <div class="criteria-grid">
+    <div class="criteria-card">
+      <div class="criteria-pct">25%</div>
+      <div class="criteria-en">Fluency & Coherence</div>
+      <div class="criteria-cn">流利与连贯</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-pct">25%</div>
+      <div class="criteria-en">Lexical Resource</div>
+      <div class="criteria-cn">词汇资源</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-pct">25%</div>
+      <div class="criteria-en">Grammatical Range & Accuracy</div>
+      <div class="criteria-cn">语法范围与准确度</div>
+    </div>
+    <div class="criteria-card">
+      <div class="criteria-pct">25%</div>
+      <div class="criteria-en">Pronunciation</div>
+      <div class="criteria-cn">发音</div>
+    </div>
+  </div>
+
+  <h3>1. 流利与连贯 <span style="font-weight:300;color:var(--ink3)">Fluency &amp; Coherence</span></h3>
+  <ul class="list">
+    <li>能持续说话，无需过多停顿或自我修正</li>
+    <li>使用连接词和语篇标记词（discourse markers）使表达有条理</li>
+    <li>回答切题、逻辑清晰，不出现无关跳跃</li>
+  </ul>
+  <div class="tip">流利不等于快速！自然的停顿和思考是允许的；过度追求语速反而会导致错误增加，影响其他维度评分。</div>
+
+  <h3>2. 词汇资源 <span style="font-weight:300;color:var(--ink3)">Lexical Resource</span></h3>
+  <ul class="list">
+    <li>词汇范围广泛，能精准选词表达意义</li>
+    <li>能以换句话说（paraphrase）弥补词汇不足</li>
+    <li>使用搭配词（collocations）、习惯用语（idioms）</li>
+    <li>偶有错误但不影响理解</li>
+  </ul>
+  <div class="tip">鼓励学生使用同义替换，如 happy → thrilled / content / overjoyed；学习常见搭配，如 make a decision 而非 do a decision。</div>
+
+  <h3>3. 语法范围与准确度 <span style="font-weight:300;color:var(--ink3)">Grammatical Range &amp; Accuracy</span></h3>
+  <ul class="list">
+    <li>能灵活使用多种句型（简单句、复合句、条件句、被动语态等）</li>
+    <li>大多数情况下能准确运用语法，偶有小错</li>
+    <li>能保持时态的一致性</li>
+  </ul>
+  <div class="tip">鼓励学生刻意加入复杂句型，如条件句（If I had the chance, I would...）、定语从句（The place that I love most...）等。</div>
+
+  <h3>4. 发音 <span style="font-weight:300;color:var(--ink3)">Pronunciation</span></h3>
+  <ul class="list">
+    <li>发音清晰，听者可轻松理解</li>
+    <li>正确使用语调（intonation）、重音（word/sentence stress）</li>
+    <li>连读（connected speech）自然</li>
+    <li>带有母语口音可被接受，但不应影响理解</li>
+  </ul>
+  <div class="tip">发音标准并非要求英音或美音，而是"可理解性"（intelligibility）。重点训练重音、语调起伏和连读技巧。</div>
+
+  <h3>分数段对照表</h3>
+  <div class="table-wrap">
+    <table class="score-table">
+      <thead>
+        <tr><th>分数</th><th>总体</th><th>流利与连贯</th><th>词汇资源</th><th>语法范围</th><th>发音</th></tr>
+      </thead>
+      <tbody>
+        <tr class="score-9"><td>9</td><td>Expert</td><td>完全流畅，高度连贯</td><td>词汇丰富、精准灵活</td><td>完全掌握复杂句型</td><td>持续清晰，完全自然</td></tr>
+        <tr class="score-8"><td>8</td><td>Very Good</td><td>流畅，偶有停顿</td><td>词汇广泛，搭配自然</td><td>少量小错误</td><td>清晰，母语口音轻微</td></tr>
+        <tr class="score-7"><td>7</td><td>Good</td><td>大致流畅，少量重复</td><td>词汇多样，偶有误用</td><td>多种句型，偶有错误</td><td>大致清晰，偶有误解</td></tr>
+        <tr class="score-6"><td>6</td><td>Competent</td><td>流畅度不稳定</td><td>词汇尚可，受限明显</td><td>语法错误较多</td><td>有时不清晰</td></tr>
+        <tr class="score-5"><td>5</td><td>Modest</td><td>语速缓慢，频繁停顿</td><td>词汇有限，常重复</td><td>句型简单，错误多</td><td>发音偏差，需努力理解</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ══ SECTION 3 ══ -->
+<section class="section" id="s3">
+  <div class="section-num">03</div>
+  <h2>Part 1 · 日常问答</h2>
+  <div class="section-en">Everyday Topics · 4–5 min</div>
+  <div class="section-rule"></div>
+
+  <div class="part-badge">
+    <span class="part-num p1">PART 1</span>
+    <span class="part-time">4–5 min · 约 10–12 个问题</span>
+  </div>
+
+  <p>Part 1 考查考生对熟悉话题的基本回应能力。考官询问三个主题区块，每块 3–4 个问题，问题难度较低，但许多考生因回答过短（只答一两个字）或过长（失去焦点）而失分。</p>
+
+  <div class="steps">
+    <div class="step p1"><div class="step-n">Step 1</div><div class="step-en">Direct Answer</div><div class="step-cn">直接回答</div><div class="step-desc">Give a clear, direct response.</div></div>
+    <div class="step p1"><div class="step-n">Step 2</div><div class="step-en">Add Detail</div><div class="step-cn">补充细节</div><div class="step-desc">Include a specific fact or example.</div></div>
+    <div class="step p1"><div class="step-n">Step 3</div><div class="step-en">Personal Touch</div><div class="step-cn">加入感受</div><div class="step-desc">Share a feeling, opinion or reason.</div></div>
+  </div>
+
+  <div class="formula">
+    <div class="formula-part"><div class="formula-en">Answer</div><div class="formula-cn">直接回答</div></div>
+    <div class="formula-arrow">→</div>
+    <div class="formula-part"><div class="formula-en">Detail</div><div class="formula-cn">补充细节</div></div>
+    <div class="formula-arrow">→</div>
+    <div class="formula-part"><div class="formula-en">Feeling</div><div class="formula-cn">加入感受</div></div>
+  </div>
+
+  <h3>六大话题类型</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>话题类型</th><th>常见关键词</th></tr></thead>
+      <tbody>
+        <tr><td>个人与家庭</td><td>家乡 / 家庭成员 / 童年记忆 / 住所类型</td></tr>
+        <tr><td>学习与工作</td><td>专业/职业 / 学习方式 / 职场环境 / 未来规划</td></tr>
+        <tr><td>休闲与爱好</td><td>运动 / 音乐 / 阅读 / 旅行 / 烹饪 / 手工</td></tr>
+        <tr><td>科技与媒体</td><td>手机使用 / 社交媒体 / 电视/流媒体 / 互联网习惯</td></tr>
+        <tr><td>日常生活</td><td>饮食习惯 / 交通出行 / 购物偏好 / 天气</td></tr>
+        <tr><td>社会与环境</td><td>公园/自然 / 环保意识 / 志愿服务 / 社区生活</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>参考题库 · 25 题</h3>
+  <ul class="q-list">
+    <li data-n="01">Do you work or are you a student?</li>
+    <li data-n="02">What subject are you studying / What is your job?</li>
+    <li data-n="03">Do you enjoy your work/studies? Why or why not?</li>
+    <li data-n="04">Where are you from?</li>
+    <li data-n="05">What do you like most about your hometown?</li>
+    <li data-n="06">Has your hometown changed much in recent years?</li>
+    <li data-n="07">Do you live with your family or alone?</li>
+    <li data-n="08">What kind of home did you grow up in?</li>
+    <li data-n="09">What do you do in your free time?</li>
+    <li data-n="10">Do you enjoy reading? What kind of books do you like?</li>
+    <li data-n="11">Do you prefer indoor or outdoor activities?</li>
+    <li data-n="12">How often do you exercise?</li>
+    <li data-n="13">Do you enjoy cooking? What do you usually cook?</li>
+    <li data-n="14">What kind of music do you listen to?</li>
+    <li data-n="15">Did you have any hobbies as a child?</li>
+    <li data-n="16">How often do you use social media?</li>
+    <li data-n="17">Do you prefer shopping online or in stores?</li>
+    <li data-n="18">What do you usually do on your phone?</li>
+    <li data-n="19">How important is the internet to your daily life?</li>
+    <li data-n="20">Do you prefer watching films at home or at the cinema?</li>
+    <li data-n="21">Do you like the weather in your country?</li>
+    <li data-n="22">What is your favourite season? Why?</li>
+    <li data-n="23">How do you usually get to school or work?</li>
+    <li data-n="24">Do you enjoy travelling? Where have you been?</li>
+    <li data-n="25">Are there many parks or green spaces near where you live?</li>
+  </ul>
+
+  <h3>高分回答范例</h3>
+
+  <div class="example">
+    <div class="example-q">Do you work or are you a student?</div>
+    <div class="answer-block">
+      <div class="answer-label avg">⭐ 普通回答（约 5–6 分）</div>
+      <div class="answer-text avg">"I'm a student. I study English at university."</div>
+    </div>
+    <div class="answer-block">
+      <div class="answer-label high">🏆 高分回答（7–8 分）</div>
+      <div class="answer-text high">"I'm currently in my second year studying English linguistics at university. It's a fascinating field because it bridges language theory and real-world communication, which I find both intellectually stimulating and practically useful."</div>
+    </div>
+    <div class="score-note"><strong>得分要点：</strong>提供具体信息（年级/专业）→ 延伸说明原因 → 加入个人感受。避免只答 Yes/No 或单句回应。</div>
+  </div>
+
+  <div class="example">
+    <div class="example-q">What do you like about your hometown?</div>
+    <div class="answer-block">
+      <div class="answer-label avg">⭐ 普通回答</div>
+      <div class="answer-text avg">"My hometown is nice. There are many good restaurants."</div>
+    </div>
+    <div class="answer-block">
+      <div class="answer-label high">🏆 高分回答</div>
+      <div class="answer-text high">"What I love most about my hometown is its vibrant street food scene. There's a night market just five minutes from my house, and the variety is incredible — from traditional local desserts to international cuisines. Beyond food, there's a strong sense of community, which makes me feel grounded whenever I go back."</div>
+    </div>
+    <div class="score-note"><strong>得分要点：</strong>使用 "What I love most..." 强调重点；加入具体细节；使用高分词汇（vibrant, grounded）；复句与列举并用。</div>
+  </div>
+
+  <div class="example">
+    <div class="example-q">Do you prefer spending time indoors or outdoors?</div>
+    <div class="answer-block">
+      <div class="answer-label high">🏆 高分回答</div>
+      <div class="answer-text high">"Honestly, it really depends on my mood and the season. On weekends I tend to gravitate towards outdoor activities like cycling or visiting parks — fresh air genuinely helps me de-stress after a hectic week. But during the hot season, I'd much rather stay indoors with the air-conditioning on and curl up with a good book."</div>
+    </div>
+    <div class="score-note"><strong>得分要点：</strong>"It depends..." 展示复杂思维；条件句结构；高分词汇（gravitate towards, de-stress, hectic）；自然对比结构。</div>
+  </div>
+</section>
+
+<!-- ══ SECTION 4 ══ -->
+<section class="section" id="s4">
+  <div class="section-num">04</div>
+  <h2>Part 2 · 个人陈述</h2>
+  <div class="section-en">Long Turn · 3–4 min</div>
+  <div class="section-rule"></div>
+
+  <div class="part-badge">
+    <span class="part-num p2">PART 2</span>
+    <span class="part-time">3–4 min · 1 min prep + 1–2 min speaking</span>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>环节</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>准备时间</td><td>1 分钟（考生可在题卡背面做笔记）</td></tr>
+        <tr><td>发言时间</td><td>1–2 分钟（考官会告知时间到）</td></tr>
+        <tr><td>追问环节</td><td>结束后考官提 1–2 个简短追问，不影响评分</td></tr>
+        <tr><td>题卡格式</td><td>主题陈述 + 4 个提示子问题（What / Who / When / Why / How）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="steps">
+    <div class="step p2"><div class="step-n">Step 1</div><div class="step-en">Introduce</div><div class="step-cn">引入主题</div><div class="step-desc">Name the topic and set the scene.</div></div>
+    <div class="step p2"><div class="step-n">Step 2</div><div class="step-en">Background</div><div class="step-cn">背景铺垫</div><div class="step-desc">Give context: when, where, who.</div></div>
+    <div class="step p2"><div class="step-n">Step 3</div><div class="step-en">Develop</div><div class="step-cn">展开发展</div><div class="step-desc">Add details, events or descriptions.</div></div>
+    <div class="step p2"><div class="step-n">Step 4</div><div class="step-en">Explain</div><div class="step-cn">解释说明</div><div class="step-desc">Say why it matters or how you felt.</div></div>
+  </div>
+
+  <div class="formula">
+    <div class="formula-part"><div class="formula-en">Introduce</div><div class="formula-cn">引入</div></div>
+    <div class="formula-arrow">→</div>
+    <div class="formula-part"><div class="formula-en">Describe</div><div class="formula-cn">描述</div></div>
+    <div class="formula-arrow">→</div>
+    <div class="formula-part"><div class="formula-en">Develop</div><div class="formula-cn">发展</div></div>
+    <div class="formula-arrow">→</div>
+    <div class="formula-part"><div class="formula-en">Explain</div><div class="formula-cn">说明</div></div>
+  </div>
+
+  <h3>参考题库 · 25 题</h3>
+  <ul class="q-list">
+    <li data-n="01">Describe a person who has had a great influence on your life.</li>
+    <li data-n="02">Describe a family member you are close to.</li>
+    <li data-n="03">Describe a famous person you admire.</li>
+    <li data-n="04">Describe a teacher who made a strong impression on you.</li>
+    <li data-n="05">Describe an interesting person you met recently.</li>
+    <li data-n="06">Describe a place you enjoy visiting.</li>
+    <li data-n="07">Describe a city or country you would like to visit in the future.</li>
+    <li data-n="08">Describe a place in your hometown that you find interesting.</li>
+    <li data-n="09">Describe a restaurant or café you like.</li>
+    <li data-n="10">Describe a natural place you have been to.</li>
+    <li data-n="11">Describe a memorable trip you have taken.</li>
+    <li data-n="12">Describe a challenge you faced and how you overcame it.</li>
+    <li data-n="13">Describe an important event in your life.</li>
+    <li data-n="14">Describe a time when you helped someone.</li>
+    <li data-n="15">Describe a time when you learned something new.</li>
+    <li data-n="16">Describe a celebration or festival you enjoy.</li>
+    <li data-n="17">Describe a time when you received good news.</li>
+    <li data-n="18">Describe an object that is important to you.</li>
+    <li data-n="19">Describe a gift you gave or received.</li>
+    <li data-n="20">Describe a book, film, or piece of music that affected you.</li>
+    <li data-n="21">Describe a piece of technology you use regularly.</li>
+    <li data-n="22">Describe something you own that you would not like to lose.</li>
+    <li data-n="23">Describe a skill you would like to learn.</li>
+    <li data-n="24">Describe an ambition or goal you have.</li>
+    <li data-n="25">Describe a piece of advice you were given that was useful.</li>
+  </ul>
+
+  <h3>高分回答范例</h3>
+
+  <div class="example">
+    <div class="example-q">Describe a place you enjoy visiting. <span style="font-weight:300;color:var(--ink3)">[地点类]</span></div>
+    <div style="font-size:.78rem;color:var(--ink3);margin-bottom:.75rem;padding:.6rem .8rem;background:var(--bg2);font-style:italic">
+      You should say: where it is · how often you go there · what you do there · and explain why you like visiting this place.
+    </div>
+    <div class="answer-block">
+      <div class="answer-label high">🏆 高分回答示范</div>
+      <div class="answer-text high">"The place I'd like to talk about is a small riverside café in Bangkok, located along the Chao Phraya River. I first discovered it almost by accident while exploring a different neighbourhood, and I've been returning ever since — probably once a month.<br><br>What I love about it is that it's tucked away from the tourist crowds, so there's a peaceful, almost timeless quality to it. Whenever I visit, I grab a coffee, find a corner seat by the window, and simply watch the river boats drifting past. Sometimes I bring a book; other times I just sit and think.<br><br>The reason I keep going back is that it genuinely feels like an escape. Bangkok can be overwhelming — the noise, the traffic, the relentless pace — and that café gives me the chance to step back and recharge. The combination of the view, the smell of coffee, and the relaxed atmosphere is almost therapeutic. It's become a kind of ritual for me."</div>
+    </div>
+    <div class="score-note">
+      <strong>得分要点：</strong><br>
+      流利连贯：段落自然衔接，使用 ever since / other times / The reason... 等连接词<br>
+      词汇资源：tucked away · timeless quality · therapeutic · overwhelming · ritual<br>
+      语法范围：复合句（while exploring）、对比结构（sometimes / other times）、名词子句<br>
+      发音提示：建议教师示范 therapeutic 及 tucked away 的正确重音与语调
+    </div>
+  </div>
+
+  <div class="example">
+    <div class="example-q">Describe a person who has had a great influence on you. <span style="font-weight:300;color:var(--ink3)">[人物类]</span></div>
+    <div style="font-size:.78rem;color:var(--ink3);margin-bottom:.75rem;padding:.6rem .8rem;background:var(--bg2);font-style:italic">
+      You should say: who this person is · how you know them · what this person does or did · and explain why this person has influenced you.
+    </div>
+    <div class="answer-block">
+      <div class="answer-label high">🏆 高分回答示范</div>
+      <div class="answer-text high">"The person I'd like to describe is my secondary school English teacher. I met her when I was about fourteen, at a point when I was genuinely struggling with the subject — not just the grammar, but the confidence to actually use the language.<br><br>What made her exceptional was her patience and her ability to make every student feel valued. She had a remarkable talent for turning dry vocabulary exercises into something almost like storytelling — she'd create vivid scenarios where we actually wanted to participate, rather than just memorise.<br><br>The reason she had such a profound influence on me is that she fundamentally changed how I approach learning. Before her class, I treated English as an obstacle. Afterwards, I began to see it as a tool — a way to access a wider world."</div>
+    </div>
+    <div class="score-note">
+      <strong>得分要点：</strong><br>
+      结构清晰：介绍人物 → 描述特质 → 说明影响，三段式架构<br>
+      高分词汇：remarkable talent · vivid scenarios · profound influence<br>
+      复杂语法：名词化结构（how I approach learning）、强调句<br>
+      个人化：具体细节（年龄、当时状态）让回答更真实、更具说服力
+    </div>
+  </div>
+</section>
+
+<!-- ══ SECTION 5 ══ -->
+<section class="section" id="s5">
+  <div class="section-num">05</div>
+  <h2>Part 3 · 深度讨论</h2>
+  <div class="section-en">Abstract Discussion · 4–5 min</div>
+  <div class="section-rule"></div>
+
+  <div class="part-badge">
+    <span class="part-num p3">PART 3</span>
+    <span class="part-time">4–5 min · 拉开分数差距的关键部分</span>
+  </div>
+
+  <p>Part 3 要求考生表达观点、进行比较、分析原因、预测趋势。考官就 Part 2 话题延伸，提出更广泛、更抽象的社会与文化问题。</p>
+
+  <div class="steps">
+    <div class="step p3"><div class="step-n">Step 1</div><div class="step-en">Opinion</div><div class="step-cn">表达观点</div><div class="step-desc">State your view clearly.</div></div>
+    <div class="step p3"><div class="step-n">Step 2</div><div class="step-en">Reason</div><div class="step-cn">说明理由</div><div class="step-desc">Explain why you hold this view.</div></div>
+    <div class="step p3"><div class="step-n">Step 3</div><div class="step-en">Example</div><div class="step-cn">举例支撑</div><div class="step-desc">Support with a concrete example.</div></div>
+    <div class="step p3"><div class="step-n">Step 4</div><div class="step-en">Extend</div><div class="step-cn">延伸拓展</div><div class="step-desc">Add contrast, concede or predict.</div></div>
+  </div>
+
+  <div class="formula">
+    <div class="formula-part"><div class="formula-en">Opinion</div><div class="formula-cn">观点</div></div>
+    <div class="formula-arrow">→</div>
+    <div class="formula-part"><div class="formula-en">Reason</div><div class="formula-cn">理由</div></div>
+    <div class="formula-arrow">→</div>
+    <div class="formula-part"><div class="formula-en">Example</div><div class="formula-cn">举例</div></div>
+    <div class="formula-arrow">→</div>
+    <div class="formula-part"><div class="formula-en">Extend</div><div class="formula-cn">延伸</div></div>
+  </div>
+
+  <h3>五大问题类型</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>问题类型</th><th>例句</th></tr></thead>
+      <tbody>
+        <tr><td>观点类</td><td>Do you think... / What do you believe about... / In your opinion...</td></tr>
+        <tr><td>比较类</td><td>How has X changed in recent years? / What's the difference between...</td></tr>
+        <tr><td>原因类</td><td>Why do you think people... / What factors lead to...</td></tr>
+        <tr><td>未来预测</td><td>What changes do you expect to see... / Will X become more important?</td></tr>
+        <tr><td>社会影响</td><td>How does X affect society? / What impact does X have on communities?</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>参考题库 · 25 题</h3>
+  <ul class="q-list">
+    <li data-n="01">Why do you think people enjoy spending time with family?</li>
+    <li data-n="02">How have family structures changed in your country in recent decades?</li>
+    <li data-n="03">Do you think famous people have a responsibility to be role models?</li>
+    <li data-n="04">What qualities make a good leader in today's society?</li>
+    <li data-n="05">How important is it for young people to have mentors?</li>
+    <li data-n="06">Why do people move from rural areas to cities?</li>
+    <li data-n="07">What are the advantages and disadvantages of living in a big city?</li>
+    <li data-n="08">How has urbanisation affected traditional communities?</li>
+    <li data-n="09">Do you think tourism benefits local communities?</li>
+    <li data-n="10">Should governments invest more in protecting natural environments?</li>
+    <li data-n="11">How has technology changed the way people communicate?</li>
+    <li data-n="12">Do you think people today are too dependent on their smartphones?</li>
+    <li data-n="13">What impact has social media had on society?</li>
+    <li data-n="14">Will artificial intelligence change the nature of work in the future?</li>
+    <li data-n="15">What are the benefits and risks of children using the internet?</li>
+    <li data-n="16">How important is a university education in today's world?</li>
+    <li data-n="17">Should students be encouraged to study abroad?</li>
+    <li data-n="18">What skills will be most important for workers in the next 20 years?</li>
+    <li data-n="19">Is it better to work for a large company or start your own business?</li>
+    <li data-n="20">How has the concept of work-life balance changed in recent years?</li>
+    <li data-n="21">Why do you think people are increasingly concerned about the environment?</li>
+    <li data-n="22">What responsibility do individuals have to reduce their carbon footprint?</li>
+    <li data-n="23">How can governments encourage healthier lifestyles among citizens?</li>
+    <li data-n="24">Do you think globalisation has been more positive or negative overall?</li>
+    <li data-n="25">Why is it important for societies to preserve their cultural heritage?</li>
+  </ul>
+
+  <h3>高分回答范例</h3>
+
+  <div class="example">
+    <div class="example-q">Why do you think people like to travel?</div>
+    <div class="answer-block">
+      <div class="answer-label high">🏆 高分回答</div>
+      <div class="answer-text high">"I think the reasons are quite varied, but if I had to identify the most compelling ones, it comes down to a combination of escapism and personal growth. Travel gives people the chance to step outside the familiar — their routines, their cultural assumptions — and encounter the world from a completely different perspective.<br><br>There's also an increasingly prominent social dimension to it. With platforms like Instagram and Xiaohongshu, travel has become a way of constructing and projecting identity. People don't just travel to experience; they travel to document and share.<br><br>That said, I think the deeper motivation for most people is still a desire for perspective — to return home feeling slightly different, slightly broader in their understanding of the world."</div>
+    </div>
+    <div class="score-note"><strong>得分要点：</strong>"if I had to identify" 展示复杂句型；escapism · perspective · prominent 等高分词汇；多角度分析，并以 "That said" 做转折对比。</div>
+  </div>
+
+  <div class="example">
+    <div class="example-q">How has the way people communicate changed in recent years?</div>
+    <div class="answer-block">
+      <div class="answer-label high">🏆 高分回答</div>
+      <div class="answer-text high">"The transformation has been quite dramatic. A few decades ago, most interpersonal communication was either face-to-face or via phone calls — there was an expectation of real-time engagement. Now, we've shifted towards asynchronous communication: messages, voice notes, social media posts — all of which allow people to engage on their own terms.<br><br>What strikes me as particularly significant is the way digital communication has both expanded and, in some ways, diluted human connection. We're technically more reachable than ever, yet there's a growing sense of disconnection — particularly among younger generations who've grown up without the habit of sustained, face-to-face conversation.<br><br>The challenge moving forward, I think, will be about intentionality — choosing the right mode of communication rather than simply defaulting to whatever is most convenient."</div>
+    </div>
+    <div class="score-note"><strong>得分要点：</strong>时态控制精确（过去 vs 现在）；asynchronous · diluted · intentionality 等学术词汇；复杂句型；批判性思维。</div>
+  </div>
+</section>
+
+<!-- ══ SECTION 6 ══ -->
+<section class="section" id="s6">
+  <div class="section-num">06</div>
+  <h2>高分策略与教学建议</h2>
+  <div class="section-en">Strategies &amp; Teaching Tips</div>
+  <div class="section-rule"></div>
+
+  <h3>PEEL 延伸回答架构</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>步骤</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>P – Point（论点）</td><td>直接表达主要观点</td></tr>
+        <tr><td>E – Elaborate（展开）</td><td>进一步解释或说明</td></tr>
+        <tr><td>E – Example（举例）</td><td>给出具体例子或个人经历</td></tr>
+        <tr><td>L – Link back（回扣）</td><td>回扣主题，加入个人感受或结论</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>高分词汇与连接词速查</h3>
+  <div class="table-wrap">
+    <table class="phrase-table">
+      <thead><tr><th>功能</th><th>例句 / 短语</th></tr></thead>
+      <tbody>
+        <tr><td>表达观点</td><td>As far as I'm concerned / From my perspective / I'd argue that / It's my belief that</td></tr>
+        <tr><td>延伸说明</td><td>What's more / Furthermore / In addition to that / Not only that, but...</td></tr>
+        <tr><td>举例</td><td>For instance / A case in point would be / Take... as an example</td></tr>
+        <tr><td>对比转折</td><td>On the other hand / That said / Having said that / Conversely</td></tr>
+        <tr><td>强调</td><td>What strikes me as... / What I find particularly interesting is... / It's worth noting that</td></tr>
+        <tr><td>结论收尾</td><td>All things considered / On balance / Ultimately / To sum up</td></tr>
+        <tr><td>争取思考时间</td><td>That's an interesting question... / Let me think about that... / It's not something I've considered before, but...</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>常见失分陷阱</h3>
+  <ul class="list">
+    <li>回答过短：只答 Yes/No 或一句话，缺乏延伸</li>
+    <li>过度使用填充词：um, uh, like 过多，影响流利度评分</li>
+    <li>背诵答案：考官可识别背稿，且背稿会导致语调平板</li>
+    <li>词汇重复：同一个词在短时间内大量重复，限制词汇分数</li>
+    <li>Part 2 计时失控：未说满 1 分钟，或在考官打断前已无话可说</li>
+    <li>句型单一：只用简单句，语法范围分数受限</li>
+  </ul>
+
+  <h3>练习建议</h3>
+  <ul class="list">
+    <li>每天用英语自言自语 5–10 分钟，训练口语流畅度</li>
+    <li>录音回放，检查停顿过长、词汇重复等问题</li>
+    <li>Part 2 题卡练习：用计时器限时 1 分钟准备、2 分钟发言</li>
+    <li>每周学习 5 个搭配词（collocations），并练习造句</li>
+    <li>模拟 Part 3 讨论：选取社会议题（科技/教育/环境），练习多角度回答</li>
+  </ul>
+  <div class="tip">可利用 AI 对话工具模拟考官提问，为学生提供即时词汇与语法反馈，作为正式模拟考前的辅助练习。</div>
+</section>
+
+<!-- ══ SECTION 7 ══ -->
+<section class="section" id="s7">
+  <div class="section-num">07</div>
+  <h2>考场策略与应对语句</h2>
+  <div class="section-en">Exam Strategies &amp; Useful Phrases</div>
+  <div class="section-rule"></div>
+
+  <h3>实用考场应对语句</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>情境</th><th>建议语句</th></tr></thead>
+      <tbody>
+        <tr><td>没听清楚时</td><td>"Could you please repeat the question?" / "I'm sorry, could you say that again?"</td></tr>
+        <tr><td>需要思考时</td><td>"That's an interesting question. Let me think about that..." / "Off the top of my head, I'd say..."</td></tr>
+        <tr><td>话题不熟悉时</td><td>"I don't have much personal experience with this, but I imagine..." / "It's not something I've considered before, but I'd suppose..."</td></tr>
+        <tr><td>修正自己时</td><td>"What I mean to say is..." / "Let me rephrase that..."</td></tr>
+        <tr><td>补充观点时</td><td>"And another thing worth mentioning is..." / "Beyond that, I think..."</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>考前一周准备清单</h3>
+  <ul class="list">
+    <li>复习并练习 Part 1 高频话题（家庭、工作、科技、兴趣爱好）</li>
+    <li>练习至少 10 张 Part 2 题卡，计时发言</li>
+    <li>熟练至少 3 套 Part 3 观点延伸架构</li>
+    <li>录音自评：检查词汇多样性、句型变化、发音清晰度</li>
+    <li>确认考场地点，携带有效身份证件</li>
+    <li>考试当天不要过度紧张：流利比完美更重要</li>
+  </ul>
+</section>
+
+<footer>
+  <div class="wrap">✦ &nbsp; 张全吉备课使用文件 &nbsp; · &nbsp; IELTS Speaking · Teacher Reference &nbsp; ✦</div>
+</footer>
+
+<button class="print-btn" onclick="window.print()">⎙ 打印 / Print</button>
+
+</body>
+</html>
