@@ -174,6 +174,8 @@
     .error p { color: #dc2626; font-weight: 600; }
     .error small { display: block; margin-top: 8px; color: #999; font-size: 0.8rem; line-height: 1.5; }
     .empty { color: #999; font-size: 0.9rem; }
+    .year-section { margin-bottom: 28px; }
+    .year-section-header { font-size: 0.82rem; font-weight: 700; color: #2c4f9e; padding: 4px 0 8px; border-bottom: 2px solid #dbeafe; margin-bottom: 8px; }
 
     @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -373,7 +375,7 @@
         <span class="legend-chip grade-f">F &lt;55</span>
       </div>
       <div class="legend-row">
-        <strong>S/U 制：</strong>
+        <strong>S/U 制（LA130 / LA131 / LA132）：</strong>
         <span class="legend-chip grade-a">S ≥50</span>
         <span class="legend-chip grade-f">U &lt;50</span>
         <span class="legend-chip grade-na">— 无成绩</span>
@@ -417,6 +419,7 @@ if (sessionStorage.getItem('cic_auth') === '1') {
 const SHEET_ID = '1wjBReFBaQtbGmfZ7esFKiqen9CYpRLqAqtYn0lba-Vc';
 let cache = {};
 let currentYear = null;
+let allYears = [];
 
 function buildTabs(years) {
   document.getElementById('yearTabs').innerHTML = years.map((y, i) =>
@@ -464,6 +467,8 @@ async function fetchSheet(year) {
 
 function isScoreCol(c) { return /^[A-Z]{2}\d{3}/.test(c); }
 
+const SU_COLS = new Set(['LA130', 'LA131', 'LA132']);
+
 function getGrade(v) {
   const n = parseFloat(v);
   if (v === null || v === undefined || isNaN(n)) return { letter: null, cls: 'grade-na' };
@@ -477,9 +482,25 @@ function getGrade(v) {
   return { letter: 'F', cls: 'grade-f' };
 }
 
-function renderChip(v) {
-  const { cls } = getGrade(v);
-  const display = (v !== null && v !== undefined) ? v : '—';
+function getGradeSU(v) {
+  const n = parseFloat(v);
+  if (v === null || v === undefined || isNaN(n)) return { letter: null, cls: 'grade-na' };
+  return n >= 50
+    ? { letter: 'S', cls: 'grade-a' }
+    : { letter: 'U', cls: 'grade-f' };
+}
+
+function colCode(col) {
+  const m = col.match(/^([A-Z]{2}\d{3})/);
+  return m ? m[1] : '';
+}
+
+function renderChip(v, col) {
+  const isSU = col && SU_COLS.has(colCode(col));
+  const { letter, cls } = isSU ? getGradeSU(v) : getGrade(v);
+  const display = isSU
+    ? (letter !== null ? letter : '—')
+    : (v !== null && v !== undefined ? v : '—');
   return `<span class="chip ${cls}">${display}</span>`;
 }
 
@@ -490,7 +511,7 @@ function fmtHeader(col) {
   return `<div class="col-code">${m[1]}</div><div class="col-name">${name || '—'}</div>`;
 }
 
-function renderTable(year, rows, cols, query) {
+function renderTable(year, rows, cols, query, suppressStats) {
   const scoreCols = cols.filter(isScoreCol);
   const hasProject = cols.includes('项目');
 
@@ -501,8 +522,10 @@ function renderTable(year, rows, cols, query) {
       )
     : rows;
 
-  document.getElementById('statsBar').textContent =
-    `学年 ${year}　共 ${filtered.length} 位学生` + (query ? `　搜索「${query}」` : '');
+  if (!suppressStats) {
+    document.getElementById('statsBar').textContent =
+      `学年 ${year}　共 ${filtered.length} 位学生` + (query ? `　搜索「${query}」` : '');
+  }
 
   if (!filtered.length)
     return '<div class="empty">未找到符合条件的学生</div>';
@@ -521,7 +544,7 @@ function renderTable(year, rows, cols, query) {
       const cls = p === '集美' ? 'badge-jm' : 'badge-bj';
       tds.push(`<td><span class="badge ${cls}">${p || ''}</span></td>`);
     }
-    scoreCols.forEach(c => tds.push(`<td>${renderChip(row[c])}</td>`));
+    scoreCols.forEach(c => tds.push(`<td>${renderChip(row[c], c)}</td>`));
     return `<tr>${tds.join('')}</tr>`;
   }).join('');
 
@@ -547,15 +570,51 @@ async function switchYear(year) {
   }
 }
 
-function applySearch() {
-  if (!cache[currentYear]) return;
-  const { cols, rows } = cache[currentYear];
-  document.getElementById('tableWrap').innerHTML =
-    renderTable(currentYear, rows, cols, document.getElementById('searchInput').value.trim());
+async function applySearch() {
+  const q = document.getElementById('searchInput').value.trim();
+  const wrap = document.getElementById('tableWrap');
+
+  if (!q) {
+    if (!cache[currentYear]) return;
+    const { cols, rows } = cache[currentYear];
+    wrap.innerHTML = renderTable(currentYear, rows, cols, '');
+    return;
+  }
+
+  wrap.innerHTML = `<div class="loading"><div class="spinner"></div><p>搜索中…</p></div>`;
+
+  const sections = [];
+  for (const year of allYears) {
+    try {
+      const { cols, rows } = await fetchSheet(year);
+      const matched = rows.filter(r =>
+        String(r['姓名'] || '').includes(q) ||
+        String(r['DPU学号'] || '').includes(q)
+      );
+      if (matched.length) sections.push({ year, cols, rows: matched });
+    } catch {}
+  }
+
+  const total = sections.reduce((s, x) => s + x.rows.length, 0);
+  document.getElementById('statsBar').textContent =
+    `搜索「${q}」　共找到 ${total} 位学生（跨 ${sections.length} 个学年）`;
+
+  if (!sections.length) {
+    wrap.innerHTML = '<div class="empty">未找到符合条件的学生</div>';
+    return;
+  }
+
+  wrap.innerHTML = sections.map(({ year, cols, rows }) =>
+    `<div class="year-section">
+      <div class="year-section-header">学年 ${year}（${rows.length} 位）</div>
+      ${renderTable(year, rows, cols, '', true)}
+    </div>`
+  ).join('');
 }
 
 (async () => {
   const years = await fetchYears();
+  allYears = years;
   buildTabs(years);
   currentYear = years[0];
   switchYear(years[0]);
