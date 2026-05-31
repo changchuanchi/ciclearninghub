@@ -497,10 +497,8 @@ function colCode(col) {
 
 function renderChip(v, col) {
   const isSU = col && SU_COLS.has(colCode(col));
-  const { letter, cls } = isSU ? getGradeSU(v) : getGrade(v);
-  const display = isSU
-    ? (letter !== null ? letter : '—')
-    : (v !== null && v !== undefined ? v : '—');
+  const { cls } = isSU ? getGradeSU(v) : getGrade(v);
+  const display = (v !== null && v !== undefined) ? v : '—';
   return `<span class="chip ${cls}">${display}</span>`;
 }
 
