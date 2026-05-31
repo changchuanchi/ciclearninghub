@@ -234,6 +234,44 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
+    /* ── ADMIN BUTTON ── */
+    #adminBtn {
+      padding: 9px 14px; background: #fff; color: #bbb;
+      border: 1px solid #e0e0de; border-radius: 3px; font-size: 0.85rem;
+      cursor: pointer; display: flex; align-items: center; gap: 5px;
+      transition: border-color 0.2s, color 0.2s; white-space: nowrap;
+    }
+    #adminBtn:hover { border-color: #e05550; color: #e05550; }
+    #adminBtn.active { background: #e05550; border-color: #e05550; color: #fff; }
+
+    /* ── MODAL OVERLAY ── */
+    #pwOverlay {
+      display: none; position: fixed; inset: 0; z-index: 100;
+      background: rgba(0,0,0,0.45); align-items: center; justify-content: center;
+    }
+    #pwOverlay.show { display: flex; }
+    #pwBox {
+      background: #fff; border-radius: 6px; padding: 32px 28px 24px;
+      width: 300px; box-shadow: 0 12px 40px rgba(0,0,0,0.18);
+    }
+    #pwBox h3 { font-size: 0.9rem; font-weight: 700; color: #111; margin-bottom: 6px; }
+    #pwBox p  { font-size: 0.75rem; color: #aaa; margin-bottom: 18px; }
+    #pwInput {
+      width: 100%; padding: 9px 12px; border: 1px solid #e0e0de; border-radius: 3px;
+      font-size: 0.88rem; outline: none; margin-bottom: 10px;
+      transition: border-color 0.2s;
+    }
+    #pwInput:focus { border-color: #e05550; }
+    #pwError { font-size: 0.73rem; color: #e05550; min-height: 16px; margin-bottom: 14px; }
+    .pw-btns { display: flex; gap: 8px; justify-content: flex-end; }
+    .pw-btns button {
+      padding: 7px 18px; border-radius: 3px; font-size: 0.82rem;
+      cursor: pointer; border: 1px solid #e0e0de;
+    }
+    #pwCancel { background: #fff; color: #666; }
+    #pwConfirm { background: #e05550; color: #fff; border-color: #e05550; }
+    #pwConfirm:hover { background: #c9413c; }
+
     @media (max-width: 640px) {
       .hero { padding: 28px 20px 24px; }
       #filterBar, main, #countLabel { padding-left: 20px; padding-right: 20px; }
@@ -265,6 +303,7 @@
       <button id="refreshBtn" onclick="loadData()">
         <span id="btnIcon">↺</span> 刷新
       </button>
+      <button id="adminBtn" onclick="onAdminClick()" title="管理員模式">🔒 管理員</button>
       <span id="lastUpdate">加载中…</span>
     </div>
   </div>
@@ -282,6 +321,20 @@
 <main>
   <div id="cardGrid"></div>
 </main>
+
+<!-- 密碼彈窗 -->
+<div id="pwOverlay">
+  <div id="pwBox">
+    <h3>管理員登入</h3>
+    <p>輸入密碼以顯示全部項目（含隱藏）</p>
+    <input id="pwInput" type="password" placeholder="請輸入密碼" onkeydown="if(event.key==='Enter')pwConfirm()" />
+    <div id="pwError"></div>
+    <div class="pw-btns">
+      <button id="pwCancel" onclick="pwClose()">取消</button>
+      <button id="pwConfirm" onclick="pwConfirm()">確認</button>
+    </div>
+  </div>
+</div>
 
 <script>
   const SHEET_ID = '1ityXjFllm-pZKc_UQa3_pFhN-3EmWqBmYkbURECVTZc';
@@ -314,6 +367,8 @@
   let allData = [];
   let activeCategory = '全部';
   let tagColorMap = {};
+  let adminMode = false;
+  const ADMIN_PW = 'dpucicba';
 
   function getItemTags(d) {
     return Object.keys(d).filter(k => k.startsWith('標籤') || k.startsWith('标签'))
@@ -330,7 +385,8 @@
       const matchQ   = !query ||
         (d.名稱 || '').toLowerCase().includes(query) ||
         (d.描述 || '').toLowerCase().includes(query);
-      return matchTag && d.顯示 !== 'FALSE' && matchQ;
+      const matchShow = adminMode || d.顯示 !== 'FALSE';
+      return matchTag && matchShow && matchQ;
     });
 
     document.getElementById('countLabel').textContent =
@@ -484,6 +540,44 @@
     };
     document.head.appendChild(script);
   }
+
+  function onAdminClick() {
+    if (adminMode) {
+      adminMode = false;
+      const btn = document.getElementById('adminBtn');
+      btn.classList.remove('active');
+      btn.textContent = '🔒 管理員';
+      render();
+    } else {
+      document.getElementById('pwInput').value = '';
+      document.getElementById('pwError').textContent = '';
+      document.getElementById('pwOverlay').classList.add('show');
+      setTimeout(() => document.getElementById('pwInput').focus(), 50);
+    }
+  }
+
+  function pwConfirm() {
+    const val = document.getElementById('pwInput').value;
+    if (val === ADMIN_PW) {
+      adminMode = true;
+      const btn = document.getElementById('adminBtn');
+      btn.classList.add('active');
+      btn.textContent = '🔓 管理員';
+      pwClose();
+      render();
+    } else {
+      document.getElementById('pwError').textContent = '密碼錯誤，請再試一次';
+      document.getElementById('pwInput').select();
+    }
+  }
+
+  function pwClose() {
+    document.getElementById('pwOverlay').classList.remove('show');
+  }
+
+  document.getElementById('pwOverlay').addEventListener('click', function(e) {
+    if (e.target === this) pwClose();
+  });
 
   document.getElementById('searchInput').addEventListener('input', render);
   loadData();
