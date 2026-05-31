@@ -1,0 +1,518 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CIC 学生成绩查询</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Noto Sans SC', 'Microsoft YaHei', sans-serif;
+      background: #eef0f3;
+      min-height: 100vh;
+      color: #1a1a2e;
+    }
+
+    .header {
+      background: linear-gradient(135deg, #1a2744 0%, #243b6e 100%);
+      color: white;
+      padding: 22px 28px 18px;
+      position: relative;
+      overflow: hidden;
+    }
+    .header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: 0.3px; position: relative; }
+    .header p  { font-size: 0.78rem; opacity: 0.6; margin-top: 5px; position: relative; }
+    .header-deco {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    .page { max-width: 1440px; margin: 0 auto; padding: 20px; }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+
+    .tabs { display: flex; gap: 6px; }
+    .tab {
+      padding: 7px 18px;
+      border: 1.5px solid #2c4f9e;
+      background: white;
+      color: #2c4f9e;
+      border-radius: 16px;
+      cursor: pointer;
+      font-size: 0.87rem;
+      font-weight: 600;
+      font-family: inherit;
+      transition: background 0.15s, color 0.15s;
+    }
+    .tab:hover { background: #e8eef8; }
+    .tab.active { background: #2c4f9e; color: white; }
+
+    .search-box { flex: 1; min-width: 180px; max-width: 300px; position: relative; }
+    .search-box svg {
+      position: absolute; left: 10px; top: 50%;
+      transform: translateY(-50%); pointer-events: none;
+    }
+    .search-box input {
+      width: 100%;
+      padding: 7px 12px 7px 32px;
+      border: 1.5px solid #d0d5dd;
+      border-radius: 16px;
+      font-size: 0.87rem;
+      font-family: inherit;
+      outline: none;
+      background: white;
+      transition: border-color 0.15s;
+    }
+    .search-box input:focus { border-color: #2c4f9e; }
+
+    .stats-bar { font-size: 0.82rem; color: #666; margin-bottom: 10px; min-height: 1.2em; }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 2px 8px rgba(0,0,0,0.04);
+      overflow: hidden;
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
+
+    thead th {
+      background: #1a2744;
+      color: white;
+      padding: 11px 8px;
+      font-weight: 500;
+      text-align: center;
+      white-space: nowrap;
+    }
+    thead th.th-name { text-align: left; padding-left: 18px; min-width: 80px; }
+    thead th.th-id { min-width: 95px; }
+    thead th.th-score { min-width: 58px; }
+
+    .col-code { font-weight: 700; font-size: 0.82rem; }
+    .col-name { font-size: 0.68rem; opacity: 0.72; margin-top: 2px; }
+
+    tbody tr { transition: background 0.1s; }
+    tbody tr:hover { background: #f0f5ff; }
+    tbody tr:nth-child(even) { background: #fafbfd; }
+    tbody tr:nth-child(even):hover { background: #f0f5ff; }
+
+    td {
+      padding: 9px 8px;
+      text-align: center;
+      border-bottom: 1px solid #f0f0f0;
+    }
+    td.td-name {
+      text-align: left;
+      padding-left: 18px;
+      font-weight: 600;
+    }
+    td.td-id { font-size: 0.8rem; color: #777; font-variant-numeric: tabular-nums; }
+
+    .chip {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      padding: 4px 2px;
+      border-radius: 5px;
+      gap: 1px;
+      text-align: center;
+    }
+    .chip-num   { font-size: 0.76rem; font-weight: 600; line-height: 1; }
+    .chip-grade { font-size: 0.7rem;  font-weight: 700; line-height: 1; }
+
+    .grade-a     { background: #d1fae5; color: #065f46; }
+    .grade-bplus { background: #dcfce7; color: #166534; }
+    .grade-b     { background: #cffafe; color: #155e75; }
+    .grade-cplus { background: #dbeafe; color: #1e40af; }
+    .grade-c     { background: #fef9c3; color: #854d0e; }
+    .grade-dplus { background: #ffedd5; color: #9a3412; }
+    .grade-d     { background: #fee2e2; color: #991b1b; }
+    .grade-f     { background: #fca5a5; color: #7f1d1d; }
+    .grade-na    { background: #f3f4f6; color: #9ca3af; }
+
+    .legend-chip {
+      display: inline-block;
+      padding: 2px 7px;
+      border-radius: 4px;
+      font-size: 0.73rem;
+      font-weight: 700;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge-jm { background: #ede9fe; color: #5b21b6; }
+    .badge-bj { background: #fce7f3; color: #9d174d; }
+
+    .loading, .error, .empty { text-align: center; padding: 56px 20px; }
+    .spinner {
+      width: 36px; height: 36px;
+      border: 3px solid #e5e7eb;
+      border-top-color: #2c4f9e;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 14px;
+    }
+    .loading p { color: #888; font-size: 0.9rem; }
+    .error p { color: #dc2626; font-weight: 600; }
+    .error small { display: block; margin-top: 8px; color: #999; font-size: 0.8rem; line-height: 1.5; }
+    .empty { color: #999; font-size: 0.9rem; }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .legend {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 10px 16px;
+      border-top: 1px solid #f0f0f0;
+      background: #fafbfd;
+      font-size: 0.75rem;
+      color: #666;
+    }
+    .legend-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+    .legend strong { color: #444; margin-right: 2px; }
+
+    @media (max-width: 600px) {
+      .controls { flex-direction: column; align-items: flex-start; }
+      .search-box { max-width: none; width: 100%; }
+      .header h1 { font-size: 1.05rem; }
+    }
+
+    /* Password gate */
+    #gate {
+      position: fixed; inset: 0;
+      background: linear-gradient(135deg, #1a2744 0%, #243b6e 100%);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 9999;
+    }
+    #gate.hidden { display: none; }
+    .gate-box {
+      background: white;
+      border-radius: 14px;
+      padding: 36px 40px;
+      width: 320px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    }
+    .gate-box h2 { font-size: 1.1rem; color: #1a2744; margin-bottom: 6px; }
+    .gate-box p  { font-size: 0.82rem; color: #888; margin-bottom: 22px; }
+    .gate-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #d0d5dd;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      text-align: center;
+      letter-spacing: 2px;
+      margin-bottom: 14px;
+      transition: border-color 0.15s;
+    }
+    .gate-input:focus { border-color: #2c4f9e; }
+    .gate-input.error { border-color: #dc2626; animation: shake 0.3s; }
+    .gate-btn {
+      width: 100%;
+      padding: 10px;
+      background: #2c4f9e;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .gate-btn:hover { background: #1e3a7a; }
+    .gate-error { font-size: 0.8rem; color: #dc2626; margin-top: 10px; min-height: 1.2em; }
+    @keyframes shake {
+      0%,100% { transform: translateX(0); }
+      25%      { transform: translateX(-6px); }
+      75%      { transform: translateX(6px); }
+    }
+  </style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gate-box">
+    <h2>CIC 学生成绩查询</h2>
+    <p>请输入访问密码</p>
+    <input id="gateInput" class="gate-input" type="password" placeholder="••••••••"
+           onkeydown="if(event.key==='Enter') checkPassword()">
+    <button class="gate-btn" onclick="checkPassword()">进入</button>
+    <div class="gate-error" id="gateError"></div>
+  </div>
+</div>
+
+<div class="header">
+  <svg class="header-deco" viewBox="0 0 1400 80" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- Large ring cluster, right edge -->
+    <circle cx="1350" cy="40" r="110" fill="none" stroke="white" stroke-width="1.5" opacity="0.12"/>
+    <circle cx="1350" cy="40" r="75"  fill="none" stroke="white" stroke-width="1"   opacity="0.10"/>
+    <circle cx="1350" cy="40" r="40"  fill="white" opacity="0.04"/>
+    <circle cx="1350" cy="40" r="10"  fill="white" opacity="0.12"/>
+    <!-- Secondary ring cluster -->
+    <circle cx="1100" cy="16" r="72"  fill="none" stroke="white" stroke-width="1"   opacity="0.08"/>
+    <circle cx="1100" cy="16" r="44"  fill="none" stroke="white" stroke-width="0.8" opacity="0.07"/>
+    <!-- Hexagon -->
+    <polygon points="980,18 999,29 999,51 980,62 961,51 961,29" fill="none" stroke="white" stroke-width="1.2" opacity="0.14"/>
+    <!-- Triangle -->
+    <polygon points="852,64 872,20 892,64" fill="none" stroke="white" stroke-width="1" opacity="0.13"/>
+    <!-- Diamond -->
+    <polygon points="778,14 796,38 778,62 760,38" fill="none" stroke="white" stroke-width="1" opacity="0.13"/>
+    <!-- Diagonal lines -->
+    <line x1="1220" y1="0" x2="1252" y2="80" stroke="white" stroke-width="1"   opacity="0.07"/>
+    <line x1="1242" y1="0" x2="1274" y2="80" stroke="white" stroke-width="0.5" opacity="0.05"/>
+    <!-- Accent dots -->
+    <circle cx="918"  cy="57" r="3"   fill="white" opacity="0.22"/>
+    <circle cx="938"  cy="16" r="2"   fill="white" opacity="0.16"/>
+    <circle cx="1042" cy="68" r="2.5" fill="white" opacity="0.18"/>
+    <circle cx="1064" cy="38" r="2"   fill="white" opacity="0.12"/>
+    <circle cx="722"  cy="38" r="3"   fill="white" opacity="0.16"/>
+    <circle cx="734"  cy="68" r="1.8" fill="white" opacity="0.11"/>
+    <circle cx="830"  cy="14" r="2.2" fill="white" opacity="0.14"/>
+  </svg>
+  <h1>CIC 与国内大学合作项目 — 学生成绩查询</h1>
+  <p>数据实时读取自 Google Sheets · 如需更新请在 Google Sheets 修改后刷新页面</p>
+</div>
+
+<div class="page">
+  <div class="controls">
+    <div class="tabs" id="yearTabs"></div>
+    <div class="search-box">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aaa" stroke-width="2.5">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text" id="searchInput" placeholder="搜索姓名或学号…" oninput="applySearch()">
+    </div>
+  </div>
+
+  <div class="stats-bar" id="statsBar"></div>
+
+  <div class="card">
+    <div class="table-wrap" id="tableWrap">
+      <div class="loading"><div class="spinner"></div><p>正在加载数据…</p></div>
+    </div>
+    <div class="legend">
+      <div class="legend-row">
+        <strong>A–F 制：</strong>
+        <span class="legend-chip grade-a">A ≥85</span>
+        <span class="legend-chip grade-bplus">B+ 80</span>
+        <span class="legend-chip grade-b">B 75</span>
+        <span class="legend-chip grade-cplus">C+ 70</span>
+        <span class="legend-chip grade-c">C 65</span>
+        <span class="legend-chip grade-dplus">D+ 60</span>
+        <span class="legend-chip grade-d">D 55</span>
+        <span class="legend-chip grade-f">F &lt;55</span>
+      </div>
+      <div class="legend-row">
+        <strong>S/U 制：</strong>
+        <span class="legend-chip grade-a">S ≥50</span>
+        <span class="legend-chip grade-f">U &lt;50</span>
+        <span class="legend-chip grade-na">— 无成绩</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── 學年設定：新增學年只需在這裡加數字 ──────────────────
+const YEARS = ['2568', '2567', '2566'];
+// ────────────────────────────────────────────────────────
+
+// Password gate
+const PWD_HASH = '9d05ec18fb52f911fed7cdf2509c49d2cbda804574a6383951cabe593b9ab428';
+
+async function sha256(str) {
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(str));
+  return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function checkPassword() {
+  const input = document.getElementById('gateInput');
+  const hash = await sha256(input.value);
+  if (hash === PWD_HASH) {
+    sessionStorage.setItem('cic_auth', '1');
+    document.getElementById('gate').classList.add('hidden');
+  } else {
+    const err = document.getElementById('gateError');
+    err.textContent = '密码错误，请重试';
+    input.classList.add('error');
+    input.value = '';
+    setTimeout(() => { input.classList.remove('error'); err.textContent = ''; }, 1500);
+  }
+}
+
+if (sessionStorage.getItem('cic_auth') === '1') {
+  document.getElementById('gate').classList.add('hidden');
+}
+
+const SHEET_ID = '1wjBReFBaQtbGmfZ7esFKiqen9CYpRLqAqtYn0lba-Vc';
+let cache = {};
+let currentYear = null;
+
+function buildTabs(years) {
+  document.getElementById('yearTabs').innerHTML = years.map((y, i) =>
+    `<button class="tab${i === 0 ? ' active' : ''}" data-year="${y}" onclick="switchYear('${y}')">学年 ${y}</button>`
+  ).join('');
+}
+
+async function fetchYears() {
+  try {
+    const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=config`;
+    const res = await fetch(url);
+    const text = await res.text();
+    const json = JSON.parse(text.substring(text.indexOf('(') + 1, text.lastIndexOf(')')));
+    const years = (json.table?.rows || [])
+      .map(r => r.c?.[0]?.v != null ? String(Math.round(r.c[0].v)) : null)
+      .filter(v => v && /^\d{4}$/.test(v));
+    return years.length ? years : YEARS;
+  } catch { return YEARS; }
+}
+
+async function fetchSheet(year) {
+  if (cache[year]) return cache[year];
+  const url = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(year)}`;
+  const res = await fetch(url);
+  if (!res.ok) throw new Error(`HTTP ${res.status}`);
+  const text = await res.text();
+  const json = JSON.parse(text.substring(text.indexOf('(') + 1, text.lastIndexOf(')')));
+  if (!json.table) throw new Error('无法解析表格数据');
+
+  const cols = json.table.cols.map(c => c.label || c.id);
+  const rows = json.table.rows
+    .map(row => {
+      const obj = {};
+      (row.c || []).forEach((cell, i) => {
+        const v = cell ? cell.v : null;
+        obj[cols[i]] = (v === 'x' || v === 'X' || v === '') ? null : v;
+      });
+      return obj;
+    })
+    .filter(r => r[cols[0]]);
+
+  cache[year] = { cols, rows };
+  return cache[year];
+}
+
+function isScoreCol(c) { return /^[A-Z]{2}\d{3}/.test(c); }
+
+function getGrade(v) {
+  const n = parseFloat(v);
+  if (v === null || v === undefined || isNaN(n)) return { letter: null, cls: 'grade-na' };
+  if (n >= 85) return { letter: 'A',  cls: 'grade-a' };
+  if (n >= 80) return { letter: 'B+', cls: 'grade-bplus' };
+  if (n >= 75) return { letter: 'B',  cls: 'grade-b' };
+  if (n >= 70) return { letter: 'C+', cls: 'grade-cplus' };
+  if (n >= 65) return { letter: 'C',  cls: 'grade-c' };
+  if (n >= 60) return { letter: 'D+', cls: 'grade-dplus' };
+  if (n >= 55) return { letter: 'D',  cls: 'grade-d' };
+  return { letter: 'F', cls: 'grade-f' };
+}
+
+function renderChip(v) {
+  const { cls } = getGrade(v);
+  const display = (v !== null && v !== undefined) ? v : '—';
+  return `<span class="chip ${cls}">${display}</span>`;
+}
+
+function fmtHeader(col) {
+  const m = col.match(/^([A-Z]{2}\d{3})\s*([\s\S]*)/);
+  if (!m) return `<div class="col-code">${col}</div>`;
+  const name = m[2].replace(/[、，。：:]/g, '').substring(0, 6);
+  return `<div class="col-code">${m[1]}</div><div class="col-name">${name || '—'}</div>`;
+}
+
+function renderTable(year, rows, cols, query) {
+  const scoreCols = cols.filter(isScoreCol);
+  const hasProject = cols.includes('项目');
+
+  const filtered = query
+    ? rows.filter(r =>
+        String(r['姓名'] || '').includes(query) ||
+        String(r['DPU学号'] || '').includes(query)
+      )
+    : rows;
+
+  document.getElementById('statsBar').textContent =
+    `学年 ${year}　共 ${filtered.length} 位学生` + (query ? `　搜索「${query}」` : '');
+
+  if (!filtered.length)
+    return '<div class="empty">未找到符合条件的学生</div>';
+
+  const thCells = ['<th class="th-name">姓名</th>', '<th class="th-id">学号</th>'];
+  if (hasProject) thCells.push('<th>项目</th>');
+  scoreCols.forEach(c => thCells.push(`<th class="th-score">${fmtHeader(c)}</th>`));
+
+  const trHTML = filtered.map(row => {
+    const tds = [
+      `<td class="td-name">${String(row['姓名'] || '').replace(/\s+/g, ' ').trim()}</td>`,
+      `<td class="td-id">${row['DPU学号'] || ''}</td>`,
+    ];
+    if (hasProject) {
+      const p = row['项目'];
+      const cls = p === '集美' ? 'badge-jm' : 'badge-bj';
+      tds.push(`<td><span class="badge ${cls}">${p || ''}</span></td>`);
+    }
+    scoreCols.forEach(c => tds.push(`<td>${renderChip(row[c])}</td>`));
+    return `<tr>${tds.join('')}</tr>`;
+  }).join('');
+
+  return `<table><thead><tr>${thCells.join('')}</tr></thead><tbody>${trHTML}</tbody></table>`;
+}
+
+async function switchYear(year) {
+  currentYear = year;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.year === year));
+  const wrap = document.getElementById('tableWrap');
+  if (!cache[year]) {
+    wrap.innerHTML = `<div class="loading"><div class="spinner"></div><p>正在加载 ${year} 学年数据…</p></div>`;
+  }
+  try {
+    const { cols, rows } = await fetchSheet(year);
+    const q = document.getElementById('searchInput').value.trim();
+    wrap.innerHTML = renderTable(year, rows, cols, q);
+  } catch (e) {
+    wrap.innerHTML = `<div class="error">
+      <p>加载失败：${e.message}</p>
+      <small>请确认 Google Sheet 已设为「知道链接的任何人均可查看」<br>或检查工作表分页名称是否为 2568 / 2567 / 2566</small>
+    </div>`;
+  }
+}
+
+function applySearch() {
+  if (!cache[currentYear]) return;
+  const { cols, rows } = cache[currentYear];
+  document.getElementById('tableWrap').innerHTML =
+    renderTable(currentYear, rows, cols, document.getElementById('searchInput').value.trim());
+}
+
+(async () => {
+  const years = await fetchYears();
+  buildTabs(years);
+  currentYear = years[0];
+  switchYear(years[0]);
+})();
+</script>
+</body>
+</html>
