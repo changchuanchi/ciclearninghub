@@ -1,0 +1,1637 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>博仁大学国际中文学院 本科模块课程成果展十二周筹备工作手册</title>
+  <style>
+    /* ===== 全局样式 ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --primary:   #1a3a5c;
+      --accent:    #c8960c;
+      --light-bg:  #f5f7fa;
+      --border:    #d0d7e2;
+      --text:      #1e2a38;
+      --muted:     #5a6a7a;
+      --danger:    #b02020;
+      --success:   #1a6b3a;
+      --info-bg:   #eaf3ff;
+      --warn-bg:   #fff8e1;
+      --danger-bg: #fff0f0;
+      --radius:    6px;
+      --shadow:    0 2px 8px rgba(0,0,0,.08);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans CN", sans-serif;
+      font-size: 15px;
+      line-height: 1.8;
+      color: var(--text);
+      background: #fff;
+    }
+
+    /* ===== 页面布局 ===== */
+    .page-wrapper { display: flex; min-height: 100vh; }
+
+    /* ===== 侧边目录 ===== */
+    #sidebar {
+      position: fixed;
+      top: 0; left: 0;
+      width: 260px;
+      height: 100vh;
+      overflow-y: auto;
+      overflow-x: hidden;
+      background: var(--primary) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 260 900'%3E%3Ccircle cx='260' cy='0' r='90' fill='none' stroke='%23c8960c' stroke-width='1.2' opacity='0.38'/%3E%3Ccircle cx='260' cy='0' r='140' fill='none' stroke='%23c8960c' stroke-width='0.9' opacity='0.22'/%3E%3Ccircle cx='260' cy='0' r='195' fill='none' stroke='%23c8960c' stroke-width='0.6' opacity='0.12'/%3E%3Cline x1='178' y1='0' x2='260' y2='105' stroke='rgba(255,255,255,0.1)' stroke-width='1'/%3E%3Cline x1='20' y1='140' x2='20' y2='155' stroke='rgba(255,255,255,0.18)' stroke-width='1'/%3E%3Cline x1='13' y1='147' x2='27' y2='147' stroke='rgba(255,255,255,0.18)' stroke-width='1'/%3E%3Ccircle cx='8' cy='172' r='1.2' fill='rgba(255,255,255,0.12)'/%3E%3Cline x1='22' y1='210' x2='90' y2='210' stroke='%23c8960c' stroke-width='0.5' opacity='0.2'/%3E%3Cpolygon points='238,225 248,240 238,255 228,240' fill='none' stroke='%23c8960c' stroke-width='0.8' opacity='0.22'/%3E%3Ccircle cx='16' cy='390' r='2' fill='rgba(255,255,255,0.15)'/%3E%3Ccircle cx='23' cy='404' r='1.2' fill='rgba(255,255,255,0.1)'/%3E%3Ccircle cx='11' cy='416' r='1' fill='rgba(255,255,255,0.07)'/%3E%3Cline x1='244' y1='440' x2='244' y2='453' stroke='rgba(255,255,255,0.12)' stroke-width='0.8'/%3E%3Cline x1='237' y1='446' x2='251' y2='446' stroke='rgba(255,255,255,0.12)' stroke-width='0.8'/%3E%3Cline x1='0' y1='510' x2='38' y2='548' stroke='rgba(255,255,255,0.06)' stroke-width='0.8'/%3E%3Cline x1='0' y1='528' x2='22' y2='550' stroke='rgba(255,255,255,0.04)' stroke-width='0.6'/%3E%3Cline x1='0' y1='760' x2='50' y2='870' stroke='%23c8960c' stroke-width='0.8' opacity='0.18'/%3E%3Cline x1='0' y1='800' x2='65' y2='900' stroke='%23c8960c' stroke-width='1' opacity='0.25'/%3E%3Cline x1='0' y1='840' x2='42' y2='900' stroke='%23c8960c' stroke-width='0.7' opacity='0.17'/%3E%3Cline x1='0' y1='872' x2='22' y2='900' stroke='%23c8960c' stroke-width='0.5' opacity='0.1'/%3E%3Ccircle cx='260' cy='900' r='60' fill='none' stroke='rgba(255,255,255,0.08)' stroke-width='1'/%3E%3Ccircle cx='260' cy='900' r='95' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='0.7'/%3E%3Cline x1='254' y1='300' x2='254' y2='620' stroke='rgba(255,255,255,0.06)' stroke-width='0.5' stroke-dasharray='3 9'/%3E%3C/svg%3E") no-repeat top left / 100% 100%;
+      padding: 0 0 40px;
+      z-index: 100;
+    }
+    #sidebar .sidebar-header {
+      padding: 24px 20px 16px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+    }
+    #sidebar .sidebar-header h2 {
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: .05em;
+      text-transform: uppercase;
+      opacity: .7;
+    }
+    #sidebar .sidebar-header p {
+      color: var(--accent);
+      font-size: 14px;
+      font-weight: 600;
+      margin-top: 4px;
+    }
+    #sidebar nav ul { list-style: none; padding: 12px 0; }
+    #sidebar nav ul li a {
+      display: block;
+      padding: 7px 20px;
+      color: rgba(255,255,255,.75);
+      text-decoration: none;
+      font-size: 13.5px;
+      transition: all .2s;
+      border-left: 3px solid transparent;
+    }
+    #sidebar nav ul li a:hover,
+    #sidebar nav ul li a.active {
+      color: #fff;
+      background: rgba(255,255,255,.08);
+      border-left-color: var(--accent);
+    }
+    #sidebar nav ul li.section-title a {
+      font-weight: 700;
+      font-size: 13px;
+      color: rgba(255,255,255,.5);
+      letter-spacing: .04em;
+      cursor: default;
+      padding-top: 16px;
+    }
+    #sidebar nav ul li.section-title a:hover {
+      background: none;
+      border-left-color: transparent;
+      color: rgba(255,255,255,.5);
+    }
+
+    /* ===== 主内容区 ===== */
+    #main {
+      margin-left: 260px;
+      flex: 1;
+      padding: 0 48px 80px;
+    }
+
+    /* ===== 封面 ===== */
+    #cover {
+      background: linear-gradient(135deg, var(--primary) 0%, #2e5f8a 100%);
+      color: #fff;
+      padding: 80px 48px 64px;
+      margin: 0 -48px 60px;
+      position: relative;
+      overflow: hidden;
+    }
+    #cover::before {
+      content: '';
+      position: absolute;
+      right: -60px; top: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.05);
+    }
+    #cover::after {
+      content: '';
+      position: absolute;
+      right: 60px; bottom: -80px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(255,255,255,.04);
+    }
+    #cover .cover-tag {
+      display: inline-block;
+      background: var(--accent);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 20px;
+    }
+    #cover h1 {
+      font-size: 32px;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    #cover .cover-subtitle {
+      font-size: 17px;
+      opacity: .8;
+      margin-bottom: 32px;
+    }
+    #cover .cover-meta {
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      border-top: 1px solid rgba(255,255,255,.2);
+      padding-top: 24px;
+      font-size: 14px;
+      opacity: .85;
+    }
+    #cover .cover-meta div { display: flex; flex-direction: column; gap: 3px; }
+    #cover .cover-meta label { font-size: 11px; opacity: .6; text-transform: uppercase; letter-spacing: .06em; }
+
+    /* ===== 章节标题 ===== */
+    .chapter {
+      margin-bottom: 64px;
+      scroll-margin-top: 24px;
+    }
+    .chapter-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--primary);
+    }
+    .chapter-num {
+      background: var(--primary);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      white-space: nowrap;
+    }
+    .chapter-header h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    /* ===== 节标题 ===== */
+    h3 {
+      font-size: 17px;
+      font-weight: 700;
+      color: var(--primary);
+      margin: 32px 0 12px;
+      padding-left: 12px;
+      border-left: 4px solid var(--accent);
+    }
+    h4 {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--text);
+      margin: 20px 0 8px;
+    }
+
+    /* ===== 段落 ===== */
+    p { margin-bottom: 12px; }
+
+    /* ===== 列表 ===== */
+    ul, ol {
+      margin: 8px 0 16px 20px;
+    }
+    ul li, ol li { margin-bottom: 6px; }
+    ul li::marker { color: var(--accent); }
+
+    /* ===== 表格 ===== */
+    .table-wrap { overflow-x: auto; margin: 16px 0 24px; border-radius: var(--radius); box-shadow: var(--shadow); }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead tr { background: var(--primary); color: #fff; }
+    thead th {
+      padding: 12px 14px;
+      text-align: left;
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: .02em;
+    }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:nth-child(even) { background: var(--light-bg); }
+    tbody tr:hover { background: #e8f0fb; }
+    tbody td { padding: 10px 14px; vertical-align: top; line-height: 1.6; }
+    td strong { color: var(--primary); }
+
+    /* ===== 提示框 ===== */
+    .alert {
+      border-radius: var(--radius);
+      padding: 14px 18px;
+      margin: 16px 0;
+      font-size: 14px;
+      border-left: 4px solid;
+      line-height: 1.7;
+    }
+    .alert-info  { background: var(--info-bg);   border-color: #4a90d9; }
+    .alert-warn  { background: var(--warn-bg);   border-color: var(--accent); }
+    .alert-danger{ background: var(--danger-bg); border-color: var(--danger); }
+    .alert-success{background: #edfbf0;          border-color: var(--success); }
+    .alert strong { display: block; margin-bottom: 4px; }
+
+    /* ===== 时间线 ===== */
+    .timeline { position: relative; padding-left: 28px; margin: 16px 0 24px; }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 8px; top: 0; bottom: 0;
+      width: 2px;
+      background: var(--border);
+    }
+    .tl-item {
+      position: relative;
+      margin-bottom: 20px;
+    }
+    .tl-item::before {
+      content: '';
+      position: absolute;
+      left: -24px; top: 6px;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--accent);
+      border: 2px solid #fff;
+      box-shadow: 0 0 0 2px var(--accent);
+    }
+    .tl-item.done::before { background: var(--success); box-shadow: 0 0 0 2px var(--success); }
+    .tl-item.critical::before { background: var(--danger); box-shadow: 0 0 0 2px var(--danger); }
+    .tl-date {
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--muted);
+      letter-spacing: .04em;
+      margin-bottom: 2px;
+    }
+    .tl-title { font-weight: 700; font-size: 14.5px; color: var(--primary); margin-bottom: 4px; }
+    .tl-body { font-size: 13.5px; color: var(--text); }
+
+    /* ===== 徽章 ===== */
+    .badge {
+      display: inline-block;
+      padding: 2px 9px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      vertical-align: middle;
+    }
+    .badge-blue   { background: #dbeafe; color: #1d4ed8; }
+    .badge-yellow { background: #fef3c7; color: #92400e; }
+    .badge-red    { background: #fee2e2; color: #991b1b; }
+    .badge-green  { background: #d1fae5; color: #065f46; }
+    .badge-gray   { background: #f3f4f6; color: #374151; }
+
+    /* ===== 提示卡片 ===== */
+    .tip-card {
+      background: var(--light-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 16px 20px;
+      margin: 16px 0;
+    }
+    .tip-card h4 { margin-top: 0; color: var(--primary); }
+
+    /* ===== 分工格子 ===== */
+    .role-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 16px 0 24px;
+    }
+    .role-card {
+      background: var(--light-bg);
+      border: 1px solid var(--border);
+      border-top: 3px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 16px 18px;
+    }
+    .role-card h4 { margin: 0 0 8px; font-size: 14px; color: var(--primary); }
+    .role-card .role-name { font-weight: 700; font-size: 15px; color: var(--text); margin-bottom: 8px; }
+    .role-card ul { margin: 0 0 0 16px; }
+    .role-card li { font-size: 13px; margin-bottom: 4px; }
+
+    /* ===== 步骤框 ===== */
+    .steps { counter-reset: step; margin: 16px 0 24px; }
+    .step {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+      align-items: flex-start;
+    }
+    .step-num {
+      counter-increment: step;
+      background: var(--primary);
+      color: #fff;
+      font-weight: 700;
+      font-size: 14px;
+      min-width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .step-body { flex: 1; }
+    .step-body strong { display: block; font-size: 15px; margin-bottom: 4px; color: var(--primary); }
+    .step-body p, .step-body ul { margin-top: 4px; font-size: 14px; }
+
+    /* ===== 展位图例 ===== */
+    .booth-legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 12px 0;
+    }
+    .booth-legend .item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+    }
+    .booth-legend .dot {
+      width: 14px; height: 14px;
+      border-radius: 3px;
+    }
+
+    /* ===== 分隔线 ===== */
+    hr { border: none; border-top: 1px solid var(--border); margin: 32px 0; }
+
+    /* ===== 打印样式（隐藏侧边栏）===== */
+    @media print {
+      #sidebar { display: none; }
+      #main { margin-left: 0; padding: 0 24px; max-width: 100%; }
+      #cover { margin: 0 -24px 40px; padding: 48px 24px; }
+      .chapter { page-break-before: always; }
+      #cover { page-break-before: avoid; }
+      h3, h4 { page-break-after: avoid; }
+      tr { page-break-inside: avoid; }
+      .alert, .tip-card { page-break-inside: avoid; }
+    }
+
+    /* ===== 响应式 ===== */
+    @media (max-width: 768px) {
+      #sidebar { display: none; }
+      #main { margin-left: 0; padding: 0 20px 60px; }
+      #cover { padding: 40px 20px; margin: 0 -20px 40px; }
+      #cover h1 { font-size: 24px; }
+      .role-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="page-wrapper">
+
+<!-- ===== 侧边导航 ===== -->
+<aside id="sidebar">
+  <div class="sidebar-header">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Logo_of_Dhurakij_Pundit_University_%282025%29.svg" alt="DPU" style="width:38px; flex-shrink:0; filter:brightness(0) invert(1); opacity:.85;">
+      <h2 style="margin:0;">博仁大学国际中文学院</h2>
+    </div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#cover">封面</a></li>
+      <li class="section-title"><a>正文章节</a></li>
+      <li><a href="#ch1">第一章 活动概述</a></li>
+      <li><a href="#ch2">第二章 组织架构与分工</a></li>
+      <li><a href="#ch3">第三章 筹备时间线</a></li>
+      <li><a href="#ch4">第四章 作品收集与上传</a></li>
+      <li><a href="#ch5">第五章 线上数字展厅</a></li>
+      <li><a href="#ch6">第六章 线下布展</a></li>
+      <li><a href="#ch7">第七章 开幕与观展日</a></li>
+      <li><a href="#ch8">第八章 颁奖典礼</a></li>
+      <li><a href="#ch9">第九章 展后工作</a></li>
+      <li><a href="#appendix">附录</a></li>
+    </ul>
+  </nav>
+</aside>
+
+<!-- ===== 主内容 ===== -->
+<main id="main">
+
+<!-- 封面 -->
+<div id="cover">
+  <div class="cover-tag">内部筹备文件 · 仅供工作人员参考</div>
+  <h1>本科模块课程成果展<br>十二周筹备工作手册</h1>
+</div>
+
+<!-- =========================================================
+     第一章 活动概述
+     ========================================================= -->
+<section class="chapter" id="ch1">
+  <div class="chapter-header">
+    <span class="chapter-num">第一章</span>
+    <h2>活动概述</h2>
+  </div>
+
+  <h3>1.1 活动背景与意义</h3>
+  <p>
+    博仁大学中文国际学院（Chinese International College, Dhurakij Pundit University）
+    每学年第二学期结束前举办本科模块课程成果展，旨在集中展示全院本科各专业学生在模块课程（Module Course）
+    及基石课程（Capstone）中产出的优秀作品。促进跨专业交流，激励学生创新创造，
+    同时为本院积累可视化的教学成果。
+  </p>
+  <p>
+    2568学年首次同步搭建线上展厅网站，实现线上线下双轨展出，
+    并引入在线投票机制，积极扩大活动的辐射范围与学生参与感。
+  </p>
+
+  <h3>1.2 活动正式名称</h3>
+  <div class="tip-card">
+    <h4>中文全称</h4>
+    <p style="font-size:17px; font-weight:700; color:var(--primary);">
+      《中文国际学院本科模块作品成果展》
+    </p>
+    <p style="margin-top:8px; font-size:13.5px; color:var(--muted);">
+      对外宣传、邀请函、证书、展板等正式场合统一使用上述名称。
+    </p>
+  </div>
+
+  <h3>1.3 活动定位</h3>
+  <ul>
+    <li><strong>性质：</strong>学年度总结性展览，展示各模块班级学生全学期的学习与创作成果</li>
+    <li><strong>时间：</strong>每学年第二学期最后上课周，周三布展、周四开幕观展、周五颁奖典礼</li>
+    <li><strong>受众：</strong>全校教职工、全体在校生、院级与校级领导</li>
+    <li><strong>规模：</strong>涵盖国际商务、金融会计、创意设计、旅游管理、数字传媒等专业</li>
+    <li><strong>形式：</strong>线下实体展览（6栋1层 Blend Cafe 旁）＋ 线上数字展厅双轨并行<br>
+      <span style="display:inline-block; margin-left:1em; margin-top:3px; font-size:13px; color:var(--muted);">🔗 <a href="https://showcase.sommily.app/" target="_blank">showcase.sommily.app</a></span>
+    </li>
+    <li><strong>亮点：</strong>设立人气奖（现场投票＋线上点赞）、优秀奖、各专业颁奖，校领导出席颁奖典礼</li>
+  </ul>
+
+  <h3>1.4 展览与工作地点</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>地点</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td><strong>6栋1层 Blend Cafe 前广场</strong></td><td>线下实体展区</td></tr>
+        <tr><td><strong>校长楼6层小礼堂（6-1）</strong></td><td>颁奖典礼（第12周 周五 上午11:00）</td></tr>
+        <tr><td><strong>3栋4层本科办公室</strong></td><td>展架、PP板、打印海报 领取与归还处</td></tr>
+        <tr><td><strong>线上展厅网站</strong></td><td>作品浏览与线上点赞投票<br><span style="font-size:13px; color:var(--muted);">🔗 <a href="https://showcase.sommily.app/" target="_blank">showcase.sommily.app</a></span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>1.5 参展专业范围</h3>
+  <p>本次展览覆盖以下专业方向的模块课程与基石课程（Capstone）课程：</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>专业代码</th><th>专业方向</th><th>参展类型</th></tr></thead>
+      <tbody>
+        <tr><td><strong>GE</strong></td><td>通识教育</td><td>模块课程</td></tr>
+        <tr><td><strong>TM</strong></td><td>旅游管理</td><td>模块课程</td></tr>
+        <tr><td><strong>CD</strong></td><td>创意设计</td><td>模块课程</td></tr>
+        <tr><td><strong>IB</strong></td><td>国际商务</td><td>模块课程</td></tr>
+        <tr><td><strong>FA</strong></td><td>金融会计</td><td>模块课程</td></tr>
+        <tr><td><strong>CA</strong></td><td>数字传媒</td><td>模块课程</td></tr>
+        <tr><td><strong>Capstone</strong></td><td>各专业基石课程</td><td>基石课程</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>1.6 展览奖项设置</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>奖项名称</th><th>评选方式</th><th>数量</th><th>颁奖时间</th></tr></thead>
+      <tbody>
+        <tr><td><strong>优秀奖</strong></td><td>授课教师评选，每个模块班级选二组参展，其中一组获奖</td><td>每班1组</td><td>第12周 周五颁奖典礼</td></tr>
+        <tr><td><strong>人气奖</strong></td><td>现场得票×2 ＋ 网站点赞×1 = 总得票</td><td>按票数排名</td><td>第12周 周五颁奖典礼</td></tr>
+        <tr><td><strong>外部联动奖</strong></td><td>如该学年有外部赛事获奖者，同场表彰</td><td>视获奖情况</td><td>第12周 周五颁奖典礼</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>💡 关于奖状制作</strong>
+    奖状纸和奖品由模块展专项预算统一购买，各专业主任自行分配奖状制作任务。
+    各专业主任提前确认获奖名单，并在颁奖前完成奖状打印。
+  </div>
+</section>
+
+<!-- =========================================================
+     第二章 组织架构与分工
+     ========================================================= -->
+<section class="chapter" id="ch2">
+  <div class="chapter-header">
+    <span class="chapter-num">第二章</span>
+    <h2>组织架构与分工</h2>
+  </div>
+
+    <h3>2.1 筹备委员会</h3>
+  <p>本次展览由学院教学领导与各专业主任共同组成筹备委员会，负责展览整体方向的统筹与决策。设有执行统筹一名，由本科教师中选出担任。</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>职位</th><th>姓名</th></tr></thead>
+      <tbody>
+        <tr><td><strong>中文国际学院院长</strong></td><td>游翔</td></tr>
+        <tr><td><strong>本科教学副院长</strong></td><td>赵斐</td></tr>
+        <tr><td><strong>执行统筹</strong></td><td></td></tr>
+        <tr><td><strong>国际商务主任</strong></td><td>刘凤琳</td></tr>
+        <tr><td><strong>金融会计主任</strong></td><td>师雄飞</td></tr>
+        <tr><td><strong>旅游管理主任</strong></td><td>蔡秋惠</td></tr>
+        <tr><td><strong>创意设计主任</strong></td><td>李先恒</td></tr>
+        <tr><td><strong>通识教育主任</strong></td><td>张全吉</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>2.2 工作分配</h3>
+  <p>本次展览设<strong>执行统筹</strong>一名，统一分配并协调推进所有工作模块。各工作模块设负责人，在执行统筹协调下落实执行。</p>
+
+  <div class="role-grid">
+
+    <!-- 1. 统筹协调 -->
+    <div class="role-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h4 style="margin:0;">统筹协调</h4>
+        <span style="font-size:11px; background:var(--bg); color:var(--muted); padding:2px 8px; border-radius:10px; border:1px solid var(--border);">执行统筹</span>
+      </div>
+      <ul>
+        <li>整体活动方案策划</li>
+        <li>编列并提交展览预算</li>
+        <li>发布日程与任务分工表</li>
+        <li>统筹展位分配方案</li>
+        <li>发布布展操作通知</li>
+        <li>核查作品 ID 对照表</li>
+        <li>确认投票票数及对照表纠错</li>
+        <li>发布优秀奖获奖名单</li>
+        <li>汇总无法出席颁奖的学生</li>
+        <li>确认院长与校领导是否出席</li>
+      </ul>
+    </div>
+
+    <!-- 2. 线上展厅 -->
+    <div class="role-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h4 style="margin:0;">线上展厅</h4>
+        <span style="font-size:11px; background:var(--bg); color:var(--muted); padding:2px 8px; border-radius:10px; border:1px solid var(--border);">线上展厅负责人</span>
+      </div>
+      <ul>
+        <li>发布网站内容框架</li>
+        <li>统筹内容类别收录</li>
+        <li>管理数据抓取时间节点</li>
+        <li>发布颁奖典礼通知</li>
+      </ul>
+    </div>
+
+    <!-- 3. 作品收集 -->
+    <div class="role-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h4 style="margin:0;">作品收集</h4>
+        <span style="font-size:11px; background:var(--bg); color:var(--muted); padding:2px 8px; border-radius:10px; border:1px solid var(--border);">各授课教师 · 各专业主任</span>
+      </div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:8px;"><strong>各授课教师：</strong></p>
+      <ul>
+        <li>开放作品上传 Google Form</li>
+        <li>督促各班学生按时完成上传</li>
+        <li>组织学生按规范完成上传</li>
+        <li>评选各班优秀奖候选作品</li>
+        <li>收集整理基石课程作品</li>
+        <li>补充上传上学期遗留作品</li>
+      </ul>
+      <p style="font-size:12px; color:var(--muted); margin-top:8px; margin-bottom:8px;"><strong>各专业主任：</strong></p>
+      <ul>
+        <li>核对本专业参展名单与展位</li>
+        <li>审核上传内容准确性</li>
+      </ul>
+    </div>
+
+    <!-- 4. 物资与印制 -->
+    <div class="role-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h4 style="margin:0;">物资与印制</h4>
+        <span style="font-size:11px; background:var(--bg); color:var(--muted); padding:2px 8px; border-radius:10px; border:1px solid var(--border);">执行统筹 · 展架管理负责人</span>
+      </div>
+      <ul>
+        <li>组织海报送印</li>
+        <li>采购奖状纸并分发各专业</li>
+        <li>展览奖品采购与发放</li>
+        <li>布展日开放展架领取</li>
+        <li>分场次发放展架·PP板·海报</li>
+        <li>核对领取数量并登记</li>
+        <li>回收展架·PP板并归档</li>
+      </ul>
+    </div>
+
+    <!-- 5. 现场布展 -->
+    <div class="role-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h4 style="margin:0;">现场布展</h4>
+        <span style="font-size:11px; background:var(--bg); color:var(--muted); padding:2px 8px; border-radius:10px; border:1px solid var(--border);">布展协调负责人 · 各专业主任</span>
+      </div>
+      <ul>
+        <li>提前确认领取场次</li>
+        <li>带领学生领取物料并完成布展</li>
+        <li>展架加固防风·拍照上传云端</li>
+        <li>全程现场巡查</li>
+        <li>处理突发状况</li>
+        <li>展览日整理展架·确认开幕条件</li>
+        <li>收展·归还物资至3栋4层</li>
+      </ul>
+    </div>
+
+    <!-- 6. 摄影记录 -->
+    <div class="role-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h4 style="margin:0;">摄影记录</h4>
+        <span style="font-size:11px; background:var(--bg); color:var(--muted); padding:2px 8px; border-radius:10px; border:1px solid var(--border);">摄影记录负责人</span>
+      </div>
+      <ul>
+        <li>联系校本部摄影团队</li>
+        <li>建立展期照片云端硬盘</li>
+        <li>布展日全程摄影记录</li>
+        <li>展览日开幕·观展·投票全程拍摄</li>
+        <li>颁奖日典礼摄影·师生集体合影</li>
+        <li>整理各授课教师上传的布展照片</li>
+        <li>制作展览宣传视频</li>
+      </ul>
+    </div>
+
+    <!-- 7. 颁奖典礼 -->
+    <div class="role-card">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+        <h4 style="margin:0;">颁奖典礼</h4>
+        <span style="font-size:11px; background:var(--bg); color:var(--muted); padding:2px 8px; border-radius:10px; border:1px solid var(--border);">各专业主任 · 执行统筹</span>
+      </div>
+      <ul>
+        <li>确认获奖名单·打印奖状</li>
+        <li>通知获奖学生着校服到场</li>
+        <li>标注无法出席颁奖的学生</li>
+        <li>协助奖品准备与转移</li>
+        <li>安排典礼主持人两名</li>
+      </ul>
+    </div>
+
+  </div>
+
+<div class="alert alert-warn">
+    <strong>⚠️ 新参展授课教师注意</strong>
+    如为首次参与模块展布展，请提前向执行统筹确认：
+    ① 作品上传内容与规则；② 线下展位安排；③ 布展当日时间安排。
+  </div>
+
+</section>
+
+<!-- =========================================================
+     第三章 筹备时间线与里程碑
+     ========================================================= -->
+<section class="chapter" id="ch3">
+  <div class="chapter-header">
+    <span class="chapter-num">第三章</span>
+    <h2>筹备时间线与里程碑</h2>
+  </div>
+
+  <h3>3.1 十二周筹备时间表</h3>
+  <p>以下时间线以<strong>展览周（第12周）</strong>为基准向前推算，建议从第二学期上半启动筹备工作。</p>
+
+  <div class="timeline">
+
+    <div class="tl-item">
+      <div class="tl-date">第 1–2 周｜启动与规划（上半）</div>
+      <div class="tl-title">成立筹备委员会，确认分工</div>
+      <div class="tl-body">
+        <ul style="margin:4px 0 0 16px; font-size:13.5px;">
+          <li>筹备委员会正式成立，确认执行统筹与各工作角色负责人</li>
+          <li>拟定展览方案：日程框架、场地安排、奖项设置</li>
+          <li>确认数字化方案（线上展厅平台与技术选型）</li>
+          <li>建立筹备协调群组，发布首次工作通知</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">第 3–4 周｜平台建设与规范制定（上半）</div>
+      <div class="tl-title">线上展厅开发，制定上传规范</div>
+      <div class="tl-body">
+        <ul style="margin:4px 0 0 16px; font-size:13.5px;">
+          <li>线上展厅网站开发启动</li>
+          <li>设计 Google Form 作品收集表单，确认所有必填字段</li>
+          <li>制定作品上传规范（海报规格、缩略图规格、必填字段说明）</li>
+          <li>发布任务分工表，各专业主任确认参展班级数与展位需求</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">第 5–6 周｜展览框架确定（下半第1–2周）</div>
+      <div class="tl-title">发布正式日程，提前告知各教师</div>
+      <div class="tl-body">
+        <ul style="margin:4px 0 0 16px; font-size:13.5px;">
+          <li>确认展位分配方案，发布展位分配表</li>
+          <li>发布正式日程公告（布展日、开展日、颁奖典礼）</li>
+          <li>向全体授课教师发布参展通知与上传规范说明</li>
+          <li>开放作品上传 Google Form（供少数已结课班级提前上传）</li>
+          <li>发布每班参展要求（2组展出，1组优秀奖候选）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-date">第 7–8 周｜系统测试与展前准备（下半第3–4周）</div>
+      <div class="tl-title">展厅测试，持续备料</div>
+      <div class="tl-body">
+        <ul style="margin:4px 0 0 16px; font-size:13.5px;">
+          <li>线上展厅进入测试阶段，修正技术与内容问题</li>
+          <li>发布网站四大内容类别框架，邀请各主任确认</li>
+          <li>再次提醒各授课教师上传截止时间安排</li>
+          <li>摄影记录负责人建立展期照片云端硬盘，发布分享链接</li>
+          <li>摄影摄像安排确认；志愿者招募启动</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tl-item critical">
+      <div class="tl-date">第 9–10 周｜作品提交期（下半第5–6周）</div>
+      <div class="tl-title">⚡ 作品陆续完成，进入上传高峰</div>
+      <div class="tl-body">
+        <ul style="margin:4px 0 0 16px; font-size:13.5px;">
+          <li>各班作品于下半第5–6周陆续完成，授课教师督促学生尽快完成上传</li>
+          <li>持续发布上传提醒，跟进各班上传进度</li>
+          <li>早完成班级尽快提交，供第一批海报送印</li>
+          <li>展位分配最终确认，在群内发布展位平面示意图</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tl-item critical">
+      <div class="tl-date">第 11 周｜全面截止与展前冲刺（下半第7周）</div>
+      <div class="tl-title">⛔ 所有作品截止，同步完成全部展前准备</div>
+      <div class="tl-body">
+        <ul style="margin:4px 0 0 16px; font-size:13.5px;">
+          <li>所有班级作品上传截止：<strong>第11周 周五 16:00</strong>（系统关闭数据抓取）</li>
+          <li>全部海报数据提交打印，不可延误</li>
+          <li>线上展厅完成数据同步，进行最终内容核对</li>
+          <li>作品 ID 对照表完成核查，发布最终版本</li>
+          <li>奖状纸采购与分发，各专业完成奖状打印</li>
+          <li>校领导/嘉宾开幕致辞稿准备（建议同步准备中、英、泰三语版本）</li>
+          <li>确认院长与校领导是否出席颁奖典礼</li>
+          <li>确认典礼主持人两名，分配主持任务</li>
+          <li>志愿者最终任务分配，告知集合时间地点</li>
+          <li>展架管理负责人确认物资清单（展架、PP板、胶带、海报）</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="tl-item critical">
+      <div class="tl-date">第 12 周｜展览周（下半第8周）</div>
+      <div class="tl-title">🏗️ 布展 → 🎉 开幕 → 🏆 颁奖</div>
+      <div class="tl-body">
+        <ul style="margin:4px 0 0 16px; font-size:13.5px;">
+          <li><strong>周三（布展日）</strong>：上午10:00 / 下午13:30，各班领取物料，前往展区完成布展；线上投票同步开放（10:00）</li>
+          <li><strong>周四（观展日）</strong>：11:00 正式开幕，校领导出席；11:00–13:00 观展与现场投票；线上投票 15:30 截止</li>
+          <li><strong>周五（颁奖日）</strong>：上午 11:00 颁奖典礼（校长楼6层小礼堂）；12:30 起撤展，归还展架与PP板至3栋4层</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <h3>3.2 关键节点速查</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>节点</th><th>建议时间</th><th>责任人</th></tr></thead>
+      <tbody>
+        <tr><td>作品上传 Google Form 开放</td><td>第5–6周</td><td>执行统筹</td></tr>
+        <tr><td>所有班级作品上传截止</td><td><strong>第11周 周五 16:00</strong></td><td>各授课教师</td></tr>
+        <tr><td>全部海报数据提交打印</td><td>第11周 周五前</td><td>各专业主任</td></tr>
+        <tr><td>作品 ID 对照表核查完成</td><td>第11周</td><td>执行统筹</td></tr>
+        <tr><td>各专业奖状打印完成</td><td>第11周</td><td>各专业主任</td></tr>
+        <tr><td>线上投票开放</td><td>第12周 周三 10:00</td><td>线上展厅负责人</td></tr>
+        <tr><td>线上投票截止</td><td>第12周 周四 15:30</td><td>系统自动</td></tr>
+        <tr><td>颁奖典礼</td><td>第12周 周五 上午 11:00</td><td>执行统筹</td></tr>
+        <tr><td>展架物资归还完毕</td><td>第12周 周五 12:30</td><td>各班学生</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-warn">
+    <strong>⚠️ 关于上传截止时间安排</strong>
+    由于主要作品在第二学期下半第5–6周（即第9–10周）才陆续完成，统一截止时间为<strong>第11周 周五 16:00</strong>（系统关闭数据抓取）。
+    已结课班级可提前上传，不设单独截止。
+    实际执行须与学院期末考试排期协调，避免截止时间与监考冲突。
+  </div>
+
+  <h3>3.3 三大关键日详细流程</h3>
+
+  <!-- 布展日 -->
+  <div class="tip-card" style="border-top:3px solid var(--primary); margin-bottom:20px;">
+    <h4 style="font-size:16px;">🏗️ 布展日（第12周 周三）</h4>
+    <div class="table-wrap" style="margin-top:12px;">
+      <table>
+        <thead><tr><th>时间</th><th>事项</th><th>负责人</th></tr></thead>
+        <tbody>
+          <tr><td><strong>09:00 前</strong></td><td>展架管理负责人到3栋4层，准备物资（展架、PP板、海报）</td><td>展架管理负责人</td></tr>
+          <tr><td><strong>10:00</strong></td><td>线上投票同步开放</td><td>线上展厅负责人</td></tr>
+          <tr><td><strong>10:00–12:00</strong></td><td>第一批：各班授课教师带学生到3栋4层领取展架、PP板及海报，前往6栋1层指定展位完成布展</td><td>各授课教师</td></tr>
+          <tr><td><strong>13:30–15:30</strong></td><td>第二批：同上（可根据班级课表选择上午或下午场次）</td><td>各授课教师</td></tr>
+          <tr><td><strong>布展结束后</strong></td><td>拍摄展位照片，上传至摄影记录负责人建立的云端硬盘</td><td>各授课教师 / 学生</td></tr>
+          <tr><td><strong>全天</strong></td><td>现场巡查，处理展架倒塌等突发情况；提醒各班横向加固胶带（防风）</td><td>布展协调负责人</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-danger" style="margin-top:8px;">
+      <strong>🌬️ 防风提醒</strong>
+      展区为开放空间，须在展架横向两侧加贴胶带固定。若当天风力较大，可暂时卸下展板放于柱旁，次日早晨重新整理。
+    </div>
+  </div>
+
+  <!-- 展览日 -->
+  <div class="tip-card" style="border-top:3px solid var(--accent); margin-bottom:20px;">
+    <h4 style="font-size:16px;">🎉 展览日（第12周 周四）</h4>
+    <div class="table-wrap" style="margin-top:12px;">
+      <table>
+        <thead><tr><th>时间</th><th>事项</th><th>负责人</th></tr></thead>
+        <tbody>
+          <tr><td><strong>早上（提前）</strong></td><td>到展区检查并重新整理前日倒塌展架，确认所有展位状态</td><td>布展协调负责人＋各授课教师通知学生</td></tr>
+          <tr><td><strong>10:30 前</strong></td><td>获奖学生（穿着校服）抵达展区待命</td><td>各授课教师提前通知</td></tr>
+          <tr><td><strong>11:00</strong></td><td>正式开幕，校领导出席，进行开幕致辞</td><td>执行统筹＋接待人员</td></tr>
+          <tr><td><strong>11:00–13:00</strong></td><td>正式观展；现场人气投票进行；学生在展位旁值守并向观众介绍作品</td><td>各班学生＋摄影记录负责人全程记录</td></tr>
+          <tr><td><strong>全天</strong></td><td>线上展厅同步开放，持续投票</td><td>—</td></tr>
+          <tr><td><strong>15:30</strong></td><td>线上投票截止</td><td>系统自动</td></tr>
+          <tr><td><strong>15:30 后</strong></td><td>统计线上投票票数，结合现场票数计算人气奖得票</td><td>执行统筹</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-warn" style="margin-top:8px;">
+      <strong>⚠️ 作品 ID 核对</strong>
+      须在开幕前确认「作品 ID 对照表」无误后再引导投票，避免观众投票到错误作品。
+    </div>
+  </div>
+
+  <!-- 颁奖日 -->
+  <div class="tip-card" style="border-top:3px solid var(--success); margin-bottom:20px;">
+    <h4 style="font-size:16px;">🏆 颁奖日（第12周 周五）</h4>
+    <div class="table-wrap" style="margin-top:12px;">
+      <table>
+        <thead><tr><th>时间</th><th>事项</th><th>负责人</th></tr></thead>
+        <tbody>
+          <tr><td><strong>10:30</strong></td><td>获奖学生（穿着校服）抵达校长楼6层小礼堂，于指定区域就座</td><td>各授课教师提前通知</td></tr>
+          <tr><td><strong>10:45</strong></td><td>全体本科授课教师就座（正装出席，前排）</td><td>线上展厅负责人发出通知</td></tr>
+          <tr><td><strong>11:00</strong></td><td>颁奖典礼开始；依次颁发各专业优秀奖、人气奖、外部联动奖</td><td>校领导颁奖</td></tr>
+          <tr><td><strong>典礼结束</strong></td><td>师生集体合影</td><td>摄影记录负责人安排</td></tr>
+          <tr><td><strong>12:30 起</strong></td><td>未领奖学生前往6栋1层拆除展架、收取海报</td><td>各授课教师带领</td></tr>
+          <tr><td><strong>12:30 起</strong></td><td>展架、PP板归还至3栋4层</td><td>展架管理负责人接收清点</td></tr>
+          <tr><td><strong>下午</strong></td><td>确认展区清洁复原；投票数据导出保存；开始整理宣传视频素材</td><td>摄影记录负责人</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="alert alert-info" style="margin-top:8px;">
+      <strong>💡 提醒各授课教师</strong>
+      请在颁奖日前一天（展览日）再次提醒学生：① 穿校服；② 10:30前到场；③ 无法出席须提前在统计表中标注。
+    </div>
+  </div>
+
+
+</section>
+
+<!-- =========================================================
+     第四章 作品收集与上传规范
+     ========================================================= -->
+<section class="chapter" id="ch4">
+  <div class="chapter-header">
+    <span class="chapter-num">第四章</span>
+    <h2>作品收集与上传规范</h2>
+  </div>
+
+  <h3>4.1 上传方式</h3>
+  <p>
+    本次展览采用 <strong>Google Form（谷歌表单）</strong>统一收集学生作品信息。
+    所有作品数据收集后存入 Google Drive，并同步至线上展厅网站进行展示。
+  </p>
+  <div class="alert alert-info">
+    <strong>📋 操作建议</strong>
+    <ul style="margin:8px 0 0 16px;">
+      <li>每个班级指定<strong style="display:inline;">一名学生</strong>担任资料统筹，负责整理全班作品数据并统一上传，避免重复提交或格式不一。</li>
+      <li>授课教师应提前将上传要求与截止时间传达给负责同学。</li>
+      <li>上传前由授课教师审核内容，确认信息准确无误后再提交。</li>
+    </ul>
+  </div>
+
+  <h3>4.2 上传截止时间</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>情况</th><th>截止时间</th><th>备注</th></tr></thead>
+      <tbody>
+        <tr><td>已结课班级</td><td>建议尽早提交，可提前上传，不设单独截止</td><td>提前提交有助于及时送印</td></tr>
+        <tr><td>全体班级统一截止</td><td><strong>第11周 周五 16:00</strong></td><td>系统将于16:00后关闭数据抓取</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-danger">
+    <strong>🚫 逾期风险</strong>
+    超过截止时间仍未上传的班级，其作品将无法出现在线上展厅网站，
+    且海报可能无法按时打印，导致无法参与线下展出。
+  </div>
+
+  <h3>4.3 必填信息字段</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>字段名称</th><th>格式要求</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>学期</strong></td><td>文本</td><td>如 2568-2</td></tr>
+        <tr><td><strong>专业</strong></td><td>文本</td><td>如 GE、TM、CA、IB、FA、Capstone</td></tr>
+        <tr><td><strong>模块名称/课程代码</strong></td><td>文本</td><td>准确填写课程官方名称及代码</td></tr>
+        <tr><td><strong>小组成员姓名</strong></td><td>文本列表</td><td>所有组员，名字拼写须准确，用于奖状</td></tr>
+        <tr><td><strong>作品名称</strong></td><td>文本</td><td>作品的完整标题</td></tr>
+        <tr><td><strong>作品简介</strong></td><td>文本（100–200字）</td><td>概述作品内容与亮点</td></tr>
+        <tr><td><strong>海报文件</strong></td><td>JPG 格式，A1竖版</td><td>用于线下打印展出（见4.4）</td></tr>
+        <tr><td><strong>主题缩略图</strong></td><td>JPG 格式，16:9 比例</td><td>用于线上展厅网站展示（见4.5）</td></tr>
+        <tr><td><strong>视频链接</strong></td><td>YouTube 链接（如有）</td><td>如作品含视频，提供 YouTube 公开链接</td></tr>
+        <tr><td><strong>是否参加线下展出</strong></td><td>是/否</td><td>选参加线下展出的小组须标注</td></tr>
+        <tr><td><strong>是否为优秀奖候选</strong></td><td>是/否</td><td>由授课教师标注（每班1组）</td></tr>
+        <tr><td><strong>指导授课教师</strong></td><td>文本</td><td>授课或指导教师姓名</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>4.4 线下海报规范（印刷版）</h3>
+  <div class="tip-card">
+    <h4>海报技术规格</h4>
+    <ul>
+      <li><strong>方向：</strong>竖版（Portrait）</li>
+      <li><strong>尺寸：</strong>A1（594mm × 841mm）</li>
+      <li><strong>格式：</strong>JPG（高分辨率，建议300 DPI以上）</li>
+      <li><strong>内容：</strong>包含作品标题、组员姓名、指导授课教师、专业信息、作品内容摘要、图表等</li>
+      <li><strong>语言：</strong>中文为主，可附英文或泰文</li>
+    </ul>
+  </div>
+  <div class="alert alert-info">
+    <strong>📌 打印说明</strong>
+    海报由学院统一打印，授课教师无需自行打印。上传高质量源文件即可。
+    打印好的海报和展架将存放于3栋4层，布展日领取。
+  </div>
+
+  <h3>4.5 线上缩略图规范</h3>
+  <div class="tip-card">
+    <h4>缩略图技术规格</h4>
+    <ul>
+      <li><strong>比例：</strong>16:9（横版）</li>
+      <li><strong>格式：</strong>JPG</li>
+      <li><strong>建议尺寸：</strong>1920×1080 像素 或 1280×720 像素</li>
+      <li><strong>内容：</strong>即作品展示封面，与作品主题相呼应</li>
+      <li><strong>来源：</strong>可通过 AI 生成（如 Midjourney、DALL·E）或从网络选取与主题相符的图片</li>
+    </ul>
+  </div>
+
+  <h3>4.6 选拔与标注规则</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>标注项目</th><th>数量要求</th><th>谁来决定</th></tr></thead>
+      <tbody>
+        <tr><td>参加线下实体展出</td><td>每个模块班级选 <strong>2 组</strong></td><td>授课教师</td></tr>
+        <tr><td>优秀奖候选组</td><td>每个模块班级选 <strong>1 组</strong>（从参展组中产生）</td><td>授课教师</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="alert alert-info">
+    <strong>💡 关于参展组数</strong>
+    模块课程的组别数量多，每班选择二组参展，以确保展览规模适中、各班均有代表性作品展出。
+  </div>
+  <p>填写 Google Form 时，请授课教师在对应小组的选项中标记以上两项，以便统筹负责人汇总。</p>
+
+  <h3>4.7 上传后修改方法</h3>
+  <p>
+    若授课教师在提交 Google Form 后发现信息需要修改，
+    可通过提交后系统发送的<strong>确认邮件</strong>中的「编辑回复」按钮重新进入表单修改。
+  </p>
+  <div class="alert alert-warn">
+    <strong>⚠️ 注意</strong>
+    修改时，除「学期」「专业」「模块名称」三个字段不可自行修改外，其余内容均可通过「编辑回复」自行调整。
+    修改完成后请告知执行统筹，以便进行后续系统同步。
+  </div>
+
+  <h3>4.8 Capstone 作品补充说明</h3>
+  <p>
+    Capstone 课程作品在收集规则上与模块课程相同，但还需注意：
+  </p>
+  <ul>
+    <li>如有 APP 产品，建议提供 UI 展示截图或演示链接（若有 Prototype）</li>
+    <li>大部分 Capstone 作品 UI 界面以海报或 PPT 形式呈现，如无实物亦可接受</li>
+    <li>上学期的 Capstone 作品同样须补充上传，请相关授课教师、布展协调负责人、Capstone协调负责人等授课教师优先跟进</li>
+  </ul>
+</section>
+
+<!-- =========================================================
+     第五章 线上数字展厅
+     ========================================================= -->
+<section class="chapter" id="ch5">
+  <div class="chapter-header">
+    <span class="chapter-num">第五章</span>
+    <h2>线上数字展厅</h2>
+  </div>
+
+  <h3>5.1 展厅概述</h3>
+  <p>
+    2568学年首次配套搭建<strong>博仁大学中文国际学院成果展厅</strong>线上网站，
+    与线下实体展览同步运行，实现全校师生及校外人士均可在线观摩作品并参与投票。
+    线上展厅由执行统筹主导搭建，线上展厅负责人统筹内容规划。
+  </p>
+
+  <h3>5.2 网站内容四大类别</h3>
+  <p>线上展厅除展示本次模块展作品外，还规划了以下四个内容类别，
+  作为学院成果的长期数字化档案：</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>#</th><th>类别名称</th><th>包含内容</th><th>展示方式</th></tr></thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td><strong>模块课程<br>Module Course（含Capstone）</strong></td>
+          <td>作品名称、组员、简介、海报图、缩略图、视频链接、指导授课教师</td>
+          <td>线上展示＋线下展出</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td><strong>职涯与就业<br>CWIE</strong></td>
+          <td>学期、专业、学生姓名、实习海报(jpg)、实习简介、项目报告(pdf)、项目摘要(中文pdf)、实习照片(3-5张)、实习视频(YouTube)、负责授课教师</td>
+          <td>线上展示，其余存档备份</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td><strong>学术活动<br>Academic Activity</strong></td>
+          <td>学期、专业、课程代码、活动简介、指导授课教师、照片(3-5张jpg)</td>
+          <td>全部线上展示</td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td><strong>参赛与获奖<br>Competitions & Awards</strong></td>
+          <td>学期、专业、赛事名称、学生姓名、作品名称、作品简介、16:9封面图(JPG)、指导授课教师、作品上传(pdf)</td>
+          <td>线上展示，作品文件存档备份</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>💡 长期规划</strong>
+    2、3、4类内容目前网页已预留位置，后续可逐步补充填入。
+    各专业如有此类成果资料，可联系线上展厅负责人协助录入。
+  </div>
+
+  <h3>5.3 线上投票机制</h3>
+
+  <h4>5.3.1 人气奖投票规则</h4>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>投票类型</th><th>权重</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>现场得票</td><td><strong>×2（双倍权重）</strong></td><td>布展现场由观众投票，须亲临现场参与</td></tr>
+        <tr><td>网站爱心点赞</td><td><strong>×1（单倍权重）</strong></td><td>通过展厅网站对作品点击爱心</td></tr>
+        <tr><td><strong>总得票</strong></td><td colspan="2">现场票 × 2 ＋ 网站点赞 × 1 = 最终得票数</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h4>5.3.2 线上投票规则</h4>
+  <ul>
+    <li>每台设备仅可对<strong>同一作品</strong>爱心点赞<strong>一次</strong></li>
+    <li>一台设备可对不同作品各点赞一次</li>
+    <li>师生均可参与线上投票</li>
+  </ul>
+
+  <h4>5.3.3 投票时间窗口</h4>
+  <div class="tip-card">
+    <h4>线上投票时段</h4>
+    <p><strong>开始：</strong>第12周 周三 10:00</p>
+    <p><strong>截止：</strong>第12周 周四 15:30</p>
+    <p style="margin-top:8px; color:var(--muted); font-size:13px;">
+      超出此时段的点赞将不计入人气奖统计。请授课教师提醒学生于投票时段内完成参与。
+    </p>
+  </div>
+
+  <h3>5.4 作品 ID 管理</h3>
+  <p>每件参展作品在网站上均有唯一的作品 ID。</p>
+  <div class="alert alert-warn">
+    <strong>⚠️ 注意：作品 ID 务必核对</strong>
+    过往执行中曾出现作品 ID 对照表有误的情况（2568年展览日早上出现）。
+    须在布展日结束后完成对照表核查，
+    若发现错误须立即通知所有授课教师，要求学生前往网站核查其正确的作品 ID，
+    并引导观众投票到正确区域。投票 PDF 也需同步更新。
+  </div>
+
+  <h3>5.5 推广建议</h3>
+  <ul>
+    <li>在布展日开放线上投票后，请授课教师在班级群分享展厅链接，引导师生为参展作品点赞</li>
+    <li>展厅网站可同步推广至社交媒体，扩大校外受众范围</li>
+    <li>在展览现场放置 QR Code 展板，便于观众扫码访问线上展厅</li>
+  </ul>
+</section>
+
+<!-- =========================================================
+     第六章 线下布展
+     ========================================================= -->
+<section class="chapter" id="ch6">
+  <div class="chapter-header">
+    <span class="chapter-num">第六章</span>
+    <h2>线下布展</h2>
+  </div>
+
+  <h3>6.1 布展日程</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>时段</th><th>内容</th></tr></thead>
+      <tbody>
+        <tr><td><strong>第12周 周三 10:00–12:00</strong></td><td>第一批：授课教师带学生至3栋4层领取展架、PP板及打印好的海报，前往6栋1层布展</td></tr>
+        <tr><td><strong>第12周 周三 13:30–15:30</strong></td><td>第二批：安排同上（可根据班级时间选择上午或下午场次）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>📌 布展注意</strong>
+    <ul style="margin:8px 0 0 16px;">
+      <li>学生须<strong style="display:inline;">自备剪刀</strong>；胶带由学院统一提供。</li>
+      <li>授课教师应在布展前确认学生已到齐，并提前分配好展架搭建任务。</li>
+    </ul>
+  </div>
+
+  <h3>6.2 展位分配总表</h3>
+
+  <p>执行统筹须在布展日前完成展位分配，并将分配结果以表格或示意图形式发布至筹备群组。各授课教师凭此告知学生所属小组的海报应放置于哪个展位，避免布展当天出现混乱或重复占用。</p>
+  <div class="alert alert-warn">
+    <strong>⚠️ 执行要点</strong>
+    展位分配表须在布展日前发布，建议于第11周随物资清单一并公告。分配时应考虑各专业班级数量与展区空间，确保每个参展小组均有对应展位编号。
+  </div>
+
+  <h3>6.3 展架搭建步骤</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>领取物料</strong>
+        <p>到3栋4层办公室找展架管理负责人，领取：展架 × 数量、黑色PP板 × 数量、打印好的海报</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>前往展览区</strong>
+        <p>搬运物料至6栋1层 Blend Cafe 旁，找到本组对应展位编号</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>搭建展架</strong>
+        <p>组装展架立柱，确保稳固；横向加贴胶带加固两侧（防风），避免展架倒塌</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>固定海报与PP板</strong>
+        <p>用剪刀裁切胶带，将海报固定在展架上；PP板可放于海报后作为衬板</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>检查与拍照</strong>
+        <p>完成后检查展架是否稳固，拍摄展位照片上传至摄影记录负责人建立的云端硬盘</p>
+      </div>
+    </div>
+  </div>
+
+  <h3>6.4 布展注意事项与风险提示</h3>
+  <div class="alert alert-danger">
+    <strong>🌬️ 防风提示（重要）</strong>
+    展览区为半户外/开放空间，存在因风导致展架倒塌的风险。
+    2568年度布展当天即发生展架被风吹倒事件。
+    <ul style="margin-top:8px;">
+      <li>在展架横向两侧加贴胶带固定，可大幅降低倒塌概率</li>
+      <li>若当天风力较大，可将展板暂时卸下放于立柱旁，待第二天再重新固定</li>
+      <li>次日（展览日）早晨，授课教师应提早到场检查并重新整理倒塌的展架</li>
+    </ul>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>📸 拍照归档</strong>
+    布展过程及成果请拍照上传至摄影记录负责人建立的云端硬盘（Google Drive），
+    以供后续制作宣传视频及存档。
+  </div>
+
+  <h3>6.5 展板表头制作</h3>
+  <p>各专业主任负责制作本专业各展位的展板表头（标示展位编号与课程信息），并在布展日前完成准备。制作前须确认本专业参展班级数量，以备足够数量的表头。</p>
+</section>
+
+<!-- =========================================================
+     第七章 开幕与观展日
+     ========================================================= -->
+<section class="chapter" id="ch7">
+  <div class="chapter-header">
+    <span class="chapter-num">第七章</span>
+    <h2>开幕与观展日</h2>
+  </div>
+
+  <h3>7.1 当日流程（第12周 周四）</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>时间</th><th>事项</th><th>负责人/说明</th></tr></thead>
+      <tbody>
+        <tr><td><strong>早上（提前）</strong></td><td>学生到场重新整理展架（若前日有倒塌）</td><td>授课教师通知，学生自行前往</td></tr>
+        <tr><td><strong>11:00</strong></td><td>正式开幕，嘉宾入场</td><td>校领导出席，须提前完成接待准备</td></tr>
+        <tr><td><strong>11:00–13:00</strong></td><td>正式观展 ＆ 现场人气投票</td><td>展区开放，观众自由参观并投票</td></tr>
+        <tr><td><strong>全天</strong></td><td>线上展厅同步开放，持续投票</td><td>线上截止第12周周四15:30</td></tr>
+        <tr><td><strong>15:30</strong></td><td>线上投票截止</td><td>系统自动，执行统筹确认票数</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>7.2 嘉宾接待说明</h3>
+  <p>本次展览邀请<strong>校领导</strong>出席开幕及颁奖，接待工作需提前安排：</p>
+  <ul>
+    <li>提前确认校领导行程，预留引导人员</li>
+    <li>确认校领导出席开幕式所需英文或泰文致辞稿，并安排适当人选准备致辞内容</li>
+    <li>现场布置需整洁，展区主要通道保持畅通</li>
+  </ul>
+
+  <h3>7.3 现场投票操作</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>确认作品 ID 正确</strong>
+        <p>在开展前，向所有授课教师发送最终的「作品ID对照表」，确认无误后再引导投票</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>发放投票 PDF 或展示投票展板</strong>
+        <p>将「CIC 投票.pdf」打印并放置于展区入口处，或制成海报让观众扫码投票</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>引导学生向观众介绍作品</strong>
+        <p>建议各班安排1–2名学生于展位旁值守，主动向到访观众介绍作品，并引导其参与投票</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>同步提醒线上投票</strong>
+        <p>告知观众可扫码访问线上展厅进行线上点赞，线上投票截止时间为第12周周四15:30</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-danger">
+    <strong>⚠️ 历史问题提醒</strong>
+    2568年度曾发生作品ID对照表有误的情况，导致需要在开展后紧急修正并重新通知授课教师。
+    请务必在布展日结束后，由执行统筹完成ID核查，并发布最终版本。
+  </div>
+
+  <h3>7.4 摄影记录任务</h3>
+  <p>摄影记录负责人负责全天摄影摄像，记录观展及互动场景：</p>
+  <ul>
+    <li>开幕仪式：校领导、嘉宾、授课教师、学生合影</li>
+    <li>学生展位讲解与互动场景</li>
+    <li>现场投票氛围</li>
+    <li>展区整体全景</li>
+  </ul>
+  <p>所有照片上传至展览云端硬盘（Google Drive），作为宣传视频素材。</p>
+</section>
+
+<!-- =========================================================
+     第八章 颁奖典礼
+     ========================================================= -->
+<section class="chapter" id="ch8">
+  <div class="chapter-header">
+    <span class="chapter-num">第八章</span>
+    <h2>颁奖典礼</h2>
+  </div>
+
+  <h3>8.1 基本信息</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>项目</th><th>详情</th></tr></thead>
+      <tbody>
+        <tr><td><strong>日期</strong></td><td>第12周 周五</td></tr>
+        <tr><td><strong>时间</strong></td><td>上午 11:00（请至少提前15分钟到场）</td></tr>
+        <tr><td><strong>地点</strong></td><td>校长楼 6层 小礼堂（6-1）</td></tr>
+        <tr><td><strong>颁奖嘉宾</strong></td><td>校领导</td></tr>
+        <tr><td><strong>参加人员</strong></td><td>全体本科授课教师（前排就坐）、获奖学生（穿着校服）、全院学生（欢迎出席）</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>8.2 参与人员要求</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>对象</th><th>要求</th><th>到场时间</th></tr></thead>
+      <tbody>
+        <tr><td><strong>全体本科授课教师</strong></td><td>前排就坐，正装出席</td><td>10:45（典礼前15分钟）</td></tr>
+        <tr><td><strong>获奖学生</strong></td><td>穿着校服出席，到前排或指定区域就座</td><td><strong>10:30</strong></td></tr>
+        <tr><td><strong>其余学生</strong></td><td>欢迎自由出席观礼</td><td>11:00前</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-warn">
+    <strong>⚠️ 提醒授课教师</strong>
+    请授课教师提前通知获奖学生：① 穿校服；② 10:30前到场；
+    ③ 如确实无法出席，需在统计表中标注说明。
+  </div>
+
+  <h3>8.3 颁奖流程</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>出席确认（颁奖前1周）</strong>
+        <p>各专业向执行统筹提交获奖名单；执行统筹发布统计表，无法出席者须提前标注。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>优秀奖名单最终确认（颁奖前一日）</strong>
+        <p>执行统筹发布「优秀奖小组名单」，各授课教师核对确认是否正确。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>奖状打印（颁奖前）</strong>
+        <p>各专业凭最终名单自行打印奖状（奖状纸由模块展经费统一购买，分发各专业）。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <strong>奖品预备</strong>
+        <p>由模块展经费购买奖品，摄影记录负责人协助奖品预备与转移工作。</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <strong>颁奖典礼当日</strong>
+        <p>校领导主持颁奖，依次颁发各专业优秀奖、人气奖及外部联动奖（海南文创赛等）。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-info">
+    <strong>💡 现场协调提醒</strong>
+    典礼当日须安排至少两名现场协调人员：一名专责在旁引导获奖学生掌握上台时机，确保颁奖流程顺畅高效；另一名负责在颁奖人与学生合影时调度站位，使合影有序完成。
+  </div>
+
+  <h3>8.4 外部联动奖项</h3>
+  <p>
+    借助模块展颁奖机会，同场表彰本学年在外部赛事中获奖的学生，包括但不限于：
+  </p>
+  <ul>
+    <li>海南文创赛获奖学生</li>
+    <li>其他学院认可的校外赛事获奖者</li>
+  </ul>
+  <p>各专业如有此类获奖学生，须提前向执行统筹报名，以便统一安排出席颁奖。</p>
+
+  <h3>8.5 奖状打印建议</h3>
+  <div class="tip-card">
+    <h4>奖状制作指引</h4>
+    <ul>
+      <li>内容：获奖者姓名（中文/英文）、奖项名称、课程/专业名称、学年度、颁奖单位（博仁大学中文国际学院）、日期</li>
+      <li>奖状纸：由执行统筹统一采购后分发各专业</li>
+      <li>打印：各专业自行使用打印机完成</li>
+      <li>建议在第12周周四（颁奖前一天）完成打印，并再次核对姓名拼写</li>
+    </ul>
+  </div>
+
+  <h3>8.6 典礼后安排</h3>
+  <p>颁奖典礼结束后（约12:30）：</p>
+  <ul>
+    <li>未领奖学生前往6栋1层撤除展架和海报</li>
+    <li>展架与PP板归还至3栋4层展架管理负责人处</li>
+    <li>海报可由各班学生自行带走留存，或由授课教师统一处置</li>
+  </ul>
+</section>
+
+<!-- =========================================================
+     第九章 展后工作
+     ========================================================= -->
+<section class="chapter" id="ch9">
+  <div class="chapter-header">
+    <span class="chapter-num">第九章</span>
+    <h2>展后工作</h2>
+  </div>
+
+  <h3>9.1 展架与物料回收</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <strong>颁奖典礼结束后，12:30 起</strong>
+        <p>未领奖学生在授课教师带领下，前往6栋1层展览区拆除展架、收取海报</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <strong>搬运归还</strong>
+        <p>将展架、PP板（黑色）搬运至3栋4层，交还给展架管理负责人</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <strong>清洁展区</strong>
+        <p>确保展览区域恢复原状，不留物品或垃圾</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-warn">
+    <strong>⚠️ 各授课教师须提前通知学生</strong>
+    收展安排须于颁奖典礼前告知学生，以避免典礼结束后学生直接离场。
+    建议授课教师于展览日当日再次提醒。
+  </div>
+
+  <h3>9.2 照片与影像整理</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>素材类型</th><th>收集方式</th><th>负责人</th><th>用途</th></tr></thead>
+      <tbody>
+        <tr><td>布展过程照片</td><td>上传至摄影记录负责人建立的 Google Drive 云端硬盘</td><td>各授课教师/学生</td><td>宣传视频、档案</td></tr>
+        <tr><td>展览现场照片</td><td>摄影记录负责人全程拍摄</td><td>摄影记录负责人</td><td>宣传视频、档案</td></tr>
+        <tr><td>颁奖典礼照片</td><td>摄影记录负责人拍摄＋其他授课教师辅助</td><td>摄影记录负责人</td><td>宣传视频、档案</td></tr>
+        <tr><td>师生合影</td><td>典礼结束后集体拍摄</td><td>由摄影记录负责人安排</td><td>档案留存</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>9.3 宣传视频制作</h3>
+  <div class="tip-card">
+    <h4>视频制作规格</h4>
+    <ul>
+      <li><strong>方向：</strong>横屏（Landscape）</li>
+      <li><strong>比例：</strong>16:9</li>
+      <li><strong>内容：</strong>记录展览全过程（布展、观展、颁奖），体现学生成果与付出</li>
+      <li><strong>用途：</strong>学院内部存档、对外宣传、其他部门使用</li>
+      <li><strong>负责人：</strong>摄影记录负责人</li>
+    </ul>
+  </div>
+
+  <h3>9.4 线上展厅数据存档</h3>
+  <ul>
+    <li>展览结束后保留线上展厅网站数据，作为长期学院成果展示平台</li>
+    <li>投票数据（人气奖得票情况）须导出保存，作为评奖依据和历史记录</li>
+    <li>Google Form 提交数据保存至 Google Drive，按学期归档整理</li>
+  </ul>
+
+  <h3>9.5 总结与改进建议</h3>
+  <p>展览结束后，建议执行统筹召集相关负责人进行简短总结，针对本届筹备与执行过程中的亮点与问题进行梳理，重点回顾作品收集进度、物资管理、现场布展、投票系统及颁奖典礼各环节的执行情况，并记录出现的突发状况与临时处理方式。总结结果应以文字形式存档，在下届筹备启动时作为参考，帮助下一届执行统筹更早预判风险、优化流程安排，使每届展览在前届基础上持续改进。</p>
+</section>
+
+<!-- =========================================================
+     附录
+     ========================================================= -->
+<section class="chapter" id="appendix">
+  <div class="chapter-header">
+    <span class="chapter-num">附录</span>
+    <h2>附录与参考资料</h2>
+  </div>
+
+  <h3>附录 A：展览物料清单</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>物料</th><th>参考单价（泰铢）</th><th>数量</th><th>管理人</th><th>放置位置</th></tr></thead>
+      <tbody>
+        <tr><td>展架（立柱）</td><td>250/个</td><td>按展位数量</td><td>展架管理负责人</td><td>3栋4层办公室</td></tr>
+        <tr><td>黑色PP板（A1）</td><td>50/张</td><td>按展位数量</td><td>展架管理负责人</td><td>3栋4层办公室</td></tr>
+        <tr><td>打印好的A1海报</td><td>200/张</td><td>按参展作品数</td><td>执行统筹</td><td>3栋4层办公室</td></tr>
+        <tr><td>大主题海报（A0）</td><td>300/张</td><td>按系数</td><td>执行统筹</td><td>3栋4层办公室</td></tr>
+        <tr><td>Sticker（装饰贴纸）</td><td>200/批</td><td>按系数</td><td>执行统筹</td><td>3栋4层办公室</td></tr>
+        <tr><td>胶带</td><td>—</td><td>若干卷</td><td>展区现场提供</td><td>布展现场</td></tr>
+        <tr><td>剪刀</td><td>—</td><td>学生自备</td><td>各班自带</td><td>—</td></tr>
+        <tr><td>投票单（打印版）</td><td>—</td><td>若干份</td><td>执行统筹</td><td>展区入口</td></tr>
+        <tr><td>奖状纸</td><td>—（统一采购）</td><td>按获奖人数</td><td>执行统筹采购后分发</td><td>各专业自行打印</td></tr>
+        <tr><td>奖品（个人）</td><td>100/人</td><td>按获奖人数</td><td>模块展经费采购</td><td>颁奖典礼现场</td></tr>
+        <tr><td>奖品（每组）</td><td>150/组（或奖杯190/组）</td><td>按获奖组数</td><td>模块展经费采购</td><td>颁奖典礼现场</td></tr>
+        <tr><td>奖品（艺术设计）</td><td>150/人</td><td>按艺设获奖人数</td><td>模块展经费采购</td><td>颁奖典礼现场</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>附录 B：核查清单（Checklist）</h3>
+
+  <h4>▸ 上传前核查（授课教师）</h4>
+  <ul>
+    <li>□ 指定班级资料统筹同学，负责整理全班作品数据并统一上传</li>
+    <li>□ 确认所有参展小组的作品海报文件（JPG，A1竖版，建议300 DPI以上）</li>
+    <li>□ 制作或准备好每件作品的缩略图（JPG，16:9，建议1920×1080）</li>
+    <li>□ 如有视频，已上传至 YouTube 并复制链接</li>
+    <li>□ 确认必填字段完整：学期、专业、模块名称/课程代码、作品名称、组员姓名、作品简介等</li>
+    <li>□ 确认所有组员姓名拼写正确（将用于奖状）</li>
+    <li>□ 标注每个模块班级 2 组参加线下展出</li>
+    <li>□ 标注每个模块班级 1 组优秀奖候选（从参展组中产生）</li>
+    <li>□ 第11周 周五 16:00 前完成所有提交</li>
+  </ul>
+
+  <h4>▸ 布展日前核查（执行统筹）</h4>
+  <ul>
+    <li>□ 完成展位分配，发布分配表至筹备群组（建议第11周随物资清单一并公告）</li>
+    <li>□ 确认各专业主任已完成展板表头制作</li>
+    <li>□ 完成作品ID核查，向各授课教师发布最终「作品ID对照表」</li>
+  </ul>
+
+  <h4>▸ 布展日核查（授课教师）</h4>
+  <ul>
+    <li>□ 与展架管理负责人确认领取时间（上午场 10:00–12:00 或下午场 13:30–15:30）</li>
+    <li>□ 通知学生自备剪刀（胶带由学院统一提供）</li>
+    <li>□ 至3栋4层领取展架、PP板、打印海报</li>
+    <li>□ 前往6栋1层 Blend Cafe 旁，找到对应展位编号</li>
+    <li>□ 搭建展架，横向胶带双侧加固（防风）</li>
+    <li>□ 固定海报与PP板</li>
+    <li>□ 完成后检查展架是否稳固</li>
+    <li>□ 拍摄展位照片，上传至云端硬盘</li>
+  </ul>
+
+  <h4>▸ 观展日核查（第12周 周四）</h4>
+  <ul>
+    <li>□ 早晨检查展架，如有倒塌通知学生重新整理</li>
+    <li>□ 确认「CIC 投票.pdf」已放置于展区入口，引导现场投票</li>
+    <li>□ 安排1–2名学生在展位旁值守，向观众介绍作品</li>
+    <li>□ 提醒观众同步访问线上展厅参与线上投票（截止15:30）</li>
+  </ul>
+
+  <h4>▸ 颁奖典礼前核查</h4>
+  <ul>
+    <li>□ 各专业向执行统筹提交获奖名单（颁奖前1周）</li>
+    <li>□ 无法出席的获奖学生已在颁奖统计表中标注（颁奖前1周）</li>
+    <li>□ 核对执行统筹发布的「优秀奖小组名单」，确认无误（颁奖前一日）</li>
+    <li>□ 各专业奖状已打印完毕，姓名拼写已再次核对（第12周 周四前）</li>
+    <li>□ 奖品已准备好</li>
+    <li>□ 通知获奖学生：穿校服，10:30 前到场</li>
+    <li>□ 全体本科授课教师已收到出席通知（10:45 前正装到场）</li>
+    <li>□ 已安排两名现场协调人员</li>
+  </ul>
+
+  <h4>▸ 展后核查</h4>
+  <ul>
+    <li>□ 颁奖结束后（12:30起），带学生至6栋1层拆除展架、收取海报</li>
+    <li>□ 展架、PP板已归还至3栋4层</li>
+    <li>□ 展区已清洁复原，不留物品或垃圾</li>
+    <li>□ 各授课教师布展照片已上传云端硬盘</li>
+    <li>□ 投票数据已导出保存</li>
+    <li>□ Google Form 提交数据已按学期归档至 Google Drive</li>
+    <li>□ 宣传视频已开始制作（摄影记录负责人）</li>
+    <li>□ 总结会议已召集，总结文件已存档</li>
+  </ul>
+
+</section>
+
+</main>
+</div>
+
+<script>
+// 侧边栏高亮当前章节
+const sections = document.querySelectorAll('.chapter, #cover');
+const navLinks = document.querySelectorAll('#sidebar nav a');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + entry.target.id) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { rootMargin: '-20% 0px -70% 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
