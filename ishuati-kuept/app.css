@@ -111,6 +111,27 @@ main{max-width:660px; margin:0 auto; padding:16px 14px 96px}
   border-left:2px solid var(--accent); padding-left:12px;
   max-width:34em;
 }
+/* 开场白下面的跑马灯（文字在 app.js 的 MOTTO） */
+.marquee{
+  position:relative; overflow:hidden; margin-top:12px;
+  border-radius:999px; background:var(--accent-soft);
+  color:var(--accent-ink); font-size:14px; font-weight:600;
+  padding:7px 0;
+  -webkit-mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+          mask-image:linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+.mq-track{display:flex; width:max-content; animation:mq 60s linear infinite}
+.mq-run{display:flex; align-items:center; white-space:nowrap}
+.mq-sep{color:var(--accent); font-size:10px; margin:0 1.4em; opacity:.8}
+.marquee:hover .mq-track{animation-play-state:paused}
+@keyframes mq{from{transform:translateX(0)} to{transform:translateX(-50%)}}
+/* 不想看动画的人：静态显示，一句一行 */
+@media (prefers-reduced-motion: reduce){
+  .mq-track{animation:none !important; width:auto}
+  .mq-run{flex-direction:column; align-items:flex-start; white-space:normal; padding:2px 16px; gap:2px}
+  .mq-run + .mq-run, .mq-sep{display:none}
+  .marquee{border-radius:var(--r); -webkit-mask-image:none; mask-image:none}
+}
 .parts{display:flex; flex-direction:column; gap:12px}
 .partcard{
   position:relative; overflow:hidden;
@@ -400,4 +421,89 @@ mark.hl{background:var(--tag-soft); color:inherit; padding:1px 2px; border-radiu
 @media (max-width:560px){
   .stat{flex-wrap:wrap}
   .statbox{flex:1 1 calc(50% - 5px)}
+}
+
+/* ================= 国庆主题（9/30–10/8 由 app.js 自动加上 data-fest="guoqing"） =================
+   全部挂在 [data-fest] 底下，拿掉属性就完全回到原样。
+   红色只给顶栏与首页装饰；作答画面的强调色（空格底线、按钮、进度条）用深金色，
+   免得和「答错」的红色混在一起。 */
+:root[data-fest="guoqing"]{
+  --bg:#FCF8F1;
+  --accent:#A26600; --accent-ink:#7A4B00; --accent-soft:#FBF0D6;
+  --fest-red:#C8161D; --fest-red-2:#E0322A; --fest-red-text:#C8161D;
+  --fest-gold:#F5C542; --fest-gold-2:#FFE08A;
+}
+@media (prefers-color-scheme:dark){
+  :root[data-fest="guoqing"]:not([data-theme="light"]){
+    --bg:#141110; --surface:#1D1917; --surface-2:#27201C; --line:#352C27; --line-2:#4A3D36;
+    --accent:#E9B949; --accent-ink:#F5D27A; --accent-soft:#2B2210;
+    --fest-red:#A3131A; --fest-red-2:#C8161D; --fest-red-text:#FF7A70;
+    --fest-gold:#F2C14E; --fest-gold-2:#FFE08A;
+  }
+}
+:root[data-fest="guoqing"][data-theme="dark"]{
+  --bg:#141110; --surface:#1D1917; --surface-2:#27201C; --line:#352C27; --line-2:#4A3D36;
+  --accent:#E9B949; --accent-ink:#F5D27A; --accent-soft:#2B2210;
+  --fest-red:#A3131A; --fest-red-2:#C8161D; --fest-red-text:#FF7A70;
+  --fest-gold:#F2C14E; --fest-gold-2:#FFE08A;
+}
+
+/* 顶栏：中国红底、金线收边 */
+[data-fest="guoqing"] .topbar{
+  background:linear-gradient(90deg, var(--fest-red), var(--fest-red-2));
+  backdrop-filter:none; color:#fff;
+  border-bottom:2px solid var(--fest-gold);
+}
+[data-fest="guoqing"] .topbar-sub{color:rgba(255,255,255,.78)}
+[data-fest="guoqing"] .iconbtn{
+  background:rgba(255,255,255,.12); border-color:rgba(255,236,170,.45); color:#fff;
+}
+[data-fest="guoqing"] .iconbtn:active{background:rgba(255,255,255,.22)}
+[data-fest="guoqing"] .progressline i{background:var(--fest-gold)}
+
+/* 首页：五星取代同心圆，外加一条红底金字的标语带 */
+[data-fest="guoqing"] .hero-deco{
+  background:none; opacity:1; width:120px; height:100px; right:-4px; top:-8px;
+}
+[data-fest="guoqing"] .hero-deco::after{display:none}
+.fest-stars{width:100%; height:100%; fill:var(--fest-red-text); opacity:.16}
+.fest-ribbon{
+  display:inline-flex; align-items:center; gap:.5em;
+  margin:0 0 12px; padding:4px 14px 4px 10px;
+  background:linear-gradient(90deg, var(--fest-red), var(--fest-red-2));
+  color:var(--fest-gold-2); font-size:13px; font-weight:700; letter-spacing:.06em;
+  border-radius:4px; box-shadow:0 2px 8px -4px rgba(200,22,29,.6);
+}
+.fest-ribbon span{color:var(--fest-gold); font-size:12px}
+[data-fest="guoqing"] .lede{border-left-color:var(--fest-red-text)}
+[data-fest="guoqing"] .marquee{
+  background:linear-gradient(90deg, var(--fest-red), var(--fest-red-2));
+  color:var(--fest-gold-2);
+}
+[data-fest="guoqing"] .mq-sep{color:var(--fest-gold); opacity:1}
+[data-fest="guoqing"] .partcard{box-shadow:inset 0 3px 0 var(--fest-red-text), var(--shadow)}
+[data-fest="guoqing"] .partcard .pc-no{color:var(--fest-red-text)}
+@media (max-width:560px){
+  [data-fest="guoqing"] .hero-deco{width:92px; height:78px; right:-10px; top:-12px}
+}
+
+/* 顶栏的中国风几何线条：回纹（方形回旋纹）。
+   ::before 是右半边淡淡的一片回纹，往左渐隐，标题那一侧保持干净；
+   ::after 是贴着金线的一条细回纹饰带，像器物的边框。 */
+[data-fest="guoqing"] .topbar > *{position:relative; z-index:1}
+[data-fest="guoqing"] .topbar::before,
+[data-fest="guoqing"] .topbar::after{content:""; position:absolute; pointer-events:none}
+[data-fest="guoqing"] .topbar::before{
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M0 22H24M20 22V2H4V18H16V6H8V14H12V10' fill='none' stroke='%23FFE08A' stroke-width='1.4'/%3E%3C/svg%3E");
+  background-size:24px 24px; background-position:right center;
+  opacity:.22;
+  -webkit-mask-image:linear-gradient(90deg, transparent 30%, #000 75%);
+          mask-image:linear-gradient(90deg, transparent 30%, #000 75%);
+}
+[data-fest="guoqing"] .topbar::after{
+  left:0; right:0; bottom:1px; height:8px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M0 7.5H12M10 7.5V1H3V5.5H7V3.5' fill='none' stroke='%23F5C542' stroke-width='1'/%3E%3C/svg%3E");
+  background-size:12px 8px; background-repeat:repeat-x;
+  opacity:.75;
 }

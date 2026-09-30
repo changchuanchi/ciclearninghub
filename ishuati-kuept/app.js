@@ -33,6 +33,24 @@ function pct(n, d) { return d ? Math.round((n / d) * 100) : 0; }
 function pctLabel(n, d) { var p = pct(n, d); return n && !p ? "<1%" : p + "%"; }
 function barPct(n, d) { return n ? Math.max(pct(n, d), 1) : 0; }
 
+/* 首页开场白下面的跑马灯。一句一项，句与句之间自动插星号分隔。
+   整串排两份首尾相接，动画走到一半（-50%）刚好无缝接回开头；第二份对读屏软件隐藏，免得念两遍。
+   速度按字数算（每字约 0.65 秒，约每秒 20 像素），加句子不会越跑越快。 */
+var MOTTO = [
+  "生在红旗下，长在春风里，奋斗在新时代。",
+  "不负韶华，不负党和人民的殷切期望。",
+  "盛世如你所愿，你也莫负盛世。",
+  "把个人梦融入中国梦，用今天的汗水兑现明天的誓言。"
+];
+function marquee(lines) {
+  var one = lines.map(function (t) { return '<span class="mq-item">' + esc(t) + '</span>'; })
+    .join('<span class="mq-sep" aria-hidden="true">★</span>') +
+    '<span class="mq-sep" aria-hidden="true">★</span>';
+  var secs = Math.round(lines.join("").length * 0.65);
+  return '<div class="marquee"><div class="mq-track" style="animation-duration:' + secs + 's">' +
+    '<span class="mq-run">' + one + '</span><span class="mq-run" aria-hidden="true">' + one + '</span></div></div>';
+}
+
 /* 把题库的自订标记转成 HTML。题库本身不写 HTML，一律在这里渲染。
    Part I 的空格是 [[BLANK]]、Part II 是带编号的 [[BLANK:3]]，两种都要接——
    错题本会把 Part II 的题目跟 Part I 混在同一个串流里出，
@@ -198,6 +216,41 @@ var INDEX = {};
 var P2_TOTAL = B.p2.reduce(function (n, p) { return n + p.items.length; }, 0);
 var P3_TOTAL = B.p3.reduce(function (n, p) { return n + p.items.length; }, 0);
 
+/* ---------- 节日主题 ----------
+   国庆（9/30–10/8）自动套用，过了自动退回原本的绿色，不必记得改回来。
+   网址加 ?fest=guoqing 可提前预览，?fest=off 强制关闭。
+   红色只用在顶栏与首页装饰；作答画面的强调色换成深金色——
+   答错本来就是红色，强调色也用红，学生会分不清「这里要注意」和「你答错了」。 */
+var FEST = (function () {
+  var q = (location.search.match(/[?&]fest=(\w+)/) || [])[1];
+  if (q) return q === "off" ? "" : q;
+  var d = new Date(), m = d.getMonth() + 1, day = d.getDate();
+  return (m === 9 && day >= 30) || (m === 10 && day <= 8) ? "guoqing" : "";
+})();
+if (FEST) {
+  document.documentElement.setAttribute("data-fest", FEST);
+  var tc = document.querySelector('meta[name="theme-color"]');
+  if (tc) tc.setAttribute("content", "#C8161D");
+}
+
+/* 五角星：国旗那样一颗大星加四颗小星，小星各自有一角指向大星中心 */
+function starPath(cx, cy, r, rot) {
+  var pts = [];
+  for (var i = 0; i < 10; i++) {
+    var a = rot + i * Math.PI / 5, rr = i % 2 ? r * 0.382 : r;
+    pts.push((cx + rr * Math.sin(a)).toFixed(2) + "," + (cy - rr * Math.cos(a)).toFixed(2));
+  }
+  return '<polygon points="' + pts.join(" ") + '"/>';
+}
+function festStars() {
+  var big = [36, 40], s = starPath(big[0], big[1], 22, 0);
+  [[74, 14], [88, 30], [88, 52], [74, 68]].forEach(function (p) {
+    var rot = Math.atan2(big[0] - p[0], p[1] - big[1]);   /* 让一个角朝向大星 */
+    s += starPath(p[0], p[1], 7.5, rot);
+  });
+  return '<svg class="fest-stars" viewBox="0 0 100 84" aria-hidden="true">' + s + '</svg>';
+}
+
 /* ---------- 主题 ---------- */
 (function theme() {
   var t = null;
@@ -290,12 +343,17 @@ function viewHome() {
   ];
 
   app.innerHTML =
-    '<div class="hero"><span class="hero-deco" aria-hidden="true"></span>' +
+    '<div class="hero"><span class="hero-deco" aria-hidden="true">' +
+    (FEST === "guoqing" ? festStars() : "") + '</span>' +
+    (FEST === "guoqing"
+      ? '<p class="fest-ribbon"><span aria-hidden="true">★</span>庆祝中华人民共和国成立 ' +
+        (new Date().getFullYear() - 1949) + ' 周年</p>'
+      : "") +
     '<p class="lede">KU-EPT 全卷 80 题、三小时、全部四选一，不考听力与写作。' +
     '本题库由 AI 模拟 KU-EPT 出题逻辑生成，收录 ' +
     (B.p1.length + P2_TOTAL + P3_TOTAL).toLocaleString() + ' 题。' +
-    '每次进网页都重新随机出题，答完当场看解析。' +
-    '<b>祝卢鹏旗开得胜。</b></p></div>' +
+    '每次进网页都重新随机出题，答完当场看解析。</p>' +
+    marquee(MOTTO) + '</div>' +
     '<div class="parts">' + cards.map(function (c) {
       return '<button class="partcard" data-h="' + c.h + '" type="button">' +
         '<span class="pc-glyph">' + c.g + '</span>' +
