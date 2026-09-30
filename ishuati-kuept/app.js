@@ -365,8 +365,27 @@ function reveal(box, item, chosen, extra) {
 }
 
 /* ---------- Part I ---------- */
+/* 没做过的题排前面（组内随机），做过的排后面、做得越少越前面。
+   不然 2509 题每次整包重洗，刚做过的题马上又出现，学生会以为网站没记住。 */
+function freshFirst(list) {
+  var fresh = [], old = [];
+  list.forEach(function (it) { (S.seen[it.i] ? old : fresh).push(it); });
+  shuffle(old).sort(function (a, b) { return S.seen[a.i].n - S.seen[b.i].n; });
+  return shuffle(fresh).concat(old);
+}
+/* Part II／III 一次一整篇：挑「没做过的格子最多」的那几篇里随机一篇 */
+function pickFresh(packs) {
+  var best = -1, pool = [];
+  packs.forEach(function (p) {
+    var left = p.items.length - seenCount(p.items);
+    if (left > best) { best = left; pool = [p]; }
+    else if (left === best) pool.push(p);
+  });
+  return pick(pool);
+}
+
 function viewP1() {
-  var queue = shuffle(B.p1.slice());
+  var queue = freshFirst(B.p1);
   runStream(queue, "Part I 句子填空", "#/p1");
 }
 
@@ -454,7 +473,7 @@ function bar(btns) {
 
 /* ---------- Part II 完形填空 ---------- */
 function viewP2() {
-  var pack = pick(B.p2);
+  var pack = pickFresh(B.p2);
   var answered = {};
   setTop("Part II 完形填空", pack.n + " · " + pack.wc + " words", true);
 
@@ -543,7 +562,7 @@ function p2Para(t) {
 
 /* ---------- Part III 阅读 ---------- */
 function viewP3() {
-  var pack = pick(B.p3);
+  var pack = pickFresh(B.p3);
   var isLong = pack.u === "P3L";
   var answered = 0, right = 0;
   setTop("Part III 阅读理解", (isLong ? "长文" : "短文") + " · " + pack.n + " · " + pack.wc + " words", true);
@@ -751,6 +770,7 @@ function viewAdmin() {
         '<span class="chip' + (x.role === "admin" ? "" : " alt") + '">' + (x.role === "admin" ? "管理员" : "学生") + '</span>' +
         '<span class="acct-t">最后同步 ' + fmtTime(x.t) + '</span></div>' +
         '<div class="stat">' +
+        '<div class="statbox"><b>' + s.tries + '</b><span>作答次数</span></div>' +
         '<div class="statbox"><b>' + s.total + '</b><span>做过的题数</span></div>' +
         '<div class="statbox"><b>' + pct(s.correct, s.tries) + '%</b><span>正确率</span></div>' +
         '<div class="statbox"><b>' + s.wrong + '</b><span>待复习</span></div></div>' +
@@ -776,6 +796,7 @@ function viewStats() {
   var max = ds.length ? ds[0][1] : 0;
 
   var html = '<div class="stat">' +
+    '<div class="statbox"><b>' + tries + "</b><span>作答次数</span></div>" +
     '<div class="statbox"><b>' + total + "</b><span>做过的题数</span></div>" +
     '<div class="statbox"><b>' + pct(correct, tries) + "%</b><span>正确率</span></div>" +
     '<div class="statbox"><b>' + wrongN + "</b><span>待复习</span></div></div>";
