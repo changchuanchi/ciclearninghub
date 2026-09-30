@@ -367,3 +367,31 @@ mark.hl{background:var(--tag-soft); color:inherit; padding:1px 2px; border-radiu
 @media (prefers-reduced-motion:reduce){
   *{transition:none !important; animation:none !important}
 }
+
+/* ---------- 登录 ---------- */
+.login{
+  max-width:380px; margin:28px auto 0; background:var(--surface);
+  border:1px solid var(--line); border-radius:var(--r); box-shadow:var(--shadow);
+  padding:24px 20px; display:flex; flex-direction:column; gap:14px;
+}
+.login h2{margin:0; font-size:20px}
+.login p{margin:0; font-size:13px; color:var(--ink-2); line-height:1.7}
+.login label{display:flex; flex-direction:column; gap:6px; font-size:13px; color:var(--ink-2)}
+.login input{
+  font:inherit; font-size:16px; color:var(--ink); background:var(--bg);
+  border:1px solid var(--line-2); border-radius:10px; padding:11px 12px; width:100%; box-sizing:border-box;
+}
+.login input:focus{outline:2px solid var(--accent); outline-offset:1px; border-color:transparent}
+.login .btn{width:100%; flex:none}
+.loginerr{min-height:1.2em; font-size:13px; color:var(--bad)}
+.loginerr:empty{display:none}
+.login .loginnote{font-size:12px; color:var(--ink-3)}
+
+/* ---------- 学生记录（管理员） ---------- */
+.acct{margin-bottom:14px}
+.acct-h{display:flex; align-items:center; gap:8px; flex-wrap:wrap; margin-bottom:12px}
+.acct-h b{font-size:17px}
+.acct-h .chip{margin:0}
+.acct-t{margin-left:auto; font-size:12px; color:var(--ink-3); font-family:var(--mono)}
+.acct .stat{margin-bottom:10px}
+.acct-d{font-size:13px; color:var(--ink-2); line-height:1.8; font-variant-numeric:tabular-nums}

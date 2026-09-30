@@ -39,22 +39,129 @@ function markup(t) {
     .replace(/\*\*(NOT|EXCEPT)\*\*/g, "<strong>$1</strong>");
 }
 
+/* ---------- 帐号与云端同步 ----------
+   后端是 gas/Code.gs（Google Apps Script ＋ 试算表）。API 留空＝不启用登录，
+   网站退回纯本机模式，纪录只存在这个浏览器里。
+   登录后本机仍是主要储存（离线照样能做题），每次作答后延迟几秒推一份到云端；
+   换设备登录时从云端拉回来。本机纪录按帐号分开存，同一台设备换人登录不会串。 */
+var API = "https://script.google.com/macros/s/AKfycbwJwL9Wkao1q0IOdPEg7OX1HcQPMMFQ8t8qQ4QL3Hmr4rip6P5ePQi63S7DBuzY7aHYfw/exec";
+var AUTH_KEY = "kuept.auth";
+var AUTH = null;
+try { AUTH = JSON.parse(localStorage.getItem(AUTH_KEY)); } catch (e) {}
+if (!API) AUTH = null;
+
+function api(action, body) {
+  body = body || {};
+  body.a = action;
+  // text/plain 是「简单请求」，不会触发 CORS 预检，Apps Script 才接得住
+  return fetch(API, { method: "POST", body: JSON.stringify(body) })
+    .then(function (r) { return r.json(); });
+}
+function emptyData() { return { seen: {}, wrong: {}, dstat: {}, done: { p2: {}, p3: {} } }; }
+function dataKey() { return AUTH ? "kuept.v1:" + AUTH.u : "kuept.v1"; }
+function dirtyKey() { return "kuept.dirty:" + (AUTH ? AUTH.u : ""); }
+function isDirty() { try { return !!localStorage.getItem(dirtyKey()); } catch (e) { return false; } }
+function setDirty(on) {
+  try { on ? localStorage.setItem(dirtyKey(), "1") : localStorage.removeItem(dirtyKey()); } catch (e) {}
+}
+
+/* 两份纪录取联集。做题次数取较大值而不是相加——同一份纪录同步来回
+   好几次，相加会越加越多；取大值怎么合并都是同一个结果。 */
+function mergeMax(a, b) {
+  var o = emptyData();
+  [a, b].forEach(function (d) {
+    if (!d) return;
+    Object.keys(d.seen || {}).forEach(function (k) {
+      var x = o.seen[k] || { n: 0, c: 0 }, y = d.seen[k];
+      o.seen[k] = { n: Math.max(x.n, y.n || 0), c: Math.max(x.c, y.c || 0) };
+    });
+    Object.keys(d.dstat || {}).forEach(function (k) {
+      o.dstat[k] = Math.max(o.dstat[k] || 0, d.dstat[k]);
+    });
+  });
+  return o;
+}
+
+var pushTimer = null;
+var lastSync = 0;
+function schedulePush() {
+  if (!AUTH) return;
+  setDirty(true);
+  clearTimeout(pushTimer);
+  pushTimer = setTimeout(push, 3000);
+}
+function push() {
+  if (!AUTH) return Promise.resolve();
+  clearTimeout(pushTimer);
+  var who = AUTH.u;
+  return api("push", { token: AUTH.token, data: S }).then(function (r) {
+    if (!AUTH || AUTH.u !== who) return;
+    if (r.ok) { setDirty(false); lastSync = r.t || Date.now(); }
+    else if (r.err === "bad_token") expired();
+  }).catch(function () {});        // 离线：留着 dirty 标记，下次打开再推
+}
+/* 关掉分页或切到别的 App 时，把还没推的那几秒补推出去 */
+document.addEventListener("visibilitychange", function () {
+  if (document.visibilityState === "hidden" && AUTH && isDirty() && navigator.sendBeacon) {
+    try { localStorage.setItem(dataKey(), JSON.stringify(S)); } catch (e) {}
+    navigator.sendBeacon(API, JSON.stringify({ a: "push", token: AUTH.token, data: S }));
+  }
+});
+
+/* 打开网页时跟云端对一次：本机有没推上去的就合并后推，否则以云端为准 */
+function pull() {
+  if (!AUTH) return;
+  var who = AUTH.u;
+  api("pull", { token: AUTH.token }).then(function (r) {
+    if (!AUTH || AUTH.u !== who) return;
+    if (!r.ok) { if (r.err === "bad_token") expired(); return; }
+    if (isDirty()) {
+      var local = S;
+      S = mergeMax(r.data, local);
+      S.wrong = local.wrong;          // 错题本以本机最新的作答为准
+      save();
+      push();
+    } else if (r.data) {
+      S = r.data;
+      save(true);
+      lastSync = r.t || 0;
+    }
+    var h = location.hash.replace(/^#\/?/, "");
+    if (h === "" || h === "stats") route();   // 答题中不打断，只刷新首页与学习记录
+  }).catch(function () {});
+}
+
+function expired() {
+  logout(true);
+  alert("登录已失效（可能是密码被重设了），请重新登录。");
+}
+function logout(skipPush) {
+  var done = function () {
+    AUTH = null;
+    try { localStorage.removeItem(AUTH_KEY); } catch (e) {}
+    S = load();
+    go("#/");
+    route();
+  };
+  if (!skipPush && isDirty()) push().then(done); else done();
+}
+
 /* ---------- 进度（localStorage） ---------- */
-var KEY = "kuept.v1";
 var S = load();
 function load() {
   try {
-    var raw = localStorage.getItem(KEY);
+    var raw = localStorage.getItem(dataKey());
     if (raw) return JSON.parse(raw);
   } catch (e) {}
-  return { seen: {}, wrong: {}, dstat: {}, done: { p2: {}, p3: {} } };
+  return emptyData();
 }
 var saveTimer = null;
-function save() {
+function save(localOnly) {
   clearTimeout(saveTimer);
   saveTimer = setTimeout(function () {
-    try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) {}
+    try { localStorage.setItem(dataKey(), JSON.stringify(S)); } catch (e) {}
   }, 200);
+  if (!localOnly) schedulePush();
 }
 function record(item, ok, dtype) {
   var r = S.seen[item.i] || { n: 0, c: 0 };
@@ -120,6 +227,8 @@ function route() {
   setProgress(0);
   bar(null);          // 底部动作条挂在 body 上，换页时要自己收掉，
                       // 否则从答题页回首页会留下一颗还能按的「跳过」。
+  if (API && !AUTH) return viewLogin();
+  if (h === "admin" && AUTH && AUTH.role === "admin") return viewAdmin();
   if (h === "p1") return viewP1();
   if (h === "p2") return viewP2();
   if (h === "p3") return viewP3();
@@ -197,7 +306,11 @@ function viewHome() {
     '<button class="subcard" data-h="#/review" type="button"><b>错题本</b>' +
     '<span>' + (wrongN ? wrongN + " 题待复习" : "目前没有错题") + '</span></button>' +
     '<button class="subcard" data-h="#/stats" type="button"><b>学习记录</b>' +
-    '<span>看错误类型分布</span></button></div>';
+    '<span>' + (AUTH ? esc(AUTH.u) + " · 已登录" : "看错误类型分布") + '</span></button></div>' +
+    (AUTH && AUTH.role === "admin"
+      ? '<div class="subrow"><button class="subcard" data-h="#/admin" type="button">' +
+        '<b>学生记录</b><span>看每个帐号做了多少题、错在哪里</span></button></div>'
+      : "");
 
   app.querySelectorAll("[data-h]").forEach(function (b) {
     b.addEventListener("click", function () { go(b.dataset.h); });
@@ -536,6 +649,121 @@ function viewReview() {
   runStream(shuffle(items), "错题本", "#/review");
 }
 
+/* ---------- 登录 ---------- */
+function viewLogin() {
+  setTop("iSHUATI KU-EPT 练习题库", "", false);
+  app.innerHTML =
+    '<form class="login" id="loginForm" autocomplete="on">' +
+    '<h2>登录</h2>' +
+    '<p>登录后，做题记录与错题本会存到云端，换手机或换电脑登录同一个帐号都找得回来。</p>' +
+    '<label>帐号<input name="u" autocomplete="username" autocapitalize="none" spellcheck="false" required></label>' +
+    '<label>密码<input name="p" type="password" autocomplete="current-password" required></label>' +
+    '<div class="loginerr" id="loginErr" role="alert"></div>' +
+    '<button class="btn" type="submit" id="loginBtn">登录</button>' +
+    '<p class="loginnote">帐号由老师发给你。忘记密码请找老师重设。</p></form>';
+
+  var f = document.getElementById("loginForm");
+  var err = document.getElementById("loginErr");
+  var btn = document.getElementById("loginBtn");
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    err.textContent = "";
+    btn.disabled = true;
+    btn.textContent = "登录中…";
+    api("login", { u: f.u.value, p: f.p.value }).then(function (r) {
+      if (!r.ok) {
+        err.textContent = r.err === "locked"
+          ? "密码错太多次，请 10 分钟后再试。"
+          : "帐号或密码不对。";
+        return;
+      }
+      AUTH = { u: r.u, role: r.role, token: r.token };
+      try { localStorage.setItem(AUTH_KEY, JSON.stringify(AUTH)); } catch (e2) {}
+      // 本机这个帐号的旧纪录 ＋ 云端纪录
+      var local = load();
+      S = mergeMax(r.data, local);
+      S.wrong = (r.data && r.data.wrong) || local.wrong || {};
+      Object.keys(local.wrong || {}).forEach(function (k) { S.wrong[k] = local.wrong[k]; });
+      // 还没登录前在这台设备上做的题，问要不要并进帐号（只问一次）
+      var anon = null;
+      try { anon = JSON.parse(localStorage.getItem("kuept.v1")); } catch (e3) {}
+      var asked = false;
+      try { asked = !!localStorage.getItem("kuept.migrated"); } catch (e4) {}
+      var anonN = anon && anon.seen ? Object.keys(anon.seen).length : 0;
+      if (anonN && !asked) {
+        if (confirm("这台设备上有 " + anonN + " 题是登录前做的，要并进「" + r.u + "」这个帐号吗？")) {
+          var w = S.wrong;
+          S = mergeMax(S, anon);
+          S.wrong = w;
+          Object.keys(anon.wrong || {}).forEach(function (k) { S.wrong[k] = Math.max(S.wrong[k] || 0, anon.wrong[k]); });
+        }
+        try { localStorage.setItem("kuept.migrated", "1"); } catch (e5) {}
+      }
+      save();
+      push();
+      go("#/");
+      route();
+    }).catch(function () {
+      err.textContent = "连不上服务器，请检查网络后再试。";
+    }).then(function () {
+      btn.disabled = false;
+      btn.textContent = "登录";
+    });
+  });
+}
+
+/* ---------- 学生记录（管理员） ---------- */
+function summarize(d) {
+  d = d || emptyData();
+  var o = { total: 0, tries: 0, correct: 0, p1: 0, p2: 0, p3: 0, wrong: Object.keys(d.wrong || {}).length, top: "" };
+  Object.keys(d.seen || {}).forEach(function (k) {
+    var s = d.seen[k];
+    o.total++; o.tries += s.n || 0; o.correct += s.c || 0;
+    var x = INDEX[k];
+    if (x) o[x.part]++;
+  });
+  var ds = Object.keys(d.dstat || {}).sort(function (a, b) { return d.dstat[b] - d.dstat[a]; });
+  if (ds.length) o.top = ds[0] + "（" + d.dstat[ds[0]] + "）";
+  return o;
+}
+function fmtTime(t) {
+  if (!t) return "—";
+  var d = new Date(t), p = function (n) { return (n < 10 ? "0" : "") + n; };
+  return d.getFullYear() + "-" + p(d.getMonth() + 1) + "-" + p(d.getDate()) + " " + p(d.getHours()) + ":" + p(d.getMinutes());
+}
+function viewAdmin() {
+  setTop("学生记录", "", true);
+  app.innerHTML = '<div class="empty">读取中…</div>';
+  bar([{ t: "重新整理", cls: "btn ghost", fn: function () { route(); } },
+       { t: "回首页", cls: "btn ghost", fn: function () { go("#/"); } }]);
+  api("admin", { token: AUTH.token }).then(function (r) {
+    if (location.hash !== "#/admin") return;
+    if (!r.ok) {
+      if (r.err === "bad_token") return expired();
+      app.innerHTML = '<div class="empty">读取失败（' + esc(r.err) + '）。</div>';
+      return;
+    }
+    if (!r.users.length) { app.innerHTML = '<div class="empty">还没有任何帐号。</div>'; return; }
+    app.innerHTML = r.users.map(function (x) {
+      var s = summarize(x.data);
+      return '<div class="qcard acct">' +
+        '<div class="acct-h"><b>' + esc(x.u) + '</b>' +
+        '<span class="chip' + (x.role === "admin" ? "" : " alt") + '">' + (x.role === "admin" ? "管理员" : "学生") + '</span>' +
+        '<span class="acct-t">最后同步 ' + fmtTime(x.t) + '</span></div>' +
+        '<div class="stat">' +
+        '<div class="statbox"><b>' + s.total + '</b><span>做过的题数</span></div>' +
+        '<div class="statbox"><b>' + pct(s.correct, s.tries) + '%</b><span>正确率</span></div>' +
+        '<div class="statbox"><b>' + s.wrong + '</b><span>待复习</span></div></div>' +
+        '<div class="acct-d">Part I ' + s.p1 + ' / ' + B.p1.length +
+        ' · Part II ' + s.p2 + ' / ' + P2_TOTAL +
+        ' · Part III ' + s.p3 + ' / ' + P3_TOTAL + '</div>' +
+        '<div class="acct-d">最常犯的错误类型：' + (s.top ? esc(s.top) : "—") + '</div></div>';
+    }).join("");
+  }).catch(function () {
+    app.innerHTML = '<div class="empty">连不上服务器，请检查网络后再试。</div>';
+  });
+}
+
 /* ---------- 学习记录 ---------- */
 function viewStats() {
   setTop("学习记录", "", true);
@@ -567,10 +795,21 @@ function viewStats() {
     '哪一类最高，就往那个方向补。</div>';
   }
 
+  if (AUTH) {
+    html += '<div class="sectitle">帐号</div>' +
+      '<div class="tip" style="margin-bottom:12px">目前登录：<b>' + esc(AUTH.u) + '</b>。' +
+      '记录会自动存到云端，换设备登录同一个帐号就找得回来。<br>' +
+      '<span id="syncState">' + (isDirty() ? "有几题还没同步，连上网络后会自动补上。"
+        : lastSync ? "最后同步：" + fmtTime(lastSync) : "已同步。") + '</span></div>' +
+      '<button class="btn ghost" id="logoutBtn" type="button" style="flex:none;width:100%;margin-bottom:20px">退出登录</button>';
+  }
+
   html += '<div class="sectitle">备份与搬移</div>' +
-    '<div class="tip" style="margin-bottom:12px">记录存在这个浏览器里，关掉再打开都还在。' +
-    '但它<b>不会跟着你换设备</b>——手机与电脑是分开的，' +
-    '网址改变时（例如从本机文档换成网站）也会各自独立。要搬移就用下面的导出与导入。</div>' +
+    '<div class="tip" style="margin-bottom:12px">' + (AUTH
+      ? '已登录时不需要手动搬移。导出只是多留一份备份档。'
+      : '记录存在这个浏览器里，关掉再打开都还在。' +
+        '但它<b>不会跟着你换设备</b>——手机与电脑是分开的，' +
+        '网址改变时（例如从本机文档换成网站）也会各自独立。要搬移就用下面的导出与导入。') + '</div>' +
     '<div style="display:flex;gap:10px;margin-bottom:20px">' +
     '<button class="btn ghost" id="expBtn" type="button">导出记录</button>' +
     '<button class="btn ghost" id="impBtn" type="button">导入记录</button></div>' +
@@ -579,6 +818,11 @@ function viewStats() {
     '<button class="btn ghost" id="resetBtn" type="button" style="flex:none;width:100%">清除所有学习记录</button>';
 
   app.innerHTML = html;
+
+  var lo = document.getElementById("logoutBtn");
+  if (lo) lo.addEventListener("click", function () {
+    if (confirm("确定要退出登录吗？记录已存在云端，下次登录会回来。")) logout();
+  });
 
   document.getElementById("expBtn").addEventListener("click", function () {
     var blob = new Blob([JSON.stringify(S)], { type: "application/json" });
@@ -625,8 +869,8 @@ function viewStats() {
   });
 
   document.getElementById("resetBtn").addEventListener("click", function () {
-    if (!confirm("确定要清除所有做题记录与错题本吗？这个动作无法复原。")) return;
-    S = { seen: {}, wrong: {}, dstat: {}, done: { p2: {}, p3: {} } };
+    if (!confirm("确定要清除所有做题记录与错题本吗？" + (AUTH ? "云端的记录也会一起清除，" : "") + "这个动作无法复原。")) return;
+    S = emptyData();
     save();
     viewStats();
   });
@@ -647,4 +891,7 @@ document.addEventListener("keydown", function (e) {
 });
 
 route();
+if (AUTH) {
+  if (isDirty()) push().then(pull); else pull();
+}
 })();
