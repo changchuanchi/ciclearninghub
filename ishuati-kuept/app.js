@@ -28,6 +28,10 @@ function shuffle(a) {
 function pick(a) { return a[Math.floor(Math.random() * a.length)]; }
 function el(html) { var d = document.createElement("div"); d.innerHTML = html.trim(); return d.firstElementChild; }
 function pct(n, d) { return d ? Math.round((n / d) * 100) : 0; }
+/* 首页进度：2509 题要做满 13 题才会四舍五入到 1%，做了几题却显示 0% 会让人以为没记到。
+   有做就至少显示「<1%」，进度条也至少露出一点。 */
+function pctLabel(n, d) { var p = pct(n, d); return n && !p ? "<1%" : p + "%"; }
+function barPct(n, d) { return n ? Math.max(pct(n, d), 1) : 0; }
 
 /* 把题库的自订标记转成 HTML。题库本身不写 HTML，一律在这里渲染。
    Part I 的空格是 [[BLANK]]、Part II 是带编号的 [[BLANK:3]]，两种都要接——
@@ -298,9 +302,9 @@ function viewHome() {
         '<div class="pc-top"><span class="pc-no">' + c.no + '</span>' +
         '<h2>' + c.zh + '</h2><span class="pc-en">' + c.en + '</span></div>' +
         '<p>' + c.d + '</p>' +
-        '<div class="pc-meta"><span>' + c.done + " / " + c.total + '</span>' +
-        '<span class="bar"><i style="width:' + pct(c.done, c.total) + '%"></i></span>' +
-        '<span>' + pct(c.done, c.total) + '%</span></div></button>';
+        '<div class="pc-meta"><span>已做 <b>' + c.done + "</b> / " + c.total + ' 题</span>' +
+        '<span class="bar"><i style="width:' + barPct(c.done, c.total) + '%"></i></span>' +
+        '<span>' + pctLabel(c.done, c.total) + '</span></div></button>';
     }).join("") + "</div>" +
     '<div class="subrow">' +
     '<button class="subcard" data-h="#/review" type="button"><b>错题本</b>' +
@@ -386,12 +390,20 @@ function pickFresh(packs) {
 
 function viewP1() {
   var queue = freshFirst(B.p1);
-  runStream(queue, "Part I 句子填空", "#/p1");
+  runStream(queue, "Part I 句子填空", "#/p1", function () {
+    return "累计 " + seenCount(B.p1) + "/" + B.p1.length;
+  });
 }
 
-/* 错题本也是同一个串流，只是题目来源不同 */
-function runStream(queue, title, selfHash) {
+/* 错题本也是同一个串流，只是题目来源不同。
+   cum 回传顶栏的累计文字——只算这一轮的话，每次进来都从「第 1 题」开始，学生会以为网站没记住。 */
+function runStream(queue, title, selfHash, cum) {
   var idx = 0, done = 0, right = 0;
+
+  function head() {
+    var sub = done ? "本次 " + done + " 题 · 正确率 " + pct(right, done) + "%" : "本次第 1 题";
+    setTop(title, cum ? cum() + " · " + sub : sub);
+  }
 
   function render() {
     if (idx >= queue.length) {
@@ -401,7 +413,7 @@ function runStream(queue, title, selfHash) {
       return;
     }
     var item = queue[idx];
-    setTop(title, done ? "已做 " + done + " 题 · 正确率 " + pct(right, done) + "%" : "第 1 题");
+    head();
     backBtn.hidden = false;
     setProgress(pct(idx, queue.length));
 
@@ -432,6 +444,8 @@ function runStream(queue, title, selfHash) {
       var o = b._o;
       done++; if (o.k) right++;
       record(item, !!o.k, o.k ? null : o.y);
+      head();
+      backBtn.hidden = false;
       var extra = "";
       if (spec && spec.intro) {
         extra = '<details class="spec"><summary>' + esc(spec.n) + " · 考点精讲</summary>" +
@@ -475,7 +489,12 @@ function bar(btns) {
 function viewP2() {
   var pack = pickFresh(B.p2);
   var answered = {};
-  setTop("Part II 完形填空", pack.n + " · " + pack.wc + " words", true);
+  function top2() {
+    var n = 0;
+    B.p2.forEach(function (p) { n += seenCount(p.items); });
+    setTop("Part II 完形填空", pack.n + " · 累计 " + n + "/" + P2_TOTAL, true);
+  }
+  top2();
 
   app.innerHTML = '<div class="chips">' +
     '<span class="chip">' + esc(pack.n) + "</span>" +
@@ -513,6 +532,7 @@ function viewP2() {
       if (!b || b.disabled) return;
       var o = b._o;
       record(item, !!o.k, o.k ? null : o.y);
+      top2();
       answered[item.b] = !!o.k;
       var slot = pas.querySelector('[data-slot="' + item.b + '"]');
       if (slot) {
@@ -565,7 +585,13 @@ function viewP3() {
   var pack = pickFresh(B.p3);
   var isLong = pack.u === "P3L";
   var answered = 0, right = 0;
-  setTop("Part III 阅读理解", (isLong ? "长文" : "短文") + " · " + pack.n + " · " + pack.wc + " words", true);
+  function top3() {
+    var n = 0;
+    B.p3.forEach(function (p) { n += seenCount(p.items); });
+    setTop("Part III 阅读理解", (isLong ? "长文" : "短文") + " · " + pack.n +
+      " · 累计 " + n + "/" + P3_TOTAL, true);
+  }
+  top3();
 
   app.innerHTML = '<div class="chips">' +
     '<span class="chip">' + (isLong ? "长文" : "短文") + "</span>" +
@@ -616,6 +642,7 @@ function viewP3() {
       var o = b._o;
       answered++; if (o.k) right++;
       record(item, !!o.k, o.k ? null : o.y);
+      top3();
       reveal(card, item, o, "");
       setProgress(pct(answered, pack.items.length));
       // 插入题：把句子放进正确的方框，让学生看到效果
