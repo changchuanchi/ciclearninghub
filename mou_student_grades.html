@@ -199,6 +199,43 @@
     .legend-row { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
     .legend strong { color: #444; margin-right: 2px; }
 
+    /* 课程对接与计分方法 */
+    .mapping { margin-top: 16px; }
+    .mapping summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 14px 18px;
+      display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+      font-size: 0.92rem; font-weight: 700; color: #1a2744;
+      user-select: none;
+    }
+    .mapping summary::-webkit-details-marker { display: none; }
+    .mapping summary .caret { transition: transform 0.15s; color: #2c4f9e; }
+    .mapping[open] summary .caret { transform: rotate(90deg); }
+    .mapping summary small { font-weight: 400; color: #888; font-size: 0.75rem; }
+    .mapping summary:hover { background: #f7f9fc; }
+    .mapping-body { padding: 0 18px 18px; border-top: 1px solid #f0f0f0; }
+    .mapping-intro { font-size: 0.8rem; color: #666; margin: 12px 0; line-height: 1.6; }
+    .mapping-wrap { overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 8px; }
+    .map-table { font-size: 0.8rem; min-width: 1000px; }
+    .map-table thead th { position: static; padding: 9px 8px; font-size: 0.78rem; white-space: normal; }
+    .map-table td { text-align: left; vertical-align: top; padding: 8px; border: 1px solid #eef0f3; line-height: 1.5; }
+    .map-table tbody tr:nth-child(even), .map-table tbody tr:hover { background: none; }
+    .map-table td.num { text-align: center; font-variant-numeric: tabular-nums; }
+    .map-table td.dpu { font-weight: 700; color: #1a2744; background: #f7f9fc; white-space: nowrap; }
+    .map-table td.dpu span { display: block; color: #555; font-size: 0.78rem; font-weight: 600; }
+    .map-table td .en { display: block; font-size: 0.7rem; color: #999; }
+    .map-table td.book { font-size: 0.72rem; color: #777; }
+    .map-table td.rule { background: #fffdf5; min-width: 230px; }
+    .map-table tfoot td { font-weight: 700; background: #f3f4f6; }
+    .sem { display: inline-block; padding: 1px 6px; border-radius: 4px; font-size: 0.7rem; font-weight: 700; margin: 1px 2px 1px 0; }
+    .sem-1 { background: #dbeafe; color: #1e40af; }
+    .sem-2 { background: #ede9fe; color: #5b21b6; }
+    .rule-title { font-weight: 700; color: #92400e; margin-bottom: 4px; }
+    .rule ul { padding-left: 16px; }
+    .rule b { color: #b45309; }
+    .mapping-note { font-size: 0.75rem; color: #92400e; background: #fef3c7; border-radius: 6px; padding: 8px 12px; margin-top: 12px; line-height: 1.6; }
+
     @media (max-width: 600px) {
       .controls { flex-direction: column; align-items: flex-start; }
       .search-box { max-width: none; width: 100%; }
@@ -390,11 +427,167 @@
       </div>
     </div>
   </div>
+
+  <details class="card mapping">
+    <summary>
+      <svg class="caret" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="9 6 15 12 9 18"/></svg>
+      课程对接与计分方法
+      <small>1+3 项目国内教学计划（2022 级）· 点击展开</small>
+    </summary>
+    <div class="mapping-body">
+      <p class="mapping-intro">上表 8 个博仁大学（DPU）通识课程的分数，分别由下列国内课程成绩换算而来。<span class="sem sem-1">1</span>为第一学期开课，<span class="sem sem-2">2</span>为第二学期开课。</p>
+      <div class="mapping-wrap">
+        <table class="map-table">
+          <thead>
+            <tr>
+              <th>博仁大学课程</th>
+              <th>国内课程</th>
+              <th>学分</th>
+              <th>学时</th>
+              <th>学期</th>
+              <th>考试计分</th>
+              <th>推荐教材</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="dpu" rowspan="2">KG155<span>东盟与跨文化交际</span></td>
+              <td>东南亚概论<span class="en">Introduction to Southeast Asia</span></td>
+              <td class="num">3</td><td class="num">48</td>
+              <td><span class="sem sem-1">1</span></td>
+              <td class="rule" rowspan="3">
+                <div class="rule-title">第二学期报分 · 3 门课合成一个期末报告总成绩</div>
+                <ul>
+                  <li>3 门课出勤、课堂表现、课程作业 <b>30%</b></li>
+                  <li>东南亚概论 集大期末考试 <b>20%</b>（第一次报告）</li>
+                  <li>泰国国家概况 集大期末考试 <b>20%</b>（第二次报告）</li>
+                  <li>创新管理 期末报告 <b>30%</b></li>
+                </ul>
+              </td>
+              <td class="book">东南亚概论 / 钟智翔 / 世界图书出版公司 / 2013.07<br>ISBN 9787510060885</td>
+            </tr>
+            <tr>
+              <td>泰国国家概况<span class="en">General Introduction of Thai</span></td>
+              <td class="num">3</td><td class="num">48</td>
+              <td><span class="sem sem-2">2</span></td>
+              <td class="book">泰国国家概况 / 易朝晖 / 重庆大学出版社 / 2021.03<br>ISBN 9787568920759</td>
+            </tr>
+            <tr>
+              <td class="dpu">KG131<span>批判与创新思维</span></td>
+              <td>创新管理<span class="en">Innovation Management</span></td>
+              <td class="num">3</td><td class="num">48</td>
+              <td><span class="sem sem-2">2</span></td>
+              <td class="book">创新管理（第二版）/ 赵炎 / 北京大学出版社 / 2017.03<br>ISBN 9787301279960</td>
+            </tr>
+            <tr>
+              <td class="dpu" rowspan="2">KG151<span>健康与幸福生活</span></td>
+              <td>普通心理学<span class="en">General Psychology</span></td>
+              <td class="num">2</td><td class="num">32</td>
+              <td><span class="sem sem-1">1</span></td>
+              <td class="rule" rowspan="3">
+                <div class="rule-title">第一学期报分 · 3 门课合成一个期末报告总成绩</div>
+                <ul>
+                  <li>3 门课出勤、课堂表现、课程作业 <b>30%</b></li>
+                  <li>普通心理学 集大期末考试 <b>20%</b>（第一次报告）</li>
+                  <li>大学体育 集大期末考试 <b>20%</b>（第二次报告）</li>
+                  <li>艺术与科技 期末报告 <b>30%</b></li>
+                </ul>
+              </td>
+              <td class="book">普通心理学 / 游旭群 / 高等教育出版社 / 2011.02<br>ISBN 9787040296266</td>
+            </tr>
+            <tr>
+              <td>大学体育<span class="en">College Physical Education</span></td>
+              <td class="num">2</td><td class="num">64</td>
+              <td><span class="sem sem-1">1</span><span class="sem sem-2">2</span></td>
+              <td class="book">—</td>
+            </tr>
+            <tr>
+              <td class="dpu">KG156<span>科技、环境与生活质量</span></td>
+              <td>艺术与科技<span class="en">Art and Technology</span></td>
+              <td class="num">3</td><td class="num">48</td>
+              <td><span class="sem sem-1">1</span></td>
+              <td class="book">艺术与科技概论 / 李四达 / 中国铁道出版社 / 2019.05<br>ISBN 9787113256517</td>
+            </tr>
+            <tr>
+              <td class="dpu" rowspan="4">KH160<span>外国人泰语沟通</span></td>
+              <td>基础泰语（一）<span class="en">Basic Thai Language (1)</span></td>
+              <td class="num">4</td><td class="num">64</td>
+              <td><span class="sem sem-1">1</span></td>
+              <td class="rule" rowspan="4">
+                <div class="rule-title">第二学期报分</div>
+                4 门课取<b>平均分</b>，第二学期全部考试结束后报博仁
+              </td>
+              <td class="book">基础泰语1 / 陆生 / 重庆大学出版社 / 2018.09<br>ISBN 9787568909310</td>
+            </tr>
+            <tr>
+              <td>泰语语音<span class="en">Thai Pronunciation</span></td>
+              <td class="num">4</td><td class="num">64</td>
+              <td><span class="sem sem-1">1</span></td>
+              <td class="book">大学泰语语音教程 / 吴金明 / 重庆大学出版社 / 2011.06<br>ISBN 9787562454434</td>
+            </tr>
+            <tr>
+              <td>基础泰语（二）<span class="en">Basic Thai Language (2)</span></td>
+              <td class="num">4</td><td class="num">64</td>
+              <td><span class="sem sem-2">2</span></td>
+              <td class="book">基础泰语2 / 陆生 / 重庆大学出版社 / 2018.10<br>ISBN 9787568909501</td>
+            </tr>
+            <tr>
+              <td>泰语视听说<span class="en">Thai Viewing, Listening and Speaking</span></td>
+              <td class="num">4</td><td class="num">64</td>
+              <td><span class="sem sem-2">2</span></td>
+              <td class="book">泰语口语教程 / 李健、陈晖、熊韬 / 世界图书出版公司 / 2014.03<br>ISBN 9787510055416</td>
+            </tr>
+            <tr>
+              <td class="dpu">LA130<span>基础英语</span></td>
+              <td>英语视听说（一）（二）<span class="en">English Viewing, Listening and Speaking 1/2</span></td>
+              <td class="num">4</td><td class="num">64</td>
+              <td><span class="sem sem-1">1</span><span class="sem sem-2">2</span></td>
+              <td class="rule">
+                <div class="rule-title">第二学期报分</div>
+                分 2 学期上课，取 2 次考试<b>平均分</b>，第二学期全部考试结束后报博仁
+              </td>
+              <td class="book">剑桥国际英语教程2（第五版）学生包 9787521305739<br>教师包 9787521314861</td>
+            </tr>
+            <tr>
+              <td class="dpu">LA131<span>英语1</span></td>
+              <td>基础英语（一）<span class="en">Fundamental English (1)</span></td>
+              <td class="num">3</td><td class="num">48</td>
+              <td><span class="sem sem-1">1</span></td>
+              <td class="rule">
+                <div class="rule-title">第一学期报分</div>
+                1 对 1 对接，第一学期直接报成绩
+              </td>
+              <td class="book">新视野大学英语1读写教程（第三版，思政智慧版）9787521316988<br>教师用书 9787513559645</td>
+            </tr>
+            <tr>
+              <td class="dpu">LA132<span>英语2</span></td>
+              <td>基础英语（二）<span class="en">Fundamental English (2)</span></td>
+              <td class="num">3</td><td class="num">48</td>
+              <td><span class="sem sem-2">2</span></td>
+              <td class="rule">
+                <div class="rule-title">第二学期报分</div>
+                1 对 1 对接，第二学期直接报成绩
+              </td>
+              <td class="book">新视野大学英语2读写教程（第三版，思政智慧版）9787521316971<br>教师用书 9787513559959</td>
+            </tr>
+          </tbody>
+          <tfoot>
+            <tr>
+              <td colspan="2">合计（周学时：第 1 学期 23 / 第 2 学期 21）</td>
+              <td class="num">42</td><td class="num">704</td>
+              <td colspan="3">理论 624 学时 + 实践 80 学时</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+      <div class="mapping-note">注：KG155 与 KG131、KG151 与 KG156 在原表中各共用一组计分规则。依原表理解，算出的总成绩同时作为两门博仁课程的分数——<b>此点尚待确认</b>。</div>
+    </div>
+  </details>
 </div>
 
 <script>
 // ── 學年設定：新增學年只需在這裡加數字 ──────────────────
-const YEARS = ['2568', '2567', '2566'];
+const YEARS = ['2569', '2568', '2567', '2566'];
 // ────────────────────────────────────────────────────────
 
 // Password gate
@@ -469,8 +662,33 @@ async function fetchSheet(year) {
     })
     .filter(r => r[cols[0]]);
 
+  validateSheet(year, cols, rows);
+
   cache[year] = { cols, rows };
   return cache[year];
+}
+
+// gviz 對不存在的分頁名會回傳 status=ok 加上「第一個分頁」的資料，
+// 不會報錯，所以需要自己檢查拿到的是不是該學年的表。
+function validateSheet(year, cols, rows) {
+  const missing = ['姓名', 'DPU学号'].filter(c => !cols.includes(c));
+  if (missing.length)
+    throw new Error(`分页「${year}」缺少必要栏位：${missing.join('、')}`);
+
+  if (!cols.some(isScoreCol))
+    throw new Error(`分页「${year}」没有任何课程成绩栏位`);
+
+  // 學號前兩碼 = 學年後兩碼（例：2569 學年的學號為 69xxxxxx）
+  const prefix = year.slice(-2);
+  const ids = rows.map(r => String(r['DPU学号'] ?? '').trim()).filter(Boolean);
+  if (ids.length) {
+    const hit = ids.filter(id => id.startsWith(prefix)).length;
+    if (hit * 2 < ids.length)
+      throw new Error(
+        `分页「${year}」的数据不属于该学年` +
+        `（${ids.length} 笔学号中只有 ${hit} 笔以 ${prefix} 开头）`
+      );
+  }
 }
 
 function isScoreCol(c) { return /^[A-Z]{2}\d{3}/.test(c); }
@@ -517,16 +735,22 @@ function fmtHeader(col) {
   return `<div class="col-code">${m[1]}</div><div class="col-name">${name || '—'}</div>`;
 }
 
+// 比對用：去掉所有空白，讓「李爽」能搜到表中的「李  爽」
+function normalize(v) {
+  return String(v ?? '').replace(/\s+/g, '');
+}
+
+// 姓名 / 學號比對，renderTable 與 applySearch 共用
+function matchesQuery(r, q) {
+  return normalize(r['姓名']).includes(q) || normalize(r['DPU学号']).includes(q);
+}
+
 function renderTable(year, rows, cols, query, suppressStats) {
   const scoreCols = cols.filter(isScoreCol);
   const hasProject = cols.includes('项目');
 
-  const filtered = query
-    ? rows.filter(r =>
-        String(r['姓名'] || '').includes(query) ||
-        String(r['DPU学号'] || '').includes(query)
-      )
-    : rows;
+  const q = normalize(query);
+  const filtered = q ? rows.filter(r => matchesQuery(r, q)) : rows;
 
   if (!suppressStats) {
     document.getElementById('statsBar').textContent =
@@ -571,7 +795,7 @@ async function switchYear(year) {
   } catch (e) {
     wrap.innerHTML = `<div class="error">
       <p>加载失败：${e.message}</p>
-      <small>请确认 Google Sheet 已设为「知道链接的任何人均可查看」<br>或检查工作表分页名称是否为 2568 / 2567 / 2566</small>
+      <small>请确认 Google Sheet 已设为「知道链接的任何人均可查看」<br>或检查是否存在名为「${year}」的工作表分页</small>
     </div>`;
   }
 }
@@ -589,14 +813,12 @@ async function applySearch() {
 
   wrap.innerHTML = `<div class="loading"><div class="spinner"></div><p>搜索中…</p></div>`;
 
+  const nq = normalize(q);
   const sections = [];
   for (const year of allYears) {
     try {
       const { cols, rows } = await fetchSheet(year);
-      const matched = rows.filter(r =>
-        String(r['姓名'] || '').includes(q) ||
-        String(r['DPU学号'] || '').includes(q)
-      );
+      const matched = rows.filter(r => matchesQuery(r, nq));
       if (matched.length) sections.push({ year, cols, rows: matched });
     } catch {}
   }
